@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, Button, Image } from 'react-native';
+import { TextInput, StyleSheet, View, Button, Image, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import logo from '../logo.png';
 
@@ -16,11 +16,37 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={logo} style={{ width: 100, height: 100 }} />
-        <Text>Login</Text>
+        <Image source={logo} style={{ width: 200, height: 200, marginBottom: 50 }} />
+        <Text>Placeholder for Facebook</Text>
+        <Text>Placeholder for Google</Text>
+        <TextInput
+          style={{
+            height: 40,
+            width: 300,
+            borderColor: 'gray',
+            borderWidth: 1,
+            borderRadius: 6,
+            marginBottom: 5,
+          }}
+          placeholder="email@email.com"
+        />
+        <TextInput
+          style={{
+            height: 40,
+            width: 300,
+            borderColor: 'gray',
+            borderWidth: 1,
+            borderRadius: 6,
+          }}
+          placeholder="password"
+        />
         <Button
-          title="Go to dashboard"
+          title="Log in"
           onPress={() => this.props.navigation.navigate('Dashboard')}
+        />
+        <Button
+          title="Sign up"
+          onPress={() => this.props.navigation.navigate('Signup')}
         />
       </View>
     );
