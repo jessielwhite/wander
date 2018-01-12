@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, Button, View, StyleSheet } from 'react-native';
+import { Text, Button, View, StyleSheet, Image } from 'react-native';
 
 export default class NewItinerary extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
+        <Image source={require('../logo.png')} style={{ width: 100, height: 100 }} />
         <Text>New Itinerary</Text>
         <Button
           title="Go to Dashboard"

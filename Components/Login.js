@@ -1,10 +1,11 @@
 import React from 'react';
-import { Text, StyleSheet, View, Button } from 'react-native';
+import { Text, StyleSheet, View, Button, Image } from 'react-native';
 
 export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image source={require('../logo.png')} style={{ width: 100, height: 100 }} />
         <Text>Login</Text>
         <Button
           title="Go to dashboard"
