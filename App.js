@@ -1,33 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import Login from './Login';
 import Dashboard from './Dashboard';
+import Login from './Login';
 
 const App = StackNavigator({
-  Dashboard: {
-    screen: Dashboard,
-  },
-  Login: {
-    screen: Login,
-  },
+  Login: { screen: Login },
+  Dashboard: { screen: Dashboard },
 });
 
-// export default class App extends React.Component {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text>Wander</Text>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+export default App;
