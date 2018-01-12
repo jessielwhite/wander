@@ -1,12 +1,22 @@
 import React from 'react';
 import { Text, Button, View, StyleSheet, Image } from 'react-native';
+import PropTypes from 'prop-types';
+import logo from '../logo.png';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default class Dashboard extends React.Component {
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Image source={require('../logo.png')} style={{ width: 100, height: 100 }} />
+        <Image source={logo} style={{ width: 100, height: 100 }} />
         <Text>Dashboard</Text>
         <Button
           title="Go to Login"
@@ -31,22 +41,8 @@ export default class Dashboard extends React.Component {
       </View>
     );
   }
+}
+
+Dashboard.propTypes = {
+  navigation: PropTypes.object,
 };
-
-// const App = StackNavigator({
-//   Login: { screen: Login },
-//   Signup: { screen: Signup },
-//   GatherInterests: { screen: GatherInterests },
-//   Dashboard: { screen: Dashboard },
-//   NewItinerary: { screen: NewItinerary },
-//   Itinerary: { screen: Itinerary },
-// });
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

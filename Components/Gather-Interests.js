@@ -1,21 +1,7 @@
 import React from 'react';
 import { Text, Button, View, StyleSheet, Image } from 'react-native';
-
-export default class GatherInterests extends React.Component {
-  render() {
-    const { navigate } = this.props.navigation;
-    return (
-      <View style={styles.container}>
-        <Image source={require('../logo.png')} style={{ width: 100, height: 100 }} />
-        <Text>Gather-Interests</Text>
-        <Button
-          title="Go to Dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
-        />
-      </View>
-    );
-  }
-};
+import PropTypes from 'prop-types';
+import logo from '../logo.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,3 +11,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default class GatherInterests extends React.Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Image source={logo} style={{ width: 100, height: 100 }} />
+        <Text>Gather-Interests</Text>
+        <Button
+          title="Go to Dashboard"
+          onPress={() => this.props.navigation.navigate('Dashboard')}
+        />
+      </View>
+    );
+  }
+}
+
+GatherInterests.propTypes = {
+  navigation: PropTypes.object,
+};
