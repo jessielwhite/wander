@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Button, View, StyleSheet, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import logo from '../logo.png';
+import logo from '../img/logo.png';
 
 const styles = StyleSheet.create({
   container: {
