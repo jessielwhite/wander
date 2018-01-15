@@ -28,7 +28,7 @@ export default class NewItinerary extends React.Component {
       endDate: new Date(),
       startDateTimePickerVisible: false,
       endDateTimePickerVisible: false,
-
+      destination: '',
     };
     this.getItinerary = this.getItinerary.bind(this);
     this.showStartDateTimePicker = this.showStartDateTimePicker.bind(this);
@@ -42,6 +42,7 @@ export default class NewItinerary extends React.Component {
   getItinerary() {
     console.log(this.state.startDate);
     console.log(this.state.endDate);
+    console.log(this.state.destination);
   }
 
   showStartDateTimePicker() {
@@ -85,11 +86,12 @@ export default class NewItinerary extends React.Component {
             borderRadius: 6,
             marginBottom: 5,
           }}
-          placeholder="Where are you wandering?"
+          onChangeText={text => this.setState({ destination: text })}
+          placeholder="where are you wandering?"
         />
         <Text>When are you leaving?</Text>
         <TouchableOpacity onPress={this.showStartDateTimePicker}>
-          <Text>Select a date</Text>
+          <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
         </TouchableOpacity>
         <DateTimePicker
           isVisible={this.state.startDateTimePickerVisible}
@@ -98,7 +100,7 @@ export default class NewItinerary extends React.Component {
         />
         <Text>When do you come back?</Text>
         <TouchableOpacity onPress={this.showEndDateTimePicker}>
-          <Text>Select a date</Text>
+          <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
         </TouchableOpacity>
         <DateTimePicker
           isVisible={this.state.endDateTimePickerVisible}
