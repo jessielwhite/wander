@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, StyleSheet, View, Button, Image } from 'react-native';
+import { TextInput, StyleSheet, View, Button, Image, Text, KeyboardAvoidingView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
-import logo from '../logo.png';
+import logo from '../img/logo.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,19 +11,55 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textInput: {
+    height: 40,
+    width: 300,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 6,
+    marginBottom: 5,
+  },
 });
 
 export default class Login extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+    };
+    this.login = this.login.bind(this);
+  }
+  login() {
+    console.log(this.state.email);
+    console.log(this.state.password);
+    this.props.navigation.navigate('Dashboard');
+  }
   render() {
     return (
-      <View style={styles.container}>
-        <Image source={logo} style={{ width: 100, height: 100 }} />
-        <Text>Login</Text>
-        <Button
-          title="Go to dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+        <Image source={logo} style={{ width: 200, height: 200, marginBottom: 50 }} />
+        <Text>Placeholder for Facebook</Text>
+        <Text>Placeholder for Google</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="email@email.com"
+          onChangeText={text => this.setState({ email: text })}
         />
-      </View>
+        <TextInput
+          style={styles.textInput}
+          placeholder="password"
+          onChangeText={text => this.setState({ password: text })}
+        />
+        <Button
+          title="Log in"
+          onPress={this.login}
+        />
+        <Button
+          title="Sign up"
+          onPress={() => this.props.navigation.navigate('Signup')}
+        />
+      </KeyboardAwareScrollView>
     );
   }
 }

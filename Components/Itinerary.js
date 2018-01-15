@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, Button, View, StyleSheet, Image } from 'react-native';
+import { MapView } from 'expo';
 import PropTypes from 'prop-types';
-import logo from '../logo.png';
+import logo from '../img/logo.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,6 +18,18 @@ export default class Itinerary extends React.Component {
     return (
       <View style={styles.container}>
         <Image source={logo} style={{ width: 100, height: 100 }} />
+        <View style={{ width: 200, height: 200 }}>
+          <MapView
+            style={{ flex: 1 }}
+            initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        </View>
+        <Text>Map goes here</Text>
         <Text>Itinerary</Text>
         <Button
           title="Go to Dashboard"
@@ -25,6 +38,28 @@ export default class Itinerary extends React.Component {
       </View>
     );
   }
+  // render() {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Image source={logo} style={{ width: 100, height: 100 }} />
+  //       <MapView
+  //         style={{ flex: 1 }}
+  //         initialRegion={{
+  //           latitude: 37.78825,
+  //           longitude: -122.4324,
+  //           latitudeDelta: 0.0922,
+  //           longitudeDelta: 0.0421,
+  //         }}
+  //       />
+  //       <Text>Map goes here</Text>
+  //       <Text>Itinerary</Text>
+  //       <Button
+  //         title="Go to Dashboard"
+  //         onPress={() => this.props.navigation.navigate('Dashboard')}
+  //       />
+  //     </View>
+  //   );
+  // }
 }
 
 Itinerary.propTypes = {

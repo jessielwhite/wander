@@ -1,43 +1,53 @@
 import React from 'react';
 import { Text, Button, View, StyleSheet, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import logo from '../logo.png';
+import logo from '../img/logo.png';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 
 export default class Dashboard extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      schedules: [],
+    };
+    this.signout = this.signout.bind(this);
+  }
+  componentWillMount() {
+    // Query the database to get this user's schedules
+    // Set the state with those schedules
+    // Build out the button components with the schedules
+  }
+  signout() {
+    console.log('signing out');
+    // sign the user out
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Image source={logo} style={{ width: 100, height: 100 }} />
-        <Text>Dashboard</Text>
         <Button
-          title="Go to Login"
-          onPress={() => this.props.navigation.navigate('Login')}
+          style={{ alignItems: 'flex-start' }}
+          title="Sign out"
+          onPress={this.signout}
         />
-        <Button
-          title="Go to Gather Interests"
-          onPress={() => this.props.navigation.navigate('GatherInterests')}
-        />
-        <Button
-          title="Go to Signup"
-          onPress={() => this.props.navigation.navigate('Signup')}
-        />
-        <Button
-          title="Go to New Itinerary"
-          onPress={() => this.props.navigation.navigate('NewItinerary')}
-        />
-        <Button
-          title="Go to Itinerary"
-          onPress={() => this.props.navigation.navigate('Itinerary')}
-        />
+        <View style={{ alignItems: 'center' }}>
+          <Image source={logo} style={{ width: 100, height: 100, marginTop: 20 }} />
+          <Text>Dashboard</Text>
+          <Button
+            title="Go to Itinerary"
+            onPress={() => this.props.navigation.navigate('Itinerary')}
+          />
+          <Button
+            title="Plan a new trip"
+            onPress={() => this.props.navigation.navigate('NewItinerary')}
+          />
+        </View>
       </View>
     );
   }
