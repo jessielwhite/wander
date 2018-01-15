@@ -6,7 +6,6 @@ import {
   View,
   StyleSheet,
   Image,
-  DatePickerIOS,
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -25,25 +24,52 @@ export default class NewItinerary extends React.Component {
   constructor() {
     super();
     this.state = {
-      chosenDate: new Date(),
-      visibility: false,
+      startDate: new Date(),
+      endDate: new Date(),
+      startDateTimePickerVisible: false,
+      endDateTimePickerVisible: false,
+
     };
-    this.setDate = this.setDate.bind(this);
-    this.showDateTimePicker = this.showDateTimePicker.bind(this);
-    this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
-  }
-  setDate(chosenDate) {
-    this.setState({ chosenDate });
-    console.log(chosenDate);
-    this.hideDateTimePicker();
-  }
-
-  showDateTimePicker() {
-    this.setState({ visibility: true });
+    this.getItinerary = this.getItinerary.bind(this);
+    this.showStartDateTimePicker = this.showStartDateTimePicker.bind(this);
+    this.showEndDateTimePicker = this.showEndDateTimePicker.bind(this);
+    this.hideStartDateTimePicker = this.hideStartDateTimePicker.bind(this);
+    this.hideEndDateTimePicker = this.hideEndDateTimePicker.bind(this);
+    this.handleStartDatePicked = this.handleStartDatePicked.bind(this);
+    this.handleEndDatePicked = this.handleEndDatePicked.bind(this);
   }
 
-  hideDateTimePicker() {
-    this.setState({ visibility: false });
+  getItinerary() {
+    console.log(this.state.startDate);
+    console.log(this.state.endDate);
+  }
+
+  showStartDateTimePicker() {
+    this.setState({ startDateTimePickerVisible: true });
+  }
+
+  showEndDateTimePicker() {
+    this.setState({ endDateTimePickerVisible: true });
+  }
+
+  hideStartDateTimePicker() {
+    this.setState({ startDateTimePickerVisible: false });
+  }
+
+  hideEndDateTimePicker() {
+    this.setState({ endDateTimePickerVisible: false });
+  }
+
+  handleStartDatePicked(date) {
+    console.log('A start date has been picked: ', date);
+    this.setState({ startDate: date });
+    this.hideStartDateTimePicker();
+  }
+
+  handleEndDatePicked(date) {
+    console.log('An end date has been picked: ', date);
+    this.setState({ endDate: date });
+    this.hideEndDateTimePicker();
   }
 
   render() {
@@ -62,26 +88,30 @@ export default class NewItinerary extends React.Component {
           placeholder="Where are you wandering?"
         />
         <Text>When are you leaving?</Text>
-        <TouchableOpacity onPress={this.showDateTimePicker}>
+        <TouchableOpacity onPress={this.showStartDateTimePicker}>
           <Text>Select a date</Text>
         </TouchableOpacity>
         <DateTimePicker
-          isVisible={this.state.visibility}
-          onConfirm={this.setDate}
-          onCancel={this.hideDateTimePicker}
+          isVisible={this.state.startDateTimePickerVisible}
+          onConfirm={this.handleStartDatePicked}
+          onCancel={this.hideStartDateTimePicker}
         />
         <Text>When do you come back?</Text>
-        <TouchableOpacity onPress={this.showDateTimePicker}>
+        <TouchableOpacity onPress={this.showEndDateTimePicker}>
           <Text>Select a date</Text>
         </TouchableOpacity>
         <DateTimePicker
-          isVisible={this.state.visibility}
-          onConfirm={this.setDate}
-          onCancel={this.hideDateTimePicker}
+          isVisible={this.state.endDateTimePickerVisible}
+          onConfirm={this.handleEndDatePicked}
+          onCancel={this.hideEndDateTimePicker}
         />
         <Button
           title="Go to Dashboard"
           onPress={() => this.props.navigation.navigate('Dashboard')}
+        />
+        <Button
+          title="Get my itinerary"
+          onPress={this.getItinerary}
         />
       </View>
     );
