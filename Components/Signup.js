@@ -54,7 +54,7 @@ export default class Signup extends React.Component {
         />
         <Button
           title="Create your account"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
+          onPress={() => this.props.navigation.navigate('GatherInterests')}
         />
       </View>
     );
