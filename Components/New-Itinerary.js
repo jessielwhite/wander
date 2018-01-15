@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Text,
-  TextInput,
   Button,
   View,
   StyleSheet,
@@ -10,6 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import logo from '../img/logo.png';
 
 const styles = StyleSheet.create({
@@ -37,6 +37,7 @@ export default class NewItinerary extends React.Component {
     this.hideEndDateTimePicker = this.hideEndDateTimePicker.bind(this);
     this.handleStartDatePicked = this.handleStartDatePicked.bind(this);
     this.handleEndDatePicked = this.handleEndDatePicked.bind(this);
+    this.searchPlaces = this.searchPlaces.bind(this);
   }
 
   getItinerary() {
@@ -75,21 +76,39 @@ export default class NewItinerary extends React.Component {
     this.hideEndDateTimePicker();
   }
 
+  searchPlaces(data) {
+    // The city, state, and country is saved in the description key
+    console.log(data.description);
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Image source={logo} style={{ width: 100, height: 100 }} />
-        <TextInput
-          style={{
-            height: 100,
-            width: 300,
-            borderColor: 'gray',
-            borderWidth: 1,
-            borderRadius: 6,
-            marginBottom: 5,
+        <GooglePlacesAutocomplete
+          placeholder="Where are you Wandering?"
+          minLength={2}
+          autoFocus={false}
+          returnKeyType="search"
+          query={{
+            key: 'AIzaSyBAS5TrZE3tHmoY-kDe3DuP14yKHO5Iovg',
+            language: 'en',
+            types: '(cities)',
           }}
-          onChangeText={text => this.setState({ destination: text })}
-          placeholder="where are you wandering?"
+          styles={{
+            textInputContainer: {
+              width: '100%',
+              marginBottom: 10,
+            },
+            description: {
+              fontWeight: 'bold',
+            },
+            predefinedPlacesDescription: {
+              color: '#1faadb',
+            },
+          }}
+          debounce={200}
+          onPress={this.searchPlaces}
         />
         <Text>When are you leaving?</Text>
         <TouchableOpacity onPress={this.showStartDateTimePicker}>
