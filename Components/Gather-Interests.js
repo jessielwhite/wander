@@ -1,16 +1,23 @@
 import React from 'react';
-import { Text, Button, ScrollView, StyleSheet } from 'react-native';
+import { Text, Button, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
+    alignItems: 'center',
   },
   titleText: {
     backgroundColor: '#fff',
     alignItems: 'center',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    width: '100%',
   },
 });
 
@@ -26,7 +33,6 @@ export default class GatherInterests extends React.Component {
     // we're waiting for database connection though
   }
   handleClick() {
-    // console.log(interest);
     console.log('something was clicked');
   }
   handleNext() {
@@ -34,139 +40,22 @@ export default class GatherInterests extends React.Component {
     this.props.navigation.navigate('Dashboard');
   }
   render() {
+    const interests = [];
+    for (let i = 0; i < 50; i += 1) {
+      interests.push(
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this.handleClick}
+          key={i}
+        >
+          <Text>interests {i}</Text>
+        </TouchableOpacity>);
+    }
     return (
-      <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }} >
+      <ScrollView contentContainerStyle={styles.container} >
         <Text style={styles.titleText}>wander</Text>
         <Text>Tell us what you like to do when you're on vacation</Text>
-        <Button
-          title="Amusement parks"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Aquariums"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Art galleries"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Book stores"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Bowling"
-          onPress={this.handleClick}
-        />
-
-        <Button
-          title="Gambling"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Shopping"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Landmarks"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Libraries"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Movies"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Museums"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Night life"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="City parks"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="National parks"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Stadiums"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Sporting events"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Zoos"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Live music"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Local music"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Festivals"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Underground music"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Dancing"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Animals"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Art"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Books"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Family-friendly events"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="History"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Comedy"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Regional cuisine"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Fine dining"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Street food"
-          onPress={this.handleClick}
-        />
-        <Button
-          title="Cheap eats"
-          onPress={this.handleClick}
-        />
+        {interests}
         <Button
           title="Next"
           onPress={this.handleNext}
