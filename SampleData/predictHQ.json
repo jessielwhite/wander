@@ -1,0 +1,290 @@
+{
+  "count": 30,
+  "next": "https://api.predicthq.com/v1/events/?category=concerts%2Cfestivals%2Cperforming-arts%2Csports&offset=10&rank_level=4%2C5&start.gte=2018-02-11&start.lte=2018-02-17&within=10mi%4040.7128%2C-74.0060",
+  "previous": null,
+  "results": [
+    {
+      "relevance": 1,
+      "id": "vBkbapt2jkQpStQTbv",
+      "title": "FRIGID New York",
+      "description": "",
+      "category": "festivals",
+      "labels": [
+        "festival",
+        "performing-arts"
+      ],
+      "rank": 90,
+      "duration": 1555199,
+      "start": "2018-02-14T05:00:00Z",
+      "end": "2018-03-04T04:59:59Z",
+      "updated": "2018-01-05T17:38:11Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.984961,
+        40.727291
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": null
+    },
+    {
+      "relevance": 1,
+      "id": "idkJKnBVnyjSVhNJ9c",
+      "title": "Sweethearts Bazaar",
+      "description": "Take your sweetheart to NYC's largest weekly market for a full day of exploration and treats. Pick-up handmade Valentine sweets and gifts form local designers and makers, or find a hidden gem form one of the independent vintage/antique dealers. And, while you're on the Upper West Side, you can also explore the American Museum of Natural History, New-York Historical Society, Cathedral of St. John the Divine, NYC, stroll through Central Park, or watch a true IMAX movie at AMC Loews Lincoln Square, or if you prefer a more cozy option with recliner seating then AMC Loews 84th Street 6 is your best choice. And, there is also always great restaurants and bars too. P.S. The sweetest part is that 100% of our profits are donated to four local public schools benefiting over 4,000 children.Admission is free. --------------------------------------------------------------------------------About Grand Bazaar NYC - http://www.GrandBazaarNYC.org/Grand Bazaar NYC is the largest curated weekly market in New York City. Open every Sunday, indoors and outdoors, local artists, designers, craft-makers, and independent vintage/antique dealers sell one-of-a-kind, and limited-edition art, fashion, craft, antique watches, vintage collectibles, handmade jewelry and furniture, Artisanal food vendors take care of any sweet and savory cravings. And, then there is always great restaurants and bars to go to too. Grand Bazaar NYC donates 100% of its profits to four neighborhood public schools, benefiting over 4,000 children.VENDORS: Please apply via our website.\n",
+      "category": "festivals",
+      "labels": [
+        "festival"
+      ],
+      "rank": 76,
+      "duration": 27000,
+      "start": "2018-02-11T15:00:00Z",
+      "end": "2018-02-11T22:30:00Z",
+      "updated": "2018-01-11T06:16:05Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.978085,
+        40.781081
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": {
+        "venues": [
+          {
+            "name": "Grand Bazaar NYC"
+          }
+        ]
+      }
+    },
+    {
+      "relevance": 1,
+      "id": "uKafs45m2mU6rhMaUS",
+      "title": "Jorge Drexler",
+      "description": "",
+      "category": "concerts",
+      "labels": [
+        "concert",
+        "music"
+      ],
+      "rank": 65,
+      "duration": 0,
+      "start": "2018-02-11T01:00:00Z",
+      "end": "2018-02-11T01:00:00Z",
+      "updated": "2017-11-20T12:06:31Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.980673,
+        40.779925
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": null
+    },
+    {
+      "relevance": 1,
+      "id": "eY5xs4ntBRiuxEzCxS",
+      "title": "Jorge Drexler",
+      "description": "",
+      "category": "concerts",
+      "labels": [
+        "concert",
+        "music"
+      ],
+      "rank": 65,
+      "duration": 0,
+      "start": "2018-02-11T01:00:00Z",
+      "end": "2018-02-11T01:00:00Z",
+      "updated": "2018-01-16T12:05:03Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.982597,
+        40.763
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": {
+        "venues": [
+          {
+            "name": "Beacon Theatre"
+          }
+        ]
+      }
+    },
+    {
+      "relevance": 1,
+      "id": "8UDi9bjkPPZyaXhVxY",
+      "title": "Blue Man Group At the Astor Place Theatre",
+      "description": "",
+      "category": "performing-arts",
+      "labels": [
+        "performing-arts"
+      ],
+      "rank": 77,
+      "duration": 0,
+      "start": "2018-02-14T00:00:00Z",
+      "end": "2018-02-14T00:00:00Z",
+      "updated": "2017-11-03T13:37:47Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.991795,
+        40.729224
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": null
+    },
+    {
+      "relevance": 1,
+      "id": "WkkJg0knXLVq",
+      "title": "Il Trovatore",
+      "description": "",
+      "category": "performing-arts",
+      "labels": [
+        "performing-arts"
+      ],
+      "rank": 62,
+      "duration": 0,
+      "start": "2018-02-13T00:30:00Z",
+      "end": "2018-02-13T00:30:00Z",
+      "updated": "2017-10-05T07:31:25Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.9841,
+        40.7761
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": null
+    },
+    {
+      "relevance": 1,
+      "id": "JwsgqE9BPbYsQbvCsc",
+      "title": "War Of Ages with CONVICTIONS",
+      "description": "",
+      "category": "concerts",
+      "labels": [
+        "concert",
+        "music"
+      ],
+      "rank": 81,
+      "duration": 0,
+      "start": "2018-02-14T00:00:00Z",
+      "end": "2018-02-14T00:00:00Z",
+      "updated": "2018-01-13T18:15:55Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.942703,
+        40.7113
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": {
+        "venues": [
+          {
+            "name": "The Kingsland Ward"
+          }
+        ]
+      }
+    },
+    {
+      "relevance": 1,
+      "id": "z3Qqznyga9RVQE7tJU",
+      "title": "Mumiy Troll",
+      "description": "",
+      "category": "concerts",
+      "labels": [
+        "concert",
+        "music"
+      ],
+      "rank": 61,
+      "duration": 0,
+      "start": "2018-02-11T01:00:00Z",
+      "end": "2018-02-11T01:00:00Z",
+      "updated": "2018-01-16T12:07:38Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.985802,
+        40.757599
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": {
+        "venues": [
+          {
+            "name": "Playstation Theater"
+          }
+        ]
+      }
+    },
+    {
+      "relevance": 1,
+      "id": "4wWkMZmpiAx5FwRGyQ",
+      "title": "Super Freestyle Explosion: TKA with Freestyle Extravaganza and Bobby Brown and Lisa Lisa",
+      "description": "",
+      "category": "concerts",
+      "labels": [
+        "concert",
+        "music"
+      ],
+      "rank": 67,
+      "duration": 0,
+      "start": "2018-02-11T01:00:00Z",
+      "end": "2018-02-11T01:00:00Z",
+      "updated": "2018-01-16T12:08:04Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.980301,
+        40.759899
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": {
+        "venues": [
+          {
+            "name": "Radio City Music Hall"
+          }
+        ]
+      }
+    },
+    {
+      "relevance": 1,
+      "id": "mEeREPBWVQeY",
+      "title": "Tokio Hotel",
+      "description": "",
+      "category": "concerts",
+      "labels": [
+        "concert",
+        "music"
+      ],
+      "rank": 67,
+      "duration": 0,
+      "start": "2018-02-13T05:00:00Z",
+      "end": "2018-02-13T05:00:00Z",
+      "updated": "2018-01-02T07:16:39Z",
+      "timezone": "America/New_York",
+      "location": [
+        -73.988447,
+        40.734917
+      ],
+      "scope": "locality",
+      "country": "US",
+      "state": "active",
+      "entities": {
+        "venues": [
+          {
+            "name": "Irving Plaza"
+          }
+        ]
+      }
+    }
+  ]
+}
