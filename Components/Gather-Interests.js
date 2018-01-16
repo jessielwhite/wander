@@ -56,6 +56,10 @@ export default class GatherInterests extends React.Component {
         <Text style={styles.titleText}>wander</Text>
         <Text>Tell us what you like to do when you're on vacation</Text>
         {interests}
+        <Button
+          title="Next"
+          onPress={this.handleNext}
+        />
       </ScrollView>
     );
   }
