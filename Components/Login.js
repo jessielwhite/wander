@@ -3,7 +3,7 @@ import { TextInput, StyleSheet, View, TouchableOpacity, ImageBackground, Text, K
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
-import { FormLabel, FormInput } from 'react-native-elements'
+import { FormLabel, FormInput, Button } from 'react-native-elements'
 
 
 
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   textInput: {
     height: 40,
@@ -31,10 +32,11 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     opacity: 0.8,
+    backgroundColor: '#000000'
   },
   input: {
     marginTop: 4,
-    color: '#fff',
+    color: 'white',
     textAlign: 'center'
   },
 });
@@ -58,7 +60,7 @@ export default class Login extends React.Component {
     return (
       <ImageBackground
         style={{
-          backgroundColor: '#ccc',
+          backgroundColor: '#000000',
           flex: 1,
           position: 'absolute',
           width: '100%',
@@ -68,23 +70,30 @@ export default class Login extends React.Component {
         source={require('../img/NYC.jpg')}
       >
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-          <Image source={logo} style={{ width: 100, height: 100, marginBottom: 250 }} />
-          <FormLabel style={styles.title}>Email</FormLabel>
+          <Image source={logo} style={{ width: 200, height: 200, marginBottom: 150 }} />
+          <Text style={{ fontSize: 30, color:'white'}}>email</Text>
             <FormInput 
               style={styles.input}
               onChangeText={text => this.setState({ email: text })}
+              placeholder="enter email"
+              placeholderTextColor= 'gray' 
             />
-          <FormLabel style={styles.title}>Password</FormLabel>
+          <Text style={{ fontSize: 30, color:'white'}}>password</Text>
             <FormInput 
               style={styles.input}
               onChangeText={text => this.setState({ password: text })}
+              placeholder="enter password"
+              placeholderTextColor= 'gray' 
             />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.login}
-          >
-          <Text style={{ fontSize: 20 }}>Login</Text>
+          <Button>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.login}
+            >
+              <Text style={{ fontSize: 20 }}>Login</Text>
           </TouchableOpacity>
+          </Button>
+
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate('Signup')}
