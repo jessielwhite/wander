@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, Button, View, StyleSheet, ImageBackground, Image, TextInput } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, Image, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
 import { FormLabel, FormInput } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 
 const styles = StyleSheet.create({
   container: {
@@ -66,6 +67,9 @@ export default class Signup extends React.Component {
           placeholderTextColor='white'
         />
         <Button
+          large
+          raised
+          buttonStyle={{backgroundColor: 'green', borderRadius: 10}}
           title="Create your account"
           onPress={() => this.props.navigation.navigate('GatherInterests')}
         />
