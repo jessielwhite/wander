@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  // button: {
-  //   alignItems: 'center',
-  //   backgroundColor: '#DDDDDD',
-  //   padding: 10,
-  //   width: '100%',
-  // },
+  button: {
+    // alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    width: '100%',
+  },
 });
 
 export default class GatherInterests extends React.Component {
