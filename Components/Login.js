@@ -71,23 +71,23 @@ export default class Login extends React.Component {
               secureTextEntry={true} 
             />
           
-          <Button
-            large
-            raised
-            buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10, alignSelf:'flex-end', marginTop: 10}}
-            onPress={this.login}
-            title="login"
-            icon={{name: 'home', size: 32}}
-          />
+            <Button
+              large
+              raised
+              buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10, alignSelf:'flex-end', marginTop: 10}}
+              onPress={this.login}
+              title="login"
+              icon={{name: 'home', size: 32}}
+            />
 
-          <Button
-            large
-            raised
-            buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10,  alignSelf: 'flex-end', position: 'relative', marginTop: 10}}
-            onPress={() => this.props.navigation.navigate('Signup')}
-            icon={{name: 'edit', size: 32}}
-            title="signup"
-          />
+            <Button
+              large
+              raised
+              buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10,  alignSelf: 'flex-end', position: 'relative', marginTop: 10}}
+              onPress={() => this.props.navigation.navigate('Signup')}
+              icon={{name: 'edit', size: 32}}
+              title="signup"
+            />
         </KeyboardAwareScrollView>
       </ImageBackground>
     );

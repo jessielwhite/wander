@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import logo from '../img/logo.png';
 import { FormLabel, FormInput } from 'react-native-elements'
 import { Button } from 'react-native-elements'
@@ -28,7 +29,7 @@ export default class Signup extends React.Component {
         }}
         source={require('../img/NYC.jpg')}
       >
-      <View style={styles.container}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />
         <FormInput
           style={{
@@ -75,7 +76,7 @@ export default class Signup extends React.Component {
           title="Create your account"
           onPress={() => this.props.navigation.navigate('GatherInterests')}
         />
-      </View>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     );
   }
