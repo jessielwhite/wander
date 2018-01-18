@@ -3,7 +3,7 @@ import { TextInput, StyleSheet, View, TouchableOpacity, ImageBackground, Text, K
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
-import { FormLabel, FormInput, Button } from 'react-native-elements'
+import { FormLabel, FormInput } from 'react-native-elements'
 
 
 
@@ -85,15 +85,13 @@ export default class Login extends React.Component {
               placeholder="enter password"
               placeholderTextColor= 'gray' 
             />
-          <Button>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={this.login}
-            >
-              <Text style={{ fontSize: 20 }}>Login</Text>
+          
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.login}
+          >
+          <Text style={{ fontSize: 20 }}>Login</Text>
           </TouchableOpacity>
-          </Button>
-
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate('Signup')}
