@@ -27,7 +27,7 @@ export default class Signup extends React.Component {
           height: '100%',
           justifyContent: 'center',
         }}
-        source={require('../img/NYC.jpg')}
+        source={require('../img/Chicago.jpg')}
       >
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />
