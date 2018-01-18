@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, Button, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import { Button } from 'react-native-elements'
+
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +16,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: '#DDDDDD',
     padding: 10,
     width: '100%',
@@ -43,13 +45,16 @@ export default class GatherInterests extends React.Component {
     const interests = [];
     for (let i = 0; i < 50; i += 1) {
       interests.push(
-        <TouchableOpacity
-          style={styles.button}
+        <Button
+          large
+          // style={styles.button}
+          icon={{name: 'envira', type: 'font-awesome'}}
           onPress={this.handleClick}
           key={i}
-        >
-          <Text>interests {i}</Text>
-        </TouchableOpacity>);
+          title='interests'
+        />
+          // ,{/* <Text>interests {i}</Text> */}
+        );
     }
     return (
       <ScrollView contentContainerStyle={styles.container} >
@@ -59,6 +64,7 @@ export default class GatherInterests extends React.Component {
         <Button
           title="Next"
           onPress={this.handleNext}
+
         />
       </ScrollView>
     );
