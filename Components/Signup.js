@@ -29,7 +29,7 @@ export default class Signup extends React.Component {
         source={require('../img/NYC.jpg')}
       >
       <View style={styles.container}>
-        <Image source={logo} style={{ width: 200, height: 200 }} />
+        <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />
         <FormInput
           style={{
             height: 40,
@@ -39,6 +39,7 @@ export default class Signup extends React.Component {
             borderRadius: 6,
             marginBottom: 5,
           }}
+          keyboardType='email-address'
           placeholder="Enter your email address"
           placeholderTextColor='white'
         />
@@ -65,11 +66,12 @@ export default class Signup extends React.Component {
           }}
           placeholder="Enter a password"
           placeholderTextColor='white'
+          secureTextEntry={true} 
         />
         <Button
           large
           raised
-          buttonStyle={{backgroundColor: 'green', borderRadius: 10}}
+          buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10}}
           title="Create your account"
           onPress={() => this.props.navigation.navigate('GatherInterests')}
         />
