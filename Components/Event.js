@@ -30,20 +30,34 @@ export default class Event extends React.Component {
 
   render() {
     const events = Object.keys(this.props.dayInfo);
-    const eventNames = events.map((event, i) => (<Text key={`day${i}`} >{this.props.dayInfo[event].name}</Text>))
+    const eventNames = events.map((event, i) => (<Text key={`day${i}`} >{this.props.dayInfo[event].name}</Text>));
+    const eventCoordinates = events.map((event) => {
+      if (event[0] === 'e') {
+        console.log('event found', event);
+        return { title: this.props.dayInfo[event].name, coordinates: { latitude: Number(this.props.dayInfo[event].geometry.location.lat), longitude: Number(this.props.dayInfo[event].geometry.location.lng) } };
+      } else if (event[0] === 'r') {
+        console.log('restaurant found', event);
+        return { title: this.props.dayInfo[event].restaurant.name, coordinates: { latitude: Number(this.props.dayInfo[event].restaurant.location.latitude), longitude: Number(this.props.dayInfo[event].restaurant.location.latitude) }};
+      }
+    });
+    const eventMarkers = eventCoordinates.map(coor => (<MapView.Marker coordinate={coor.coordinates} title={coor.title} />));
+    const startingPoint = {
+      latitude: this.props.dayInfo.event1.geometry.location.lat,
+      longitude: this.props.dayInfo.event1.geometry.location.lng,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
+    // console.log(eventMarkers);
     return (
       <View style={styles.container}>
         <Image source={logo} style={{ width: 100, height: 100 }} />
         <View style={{ width: 200, height: 200 }}>
           <MapView
             style={{ flex: 1 }}
-            initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          />
+            initialRegion={startingPoint}
+          >
+            {eventMarkers}
+          </MapView>
         </View>
         {eventNames}
         <Button

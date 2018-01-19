@@ -26,6 +26,7 @@ export default class Dashboard extends React.Component {
     // Query the database to get this user's schedules
     // Set the state with those schedules
     // Build out the button components with the schedules
+    // this.setState({ schedules: this.props.navigation.state.params.schedule })
   }
   signout() {
     console.log('signing out');
