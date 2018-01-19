@@ -16,15 +16,15 @@ export default class Trip extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props.schedule);
+    console.log('trip props', this.props.schedule);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Trip view</Text>
+        <Text>{this.props.schedule.name}</Text>
         <Button
-          onPress={() => this.props.navigation.navigate('Itinerary', {})}
+          onPress={() => this.props.navigation.navigate('Itinerary', { dayInfo: this.props.schedule })}
           title="View this trip"
         />
       </View>

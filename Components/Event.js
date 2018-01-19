@@ -36,8 +36,7 @@ export default class Event extends React.Component {
     const eventCoordinates = events.map((event) => { 
       return { title: this.props.dayInfo[event].name, coordinates: this.props.dayInfo[event].location };
     });
-    console.log(eventCoordinates);
-    const eventMarkers = eventCoordinates.map(coor => (<MapView.Marker coordinate={coor.coordinates} title={coor.title} />));
+    const eventMarkers = eventCoordinates.map(coor => (<MapView.Marker coordinate={coor.coordinates} title={coor.title} key={coor.title} />));
     const startingPoint = {
       latitude: this.props.dayInfo[0].location.latitude,
       longitude: this.props.dayInfo[0].location.longitude,

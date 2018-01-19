@@ -1,9 +1,10 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
 import PropTypes from 'prop-types';
+import { Button } from 'react-native-elements';
 import logo from '../img/logo.png';
 import Trip from './Trip';
-import { Button } from 'react-native-elements'
+import { schedule1, schedule2 } from '../scheduleExample';
 
 
 const styles = StyleSheet.create({
@@ -27,7 +28,7 @@ export default class Dashboard extends React.Component {
     // Query the database to get this user's schedules
     // Set the state with those schedules
     // Build out the button components with the schedules
-    // this.setState({ schedules: [schedule1, schedule2] }, () => console.log(this.state.schedules));
+    this.setState({ schedules: [schedule1, schedule2] }, () => console.log(this.state.schedules));
   }
   signout() {
     console.log('signing out');
@@ -39,7 +40,7 @@ export default class Dashboard extends React.Component {
     this.props.navigation.navigate('Itinerary');
   }
   render() {
-    // const trips = this.state.schedules.map(event => (<Trip navigation={this.props.navigation} schedule={event} />));
+    const trips = this.state.schedules.map(event => (<Trip style={{ borderWidth: 1, borderColor: 'black' }} navigation={this.props.navigation} schedule={event} key={event.name} />));
     return (
       <ImageBackground
         style={{
@@ -55,8 +56,8 @@ export default class Dashboard extends React.Component {
         <View style={styles.container}>
         <View style={{ alignItems: 'center' }}>
           <Image source={logo} style={{ width: 100, height: 100, marginTop: 20 }} />
-          <Text style={{ fontSize: 30, fontWeight: 'bold'}}>Home</Text>
-          <Trip navigation={this.props.navigation} style={{ borderWidth: 1, borderColor: 'black' }} />
+          <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
+          {trips}
           <Button
             title="Plan a new trip"
             buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
