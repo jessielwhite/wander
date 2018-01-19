@@ -21,7 +21,7 @@ export default class Itinerary extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // Query the database, grab the itinerary, set state accordingly
     this.setState({ itinerary: this.props.navigation.state.params.schedule });
   }

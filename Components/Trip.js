@@ -9,17 +9,22 @@ const styles = StyleSheet.create({
 });
 
 export default class Trip extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
     };
   }
+
+  componentWillMount() {
+    console.log(this.props.schedule);
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text>Trip view</Text>
         <Button
-          onPress={() => this.props.navigation.navigate('Itinerary')}
+          onPress={() => this.props.navigation.navigate('Itinerary', {})}
           title="View this trip"
         />
       </View>
