@@ -35,10 +35,7 @@
     "react-native-md-textinput": "^2.0.4",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-native-open-maps": "^0.1.1",
-<<<<<<< HEAD
-=======
     "react-native-swiper": "^1.5.13",
->>>>>>> 4753ddd2cf989900cf544bddc7e5f6793e4cd8d9
     "react-native-textinput-effects": "^0.4.2",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.0.0-beta.25"

@@ -1,15 +1,11 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, ImageBackground, Text, Image } from 'react-native';
-import { FormInput } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
-<<<<<<< HEAD
 import { FormLabel, FormInput, Button } from 'react-native-elements'
 
 
-=======
->>>>>>> 4753ddd2cf989900cf544bddc7e5f6793e4cd8d9
 
 const styles = StyleSheet.create({
   container: {
@@ -21,8 +17,6 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#fff',
   },
-<<<<<<< HEAD
-=======
   title: {
     paddingBottom: 16,
     textAlign: 'center',
@@ -32,7 +26,6 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     backgroundColor: '#000000',
   },
->>>>>>> 4753ddd2cf989900cf544bddc7e5f6793e4cd8d9
   input: {
     marginTop: 4,
     color: 'white',
@@ -69,7 +62,6 @@ export default class Login extends React.Component {
         source={require('../img/NYC.jpg')}
       >
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-<<<<<<< HEAD
           <Image source={logo} style={{ width: 150, height: 150, marginBottom: 150 }} />
           <Text style={{ fontSize: 30, color:'white'}}>email</Text>
             <FormInput 
@@ -105,36 +97,6 @@ export default class Login extends React.Component {
               icon={{name: 'edit', size: 32}}
               title="signup"
             />
-=======
-          <Image source={logo} style={{ width: 200, height: 200, marginBottom: 150 }} />
-          <Text style={{ fontSize: 30, color: 'white' }}>email</Text>
-          <FormInput
-            style={styles.input}
-            onChangeText={text => this.setState({ email: text })}
-            placeholder="enter email"
-            placeholderTextColor="gray"
-          />
-          <Text style={{ fontSize: 30, color: 'white' }}>password</Text>
-          <FormInput
-            style={styles.input}
-            onChangeText={text => this.setState({ password: text })}
-            placeholder="enter password"
-            placeholderTextColor="gray"
-          />
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.login}
-          >
-            <Text style={{ fontSize: 20 }}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('Signup')}
-          >
-            <Text style={{ fontSize: 20 }}>Signup</Text>
-          </TouchableOpacity>
->>>>>>> 4753ddd2cf989900cf544bddc7e5f6793e4cd8d9
         </KeyboardAwareScrollView>
       </ImageBackground>
     );
