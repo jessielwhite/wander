@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default class Event extends React.Component {
   constructor(props) {
     super(props);

@@ -1,15 +1,17 @@
 import React from 'react';
-import { Text, Button, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
 import Trip from './Trip';
-import scheduleExample from '../scheduleExample';
+import { Button } from 'react-native-elements'
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
 });
 
@@ -30,6 +32,7 @@ export default class Dashboard extends React.Component {
   signout() {
     console.log('signing out');
     // sign the user out
+    this.props.navigation.navigate('Login');
   }
   goToTrip() {
     console.log('clicked');
@@ -37,22 +40,38 @@ export default class Dashboard extends React.Component {
   }
   render() {
     return (
+      <ImageBackground
+        style={{
+          backgroundColor: '#000000',
+          flex: 1,
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+        source={require('../img/GoldenGate.jpg')}
+      >
       <View style={styles.container}>
-        <Button
-          style={{ alignItems: 'flex-start' }}
-          title="Sign out"
-          onPress={this.signout}
-        />
         <View style={{ alignItems: 'center' }}>
           <Image source={logo} style={{ width: 100, height: 100, marginTop: 20 }} />
-          <Text>Dashboard</Text>
+          <Text style={{ fontSize: 30, fontWeight: 'bold'}}>home</Text>
           <Trip navigation={this.props.navigation} style={{ borderWidth: 1, borderColor: 'black' }} />
           <Button
             title="Plan a new trip"
+            buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10}}
             onPress={() => this.props.navigation.navigate('NewItinerary')}
           />
         </View>
+        <Button
+          small 
+          raised
+          buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10}}
+          style={{ alignItems: 'flex-end', position:'absolute', bottom:-100 }}
+          title="Sign out"
+          onPress={this.signout}
+        />
       </View>
+      </ImageBackground>
     );
   }
 }

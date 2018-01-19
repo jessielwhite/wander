@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   titleText: {
     backgroundColor: '#fff',
     alignItems: 'center',
-    fontSize: 20,
+    fontSize: 60,
     fontWeight: 'bold',
   },
   button: {
@@ -47,6 +47,8 @@ export default class GatherInterests extends React.Component {
       interests.push(
         <Button
           large
+          raised
+          buttonStyle={{backgroundColor: '#0e416d', width: 500, marginVertical: 5 }}
           // style={styles.button}
           icon={{name: 'envira', type: 'font-awesome'}}
           onPress={this.handleClick}
@@ -59,9 +61,12 @@ export default class GatherInterests extends React.Component {
     return (
       <ScrollView contentContainerStyle={styles.container} >
         <Text style={styles.titleText}>wander</Text>
-        <Text>Tell us what you like to do when you're on vacation</Text>
+        <Text style={{ fontSize: 18 }}>Tell us what you like to do when you're on vacation</Text>
         {interests}
         <Button
+          large
+          raised
+          buttonStyle={{backgroundColor: 'green'}}
           title="Next"
           onPress={this.handleNext}
 
