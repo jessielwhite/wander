@@ -2,6 +2,10 @@
     "extends": "airbnb",
     "rules": {
         "react/jsx-filename-extension": false,
-        "react/prefer-stateless-function": false
+        "react/prefer-stateless-function": false,
+        "no-cond-assign": 0,
+        "no-lonely-if": 0,
+        "no-mixed-operators": 0,
+        "no-param-reassign": 0
     }
 }

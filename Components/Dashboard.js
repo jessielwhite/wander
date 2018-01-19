@@ -3,8 +3,12 @@ import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
 import Trip from './Trip';
+<<<<<<< HEAD
 import { Button } from 'react-native-elements'
 
+=======
+import scheduleExample from '../scheduleExample';
+>>>>>>> 4753ddd2cf989900cf544bddc7e5f6793e4cd8d9
 
 const styles = StyleSheet.create({
   container: {

@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import logo from '../img/logo.png';
+import { keys } from '../config';
+import { schedule } from '../scheduleExample';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +47,7 @@ export default class NewItinerary extends React.Component {
     console.log(this.state.endDate);
     console.log(this.state.destination);
     // Build the itinerary
-    this.props.navigation.navigate('Itinerary');
+    this.props.navigation.navigate('Itinerary', { schedule });
   }
 
   showStartDateTimePicker() {
@@ -91,7 +93,7 @@ export default class NewItinerary extends React.Component {
           autoFocus={false}
           returnKeyType="search"
           query={{
-            key: 'AIzaSyBAS5TrZE3tHmoY-kDe3DuP14yKHO5Iovg',
+            key: keys.googleAPI,
             language: 'en',
             types: '(cities)',
           }}
