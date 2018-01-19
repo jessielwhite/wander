@@ -3,6 +3,7 @@ import { Text, Button, View, StyleSheet, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
 import Trip from './Trip';
+import scheduleExample from '../scheduleExample';
 
 const styles = StyleSheet.create({
   container: {

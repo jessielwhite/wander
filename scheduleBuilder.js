@@ -1,11 +1,13 @@
 const axios = require('axios');
-const google = require('./SampleData/google');
-const predictHQ = require('./SampleData/google');
-const zomato = require('./SampleData/zomato');
+// const google = require('./SampleData/google');
+// const predictHQ = require('./SampleData/google');
+// const zomato = require('./SampleData/zomato');
 const { keys } = require('./config');
 
+
+
 // Get the restaurants from Zomato data
-const { restaurants } = zomato;
+// const { restaurants } = zomato;
 
 // console.log(predictHQ);
 
@@ -77,7 +79,7 @@ const makeRankings = (googleData, predictHQ, interests, dislikes) => {
   return sortedByDistance;
 };
 
-const findRestaurant = (location, time) => {
+const findRestaurant = (location, time, restaurants) => {
   restaurants.forEach(restaurant =>
     calculateDistance(
       location.geometry.location.lat,
@@ -112,10 +114,11 @@ const checkIfOpen = (event, currentDay, currentTime, cb) => {
         cb(false);
       }
     });
+  // cb(true);
 };
 
 // Helper function to fill out the day
-const fillDay = (day, rankedList, interests, currentDay) => {
+const fillDay = (day, rankedList, interests, currentDay, restaurants) => {
   let currentTime = 9;
   const meals = [9, 12, 19];
   let nextMeal = 0;
@@ -124,73 +127,47 @@ const fillDay = (day, rankedList, interests, currentDay) => {
   let liveEventCount = 0;
   while (currentTime < 22 && currentEvent < rankedList.length) {
     if (currentTime >= meals[nextMeal]) {
-      day[`${currentTime}-${++currentTime}`] = findRestaurant(lastPlaced, currentTime);
+      day[`${currentTime}-${++currentTime}`] = findRestaurant(lastPlaced, currentTime, restaurants);
       nextMeal += 1;
     } else if (currentTime += attractionTimes[rankedList[currentEvent].types[0]] < meals[nextMeal] - currentTime) {
       if (currentTime < 18) {
-        checkIfOpen(rankedList[currentEvent].place_id, currentDay, currentTime, (bool) => {
-          if (bool) {
-            day[`${currentTime}-${currentTime += attractionTimes[rankedList[currentEvent].types[0]]}`] = rankedList[currentEvent];
-            lastPlaced = rankedList[currentEvent];
-            rankedList.splice(currentEvent, 1);
-            currentEvent = 0;
-          } else {
-            currentEvent += 1;
-          }
-        });
+        day[`${currentTime}-${currentTime += attractionTimes[rankedList[currentEvent].types[0] || ++currentTime]}`] = rankedList[currentEvent];
+        lastPlaced = rankedList[currentEvent];
+        rankedList.splice(currentEvent, 1);
+        currentEvent = 0;
       } else {
         if (rankedList[currentEvent].types.includes('park')) {
           currentEvent += 1;
         } else if (liveEventCount === 0 && interests.includes('music')) {
           // Eventually PredictHQ events will go here, but it's harder than we
           // thought and I think getting live data is more important than PredictHQ
-          checkIfOpen(rankedList[currentEvent].place_id, currentDay, currentTime, (bool) => {
-            if (bool) {
-              day[`${currentTime}-${currentTime += attractionTimes[rankedList[currentEvent].types[0]]}`] = rankedList[currentEvent];
-              lastPlaced = rankedList[currentEvent];
-              rankedList.splice(currentEvent, 1);
-              currentEvent = 0;
-              liveEventCount += 1;
-            } else {
-              currentEvent += 1;
-            }
-          });
+          day[`${currentTime}-${currentTime += attractionTimes[rankedList[currentEvent].types[0] || ++currentTime]}`] = rankedList[currentEvent];
+          lastPlaced = rankedList[currentEvent];
+          rankedList.splice(currentEvent, 1);
+          currentEvent = 0;
+          liveEventCount += 1;
         } else {
-          checkIfOpen(rankedList[currentEvent].place_id, currentDay, currentTime, (bool) => {
-            if (bool) {
-              day[`${currentTime}-${currentTime += attractionTimes[rankedList[currentEvent].types[0]]}`] = rankedList[currentEvent];
-              lastPlaced = rankedList[currentEvent];
-              rankedList.splice(currentEvent, 1);
-              currentEvent = 0;
-            } else {
-              currentEvent += 1;
-            }
-          });
+          day[`${currentTime}-${currentTime += attractionTimes[rankedList[currentEvent].types[0] || ++currentTime]}`] = rankedList[currentEvent];
+          lastPlaced = rankedList[currentEvent];
+          rankedList.splice(currentEvent, 1);
+          currentEvent = 0;
         }
       }
     } else {
       currentEvent += 1;
     }
   }
-  console.log(day);
 };
 
 // Here's where the magic happens
-const scheduleBuilder = (startDate, endDate, user) => {
-  // Get the user's interests and dislikes, store them in an array
+const scheduleBuilder = (startDate, endDate, google, restaurantData, user, cb) => {
+  // Get the user's interests and dislikes, store them in arrays
   const interests = ['museum', 'park', 'point_of_interest', 'music'];
   const dislikes = ['aquarium', 'casino'];
+  console.log('google', google);
 
-  const currentDay = startDate.getDay();
-
-  // Filter predictHQ events according to user interests -- future implementation
-  // const liveEvents = predictHQ.results.filter((event) => {
-  //   for (let i = 0; i < event.labels.length; i++) {
-  //     if (interests.includes(event.labels[i])) {
-  //       return event;
-  //     }
-  //   }
-  // });
+  // Figure out what the current day of the week is to check if it's open then
+  let currentDay = startDate.getDay();
 
   // Initialize the empty schedule object
   const schedule = {};
@@ -200,7 +177,7 @@ const scheduleBuilder = (startDate, endDate, user) => {
     Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
 
   // Fill the schedule with "day" objects
-  for (let i = 1; i < numberOfDays + 1; i += 1) {
+  for (let i = 1; i < numberOfDays + 2; i += 1) {
     schedule[`day_${i}`] = {};
   }
 
@@ -211,15 +188,32 @@ const scheduleBuilder = (startDate, endDate, user) => {
   const sortedAndRated = makeRankings(google, predictHQPlaceHolder, interests, dislikes);
 
   // Go through each day, fill it out with events
-  for (let day in schedule) {
-    fillDay(schedule[day], sortedAndRated, interests, currentDay);
+  const days = Object.keys(schedule);
+  days.forEach((day) => {
+    fillDay(schedule[day], sortedAndRated, interests, currentDay, restaurantData.restaurants);
     currentDay = currentDay < 7 ? currentDay + 1 : 0;
-  }
-
-  console.log(schedule);
-  return schedule;
+  });
+  cb(schedule);
 };
+
+const getSchedule = (startDate, endDate, location) => {
+  const query = location.split(' ').join('+');
+  const config = {
+    headers: {
+      'user-key': '0cae7c1f9c26610b03bd4ee152340b02',
+    },
+  };
+  return Promise.all([
+    axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}+point+of+interest&language=en&key=${keys.googlePlacesAPI}`),
+    axios.get(`https://developers.zomato.com/api/v2.1/search?q=${query}&sort=rating`, config),
+  ])
+    .then(([restaurants, googlePlaces]) => scheduleBuilder(startDate, endDate, restaurants.data, googlePlaces.data, 'user', (schedule) => console.log(schedule)))
+    .catch(err => console.error(err));
+};
+
 
 const one = new Date('February 10, 2018 00:00:00');
 const two = new Date('Febrauary 13, 2018 00:00:00');
-scheduleBuilder(one, two);
+// console.log(scheduleBuilder(one, two));
+
+module.exports.getSchedule = getSchedule(one, two, query);
