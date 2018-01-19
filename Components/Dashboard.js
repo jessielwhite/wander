@@ -3,19 +3,14 @@ import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
 import Trip from './Trip';
-<<<<<<< HEAD
-import { schedule1, schedule2 } from '../scheduleExample';
-=======
 import { Button } from 'react-native-elements'
 
->>>>>>> 2db0db2fb9e3031b489cdb4265866d6bc195e382
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'rgba(0,0,0,0)',
   },
 });
 
@@ -32,7 +27,7 @@ export default class Dashboard extends React.Component {
     // Query the database to get this user's schedules
     // Set the state with those schedules
     // Build out the button components with the schedules
-    this.setState({ schedules: [schedule1, schedule2] }, () => console.log(this.state.schedules));
+    // this.setState({ schedules: [schedule1, schedule2] }, () => console.log(this.state.schedules));
   }
   signout() {
     console.log('signing out');
@@ -44,7 +39,7 @@ export default class Dashboard extends React.Component {
     this.props.navigation.navigate('Itinerary');
   }
   render() {
-    const trips = this.state.schedules.map(event => (<Trip navigation={this.props.navigation} schedule={event} />));
+    // const trips = this.state.schedules.map(event => (<Trip navigation={this.props.navigation} schedule={event} />));
     return (
       <ImageBackground
         style={{
@@ -57,26 +52,26 @@ export default class Dashboard extends React.Component {
         }}
         source={require('../img/GoldenGate.jpg')}
       >
-      <View style={styles.container}>
+        <View style={styles.container}>
         <View style={{ alignItems: 'center' }}>
           <Image source={logo} style={{ width: 100, height: 100, marginTop: 20 }} />
           <Text style={{ fontSize: 30, fontWeight: 'bold'}}>Home</Text>
           <Trip navigation={this.props.navigation} style={{ borderWidth: 1, borderColor: 'black' }} />
           <Button
             title="Plan a new trip"
-            buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10}}
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
             onPress={() => this.props.navigation.navigate('NewItinerary')}
           />
         </View>
-        <Button
-          small 
-          raised
-          buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10}}
-          style={{ alignItems: 'flex-end', position:'absolute', bottom:-100 }}
-          title="Sign out"
-          onPress={this.signout}
-        />
-      </View>
+          <Button
+            small
+            raised
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+            style={{ alignItems: 'flex-end', position:'absolute', bottom:-100 }}
+            title="Sign out"
+            onPress={this.signout}
+          />
+        </View>
       </ImageBackground>
     );
   }

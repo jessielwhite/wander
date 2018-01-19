@@ -27,10 +27,8 @@ export default class Itinerary extends React.Component {
   }
 
   render() {
-    const days = Object.keys(this.state.itinerary);
-    console.log(days);
+    const days = Object.keys(this.state.itinerary).filter(item => typeof this.state.itinerary[item] === 'object');
     const eventViews = days.map(day => (<Event dayInfo={this.state.itinerary[day]} key={day} />));
-    // Create itinerary components accordingly
     return (
       <Swiper>
         {eventViews}
