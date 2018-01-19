@@ -1,9 +1,7 @@
 import React from 'react';
-import { Text, Button, View, StyleSheet, Image } from 'react-native';
-import { MapView } from 'expo';
-// https://github.com/react-community/react-native-maps for more information on how this library works
+import { StyleSheet } from 'react-native';
+import Swiper from 'react-native-swiper';
 import PropTypes from 'prop-types';
-import logo from '../img/logo.png';
 import Event from './Event';
 
 const styles = StyleSheet.create({
@@ -16,8 +14,8 @@ const styles = StyleSheet.create({
 });
 
 export default class Itinerary extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       itinerary: [],
     };
@@ -25,30 +23,18 @@ export default class Itinerary extends React.Component {
 
   componentWillMount() {
     // Query the database, grab the itinerary, set state accordingly
+    this.setState({ itinerary: this.props.navigation.state.params.schedule });
   }
 
   render() {
+    const days = Object.keys(this.state.itinerary);
+    console.log(days);
+    const eventViews = days.map(day => (<Event dayInfo={this.state.itinerary[day]} key={day} />));
     // Create itinerary components accordingly
     return (
-      <View style={styles.container}>
-        <Image source={logo} style={{ width: 100, height: 100 }} />
-        <View style={{ width: 200, height: 200 }}>
-          <MapView
-            style={{ flex: 1 }}
-            initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          />
-        </View>
-        <Event />
-        <Button
-          title="Go to Dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
-        />
-      </View>
+      <Swiper>
+        {eventViews}
+      </Swiper>
     );
   }
 }
