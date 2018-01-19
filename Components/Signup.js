@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import logo from '../img/logo.png';
 import { FormLabel, FormInput } from 'react-native-elements'
 import { Button } from 'react-native-elements'
@@ -26,10 +27,10 @@ export default class Signup extends React.Component {
           height: '100%',
           justifyContent: 'center',
         }}
-        source={require('../img/NYC.jpg')}
+        source={require('../img/Chicago.jpg')}
       >
-      <View style={styles.container}>
-        <Image source={logo} style={{ width: 200, height: 200 }} />
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+        <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />
         <FormInput
           style={{
             height: 40,
@@ -39,6 +40,7 @@ export default class Signup extends React.Component {
             borderRadius: 6,
             marginBottom: 5,
           }}
+          keyboardType='email-address'
           placeholder="Enter your email address"
           placeholderTextColor='white'
         />
@@ -65,15 +67,16 @@ export default class Signup extends React.Component {
           }}
           placeholder="Enter a password"
           placeholderTextColor='white'
+          secureTextEntry={true} 
         />
         <Button
           large
           raised
-          buttonStyle={{backgroundColor: 'green', borderRadius: 10}}
+          buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10}}
           title="Create your account"
           onPress={() => this.props.navigation.navigate('GatherInterests')}
         />
-      </View>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     );
   }
