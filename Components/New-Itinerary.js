@@ -47,7 +47,7 @@ export default class NewItinerary extends React.Component {
     console.log(this.state.endDate);
     console.log(this.state.destination);
     // Build the itinerary
-    this.props.navigation.navigate('Itinerary', { schedule: schedule1 });
+    this.props.navigation.navigate('Itinerary', { dayInfo: schedule1 });
   }
 
   showStartDateTimePicker() {
