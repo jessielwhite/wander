@@ -54,7 +54,7 @@ export default class NewItinerary extends React.Component {
       endDate: this.state.endDate,
       destination: this.state.destination,
     };
-    axios.post('localhost:3000/schedule', body)
+    axios.post('http://18.218.102.64/schedule', body)
       .then(res => console.log(res))
       .catch(err => console.error(err));
     // Build the itinerary
@@ -80,9 +80,6 @@ export default class NewItinerary extends React.Component {
   handleStartDatePicked(date) {
     // console.log('A start date has been picked: ', date);
     this.setState({ startDate: date });
-    if (this.state.endDate === new Date()) {
-      this.setState({ endDate: date });
-    }
     this.hideStartDateTimePicker();
   }
 

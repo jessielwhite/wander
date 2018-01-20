@@ -26,7 +26,7 @@ export default class Dashboard extends React.Component {
   }
   componentWillMount() {
     // Query the database to get this user's schedules
-    axios.get('18.218.102.64/schedules')
+    axios.get('http://18.218.102.64/schedules')
       .then((res) => {
         console.log(res);
         this.setState({ schedules: [schedule1, schedule2] });
@@ -35,7 +35,7 @@ export default class Dashboard extends React.Component {
   }
   signout() {
     console.log('signing out');
-    axios.get('18.218.102.64/logout')
+    axios.get('http://18.218.102.64/logout')
       .then((res) => {
         console.log(res);
         this.props.navigation.navigate('Login');
@@ -44,7 +44,7 @@ export default class Dashboard extends React.Component {
   }
   goToTrip() {
     console.log('clicked');
-    axios.get('18.218.102.64/schedule')
+    axios.get('http://18.218.102.64/schedule')
       .then((res) => {
         console.log(res);
         this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
