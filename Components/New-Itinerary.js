@@ -10,6 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import axios from 'axios';
 import logo from '../img/logo.png';
 import { keys } from '../config';
 import { schedule1 } from '../scheduleExample';
@@ -21,6 +22,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 export default class NewItinerary extends React.Component {
   constructor() {
@@ -46,8 +49,16 @@ export default class NewItinerary extends React.Component {
     console.log(this.state.startDate);
     console.log(this.state.endDate);
     console.log(this.state.destination);
+    const body = {
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      destination: this.state.destination,
+    };
+    axios.post('http://18.218.102.64/schedule', body)
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
     // Build the itinerary
-    this.props.navigation.navigate('Itinerary', { dayInfo: schedule1 });
+    // this.props.navigation.navigate('Itinerary', { dayInfo: schedule1 });
   }
 
   showStartDateTimePicker() {
@@ -67,20 +78,21 @@ export default class NewItinerary extends React.Component {
   }
 
   handleStartDatePicked(date) {
-    console.log('A start date has been picked: ', date);
+    // console.log('A start date has been picked: ', date);
     this.setState({ startDate: date });
     this.hideStartDateTimePicker();
   }
 
   handleEndDatePicked(date) {
-    console.log('An end date has been picked: ', date);
+    // console.log('An end date has been picked: ', date);
     this.setState({ endDate: date });
     this.hideEndDateTimePicker();
   }
 
-  searchPlaces(data) {
+  searchPlaces(destination) {
     // The city, state, and country is saved in the description key
-    console.log(data.description);
+    console.log('destination', destination.description);
+    this.setState({ destination: destination.description });
   }
 
   render() {
@@ -93,7 +105,7 @@ export default class NewItinerary extends React.Component {
           autoFocus={false}
           returnKeyType="search"
           query={{
-            key: keys.googleAPI,
+            key: keys.googlePlacesAPI,
             language: 'en',
             types: '(cities)',
           }}
@@ -121,6 +133,7 @@ export default class NewItinerary extends React.Component {
           onConfirm={this.handleStartDatePicked}
           onCancel={this.hideStartDateTimePicker}
         />
+        <Text>{`${months[this.state.startDate.getMonth()]} ${this.state.startDate.getDate()}`}</Text>
         <Text>When do you come back?</Text>
         <TouchableOpacity onPress={this.showEndDateTimePicker}>
           <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
@@ -130,6 +143,7 @@ export default class NewItinerary extends React.Component {
           onConfirm={this.handleEndDatePicked}
           onCancel={this.hideEndDateTimePicker}
         />
+        <Text>{`${months[this.state.endDate.getMonth()]} ${this.state.endDate.getDate()}`}</Text>
         <Button
           title="Go to Dashboard"
           onPress={() => this.props.navigation.navigate('Dashboard')}

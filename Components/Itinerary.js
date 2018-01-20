@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import Event from './Event';
 
 const styles = StyleSheet.create({
@@ -23,7 +24,11 @@ export default class Itinerary extends React.Component {
 
   componentDidMount() {
     // Query the database, grab the itinerary, set state accordingly
-    console.log('itinerary schedule', this.props.navigation.state.params.dayInfo);
+    axios.get(`http://18.218.102.64/schedule/${/* userid but for now */1}/events`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(err => console.error(err));
     this.setState({ itinerary: this.props.navigation.state.params.dayInfo });
   }
 
