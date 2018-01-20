@@ -34,7 +34,7 @@ export default class GatherInterests extends React.Component {
     this.handleNext = this.handleNext.bind(this);
   }
   componentWillMount() {
-    axios.get('/types')
+    axios.get('18.218.102.64/types')
       .then((res) => {
         console.log(res);
         // set the state according to the response
@@ -51,7 +51,7 @@ export default class GatherInterests extends React.Component {
   handleNext() {
     // Send information to database
     this.state.selected.forEach((interest) => {
-      axios.post('/user_like', { interest })
+      axios.post('18.218.102.64/user_like', { interest })
         .then((res) => {
           console.log(res);
           this.props.navigation.navigate('Dashboard');
