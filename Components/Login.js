@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, ImageBackground, Text, Image, fetch } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { FormInput, Button } from 'react-native-elements';
 import axios from 'axios';
@@ -42,14 +43,19 @@ export default class Login extends React.Component {
     this.login = this.login.bind(this);
   }
   login() {
-    console.log(this.state.email);
-    console.log(this.state.password);
-    axios.get('http://18.218.102.64/')
+    const user = this.state;
+    axios.post('http://18.218.102.64/login', user)
       .then((res) => {
-        console.log(res);
-        this.props.navigation.navigate('Dashboard');
+        const token = res.data; // this is the user's token
+        if (token !== 'Password is incorrect') {
+          this.props.navigation.navigate('Dashboard');
+        } else {
+          this.props.navigation.navigate('Login');
+        }
       })
-      .catch(err => console.error(err));
+      .catch((err) => {
+        console.log('this is login error ', err);
+      });
   }
 
   render() {
