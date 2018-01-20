@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
+import axios from 'axios';
 import logo from '../img/logo.png';
 import Trip from './Trip';
 import { schedule1, schedule2 } from '../scheduleExample';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -26,18 +26,29 @@ export default class Dashboard extends React.Component {
   }
   componentWillMount() {
     // Query the database to get this user's schedules
-    // Set the state with those schedules
-    // Build out the button components with the schedules
-    this.setState({ schedules: [schedule1, schedule2] }, () => console.log(this.state.schedules));
+    axios.get('/schedules')
+      .then((res) => {
+        this.setState({ schedules: [schedule1, schedule2] }, () => {});
+      })
+      .catch(err => console.error(err));
   }
   signout() {
     console.log('signing out');
-    // sign the user out
-    this.props.navigation.navigate('Login');
+    axios.get('/logout')
+      .then((res) => {
+        console.log(res);
+        this.props.navigation.navigate('Login');
+      })
+      .catch(err => console.error(err));
   }
   goToTrip() {
     console.log('clicked');
-    this.props.navigation.navigate('Itinerary');
+    axios.get('/schedule')
+      .then((res) => {
+        console.log(res);
+        this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
+      })
+      .catch(err => console.error(err));
   }
   render() {
     const trips = this.state.schedules.map(event => (<Trip style={{ borderWidth: 1, borderColor: 'black' }} navigation={this.props.navigation} schedule={event} key={event.name} />));

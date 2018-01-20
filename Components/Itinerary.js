@@ -23,7 +23,6 @@ export default class Itinerary extends React.Component {
 
   componentDidMount() {
     // Query the database, grab the itinerary, set state accordingly
-    console.log('itinerary schedule', this.props.navigation.state.params.dayInfo);
     this.setState({ itinerary: this.props.navigation.state.params.dayInfo });
   }
 
