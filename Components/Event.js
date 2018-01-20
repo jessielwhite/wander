@@ -30,7 +30,6 @@ export default class Event extends React.Component {
   }
 
   render() {
-    console.log('dayinfo', this.props.dayInfo);
     const events = Object.keys(this.props.dayInfo);
     const eventNames = events.map((event, i) => (<Text key={`day${i}`} >{this.props.dayInfo[event].name}</Text>));
     const eventCoordinates = events.map((event) => { 

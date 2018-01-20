@@ -16,6 +16,21 @@ const styles = StyleSheet.create({
 });
 
 export default class Signup extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+      username: '',
+    };
+    this.signup = this.signup.bind(this);
+  }
+  signup() {
+    console.log(this.state.email);
+    console.log(this.state.password);
+    console.log(this.state.username);
+    this.props.navigation.navigate('Dashboard');
+  }
   render() {
     return (
       <ImageBackground
@@ -41,6 +56,7 @@ export default class Signup extends React.Component {
             marginBottom: 5,
           }}
           keyboardType='email-address'
+          onChangeText={text => this.setState({ email: text })}
           placeholder="Enter your email address"
           placeholderTextColor='white'
         />
@@ -55,6 +71,7 @@ export default class Signup extends React.Component {
           }}
           placeholder="Enter a username"
           placeholderTextColor='white'
+          onChangeText={text => this.setState({ username: text })}
         />
         <FormInput
           style={{
@@ -68,13 +85,14 @@ export default class Signup extends React.Component {
           placeholder="Enter a password"
           placeholderTextColor='white'
           secureTextEntry={true} 
+          onChangeText={text => this.setState({ password: text })}
         />
         <Button
           large
           raised
           buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10}}
           title="Create your account"
-          onPress={() => this.props.navigation.navigate('GatherInterests')}
+          onPress={this.signup}
         />
         </KeyboardAwareScrollView>
       </ImageBackground>

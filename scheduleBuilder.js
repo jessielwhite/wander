@@ -164,7 +164,7 @@ const scheduleBuilder = (startDate, endDate, google, restaurantData, user, cb) =
   // Get the user's interests and dislikes, store them in arrays
   const interests = ['museum', 'park', 'point_of_interest', 'music'];
   const dislikes = ['aquarium', 'casino'];
-  console.log('google', google);
+  // console.log('google', google);
 
   // Figure out what the current day of the week is to check if it's open then
   let currentDay = startDate.getDay();
@@ -207,7 +207,7 @@ const getSchedule = (startDate, endDate, location) => {
     axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}+point+of+interest&language=en&key=${keys.googlePlacesAPI}`),
     axios.get(`https://developers.zomato.com/api/v2.1/search?q=${query}&sort=rating`, config),
   ])
-    .then(([restaurants, googlePlaces]) => scheduleBuilder(startDate, endDate, restaurants.data, googlePlaces.data, 'user', (schedule) => console.log(schedule)))
+    .then(([restaurants, googlePlaces]) => scheduleBuilder(startDate, endDate, restaurants.data, googlePlaces.data, 'user', (schedule) => {}))
     .catch(err => console.error(err));
 };
 
