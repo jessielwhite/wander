@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
@@ -58,7 +58,6 @@ export default class GatherInterests extends React.Component {
         })
         .catch(err => console.error(err));
     });
-
   }
   render() {
     const interests = [];

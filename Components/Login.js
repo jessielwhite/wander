@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, Image } from 'react-native';
+import { StyleSheet, ImageBackground, Text, Image, fetch } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import { FormInput, Button } from 'react-native-elements';
@@ -42,23 +42,12 @@ export default class Login extends React.Component {
     this.login = this.login.bind(this);
   }
   login() {
-    // const settings = {
-    //   "async": true,
-    //   "crossDomain": true,
-    //   "url": "http://18.218.102.64/",
-    //   "method": "GET",
-    //   "headers": {
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //     "Cache-Control": "no-cache",
-    //   },
-    // }
-
     console.log(this.state.email);
     console.log(this.state.password);
     axios.get('http://18.218.102.64/')
       .then((res) => {
         console.log(res);
-        // this.props.navigation.navigate('Dashboard');
+        this.props.navigation.navigate('Dashboard');
       })
       .catch(err => console.error(err));
   }
@@ -94,7 +83,7 @@ export default class Login extends React.Component {
             placeholderTextColor= 'gray'
             secureTextEntry={true} 
           />
-        
+
           <Button
             large
             raised
