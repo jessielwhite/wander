@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
+import axios from 'axios';
 
 
 const styles = StyleSheet.create({
@@ -26,20 +27,38 @@ const styles = StyleSheet.create({
 export default class GatherInterests extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selected: [],
+    };
     this.handleClick = this.handleClick.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
   componentWillMount() {
+    axios.get('/types')
+      .then((res) => {
+        console.log(res);
+        // set the state according to the response
+      })
+      .catch(err => console.error(err));
     // In practice, we'll pull out all of the items and map over them,
     // creating the buttons that way. I've hard-coded them here while
     // we're waiting for database connection though
   }
-  handleClick() {
+  handleClick(item) {
     console.log('something was clicked');
+    this.setState({ selected: this.state.selected.concat([item]) });
   }
   handleNext() {
     // Send information to database
-    this.props.navigation.navigate('Dashboard');
+    this.state.selected.forEach((interest) => {
+      axios.post('/user_like', { interest })
+        .then((res) => {
+          console.log(res);
+          this.props.navigation.navigate('Dashboard');
+        })
+        .catch(err => console.error(err));
+    });
+
   }
   render() {
     const interests = [];

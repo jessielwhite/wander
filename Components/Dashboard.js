@@ -26,15 +26,16 @@ export default class Dashboard extends React.Component {
   }
   componentWillMount() {
     // Query the database to get this user's schedules
-    axios.get('/schedules')
+    axios.get('18.218.102.64/schedules')
       .then((res) => {
-        this.setState({ schedules: [schedule1, schedule2] }, () => {});
+        console.log(res);
+        this.setState({ schedules: [schedule1, schedule2] });
       })
       .catch(err => console.error(err));
   }
   signout() {
     console.log('signing out');
-    axios.get('/logout')
+    axios.get('18.218.102.64/logout')
       .then((res) => {
         console.log(res);
         this.props.navigation.navigate('Login');
@@ -43,7 +44,7 @@ export default class Dashboard extends React.Component {
   }
   goToTrip() {
     console.log('clicked');
-    axios.get('/schedule')
+    axios.get('18.218.102.64/schedule')
       .then((res) => {
         console.log(res);
         this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
