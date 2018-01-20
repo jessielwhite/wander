@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, ImageBackground, Text, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.png';
-import { FormLabel, FormInput, Button } from 'react-native-elements'
-
+import { FormLabel, FormInput, Button } from 'react-native-elements';
 
 
 const styles = StyleSheet.create({
@@ -43,8 +43,17 @@ export default class Login extends React.Component {
     this.login = this.login.bind(this);
   }
   login() {
-    console.log(this.state.email);
-    console.log(this.state.password);
+
+    const user = this.state;
+    axios.post('http://18.218.102.64/login', user)
+      .then((res) => {
+        console.log(res.data);
+        const token = res.data; // this is the user's token
+        return token;
+      })
+      .catch((err) => {
+        console.log('this is login error ', err);
+      });
     this.props.navigation.navigate('Dashboard');
   }
 
@@ -63,40 +72,44 @@ export default class Login extends React.Component {
       >
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
           <Image source={logo} style={{ width: 150, height: 150, marginBottom: 150 }} />
-          <Text style={{ fontSize: 30, color:'white'}}>email</Text>
-            <FormInput 
-              keyboardType='email-address'
-              style={styles.input}
-              onChangeText={text => this.setState({ email: text })}
-              placeholder="enter email"
-              placeholderTextColor= 'gray' 
-            />
-          <Text style={{ fontSize: 30, color:'white'}}>password</Text>
-            <FormInput 
-              style={styles.input}
-              onChangeText={text => this.setState({ password: text })}
-              placeholder="enter password"
-              placeholderTextColor= 'gray'
-              secureTextEntry={true} 
-            />
-          
-            <Button
-              large
-              raised
-              buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10, alignSelf:'flex-end', marginTop: 10}}
-              onPress={this.login}
-              title="login"
-              icon={{name: 'home', size: 32}}
-            />
+          <Text style={{ fontSize: 30, color: 'white' }}>email</Text>
+          <FormInput
+            keyboardType="email-address"
+            style={styles.input}
+            onChangeText={text => this.setState({ email: text })}
+            placeholder="enter email"
+            placeholderTextColor="gray"
+          />
+          <Text style={{ fontSize: 30, color: 'white' }}>password</Text>
+          <FormInput
+            style={styles.input}
+            onChangeText={text => this.setState({ password: text })}
+            placeholder="enter password"
+            placeholderTextColor="gray"
+            secureTextEntry
+          />
 
-            <Button
-              large
-              raised
-              buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10,  alignSelf: 'flex-end', position: 'relative', marginTop: 10}}
-              onPress={() => this.props.navigation.navigate('Signup')}
-              icon={{name: 'edit', size: 32}}
-              title="signup"
-            />
+          <Button
+            large
+            raised
+            buttonStyle={{
+ backgroundColor: '#0e416d', borderRadius: 10, alignSelf: 'flex-end', marginTop: 10,
+}}
+            onPress={this.login}
+            title="login"
+            icon={{ name: 'home', size: 32 }}
+          />
+
+          <Button
+            large
+            raised
+            buttonStyle={{
+ backgroundColor: '#0e416d', borderRadius: 10, alignSelf: 'flex-end', position: 'relative', marginTop: 10,
+ }}
+            onPress={() => this.props.navigation.navigate('Signup')}
+            icon={{ name: 'edit', size: 32 }}
+            title="signup"
+          />
         </KeyboardAwareScrollView>
       </ImageBackground>
     );
