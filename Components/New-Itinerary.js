@@ -55,10 +55,12 @@ export default class NewItinerary extends React.Component {
       destination: this.state.destination,
     };
     axios.post('http://18.218.102.64/schedule', body)
-      .then(res => console.log(res))
+      .then((res) => {
+        console.log(res);
+        this.props.navigation.navigate('Itinerary', { dayInfo: schedule1 });
+      })
       .catch(err => console.error(err));
     // Build the itinerary
-    // this.props.navigation.navigate('Itinerary', { dayInfo: schedule1 });
   }
 
   showStartDateTimePicker() {
