@@ -43,18 +43,19 @@ export default class Login extends React.Component {
     this.login = this.login.bind(this);
   }
   login() {
-
     const user = this.state;
     axios.post('http://18.218.102.64/login', user)
       .then((res) => {
-        console.log(res.data);
         const token = res.data; // this is the user's token
-        return token;
+        if (token !== 'Password is incorrect') {
+          this.props.navigation.navigate('Dashboard');
+        } else {
+          this.props.navigation.navigate('Login');
+        }
       })
       .catch((err) => {
         console.log('this is login error ', err);
       });
-    this.props.navigation.navigate('Dashboard');
   }
 
   render() {
