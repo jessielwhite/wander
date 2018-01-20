@@ -93,7 +93,7 @@ export default class NewItinerary extends React.Component {
           autoFocus={false}
           returnKeyType="search"
           query={{
-            key: keys.googleAPI,
+            key: keys.googlePlacesAPI,
             language: 'en',
             types: '(cities)',
           }}
