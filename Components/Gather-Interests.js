@@ -3,6 +3,7 @@ import { Text, ScrollView, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
+import Interest from './Interest';
 
 const buttonMap = {
   99: 'amusement_park',
@@ -63,53 +64,23 @@ export default class GatherInterests extends React.Component {
         console.log(error);
       });
   }
-  handleClick(item) {
-    this.setState({ selected: this.state.selected.concat(buttonMap[item.target]) }, () => console.log(this.state.selected));
-    
-    const interest = buttonMap[item.target];
-    
-    
-    //database helper needs to be updated
 
-    // axios.post('http://18.218.102.64/user_like', { like: true })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-
-  }
   handleNext() {
-    // Send information to database
-    // this.state.selected.forEach((interest) => {
-    //   axios.post('http://18.218.102.64/user_like', { interest })
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch(err => console.error(err));
-    // });
-    this.props.navigation.navigate('Dashboard');
+    this.props.navigation.navigate('Dashboard', { created: false });
   }
+
   render() {
     const interests = [];
     for (let i = 0; i < this.state.types.length; i += 1) {
       let name = this.state.types[i];
       name = `${name.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
-
-      interests.push(
-        <Button
-          large
-          raised
-          buttonStyle={{ backgroundColor: '#0e416d', width: 500, marginVertical: 5 }}
-          // style={styles.button}
-          icon={{ name: 'envira', type: 'font-awesome' }}
-          onPress={this.handleClick.bind(this)}
-          key={i}
-          title={name}
-        />
-        // ,{/* <Text>interests {i}</Text> */}
-      );
+      interests.push(<Interest
+        name={name}
+        type={this.state.types[i]}
+        navigation={this.props.navigation}
+        key={name}
+      />);
+      // ,{/* <Text>interests {i}</Text> */}
     }
     return (
       <ScrollView contentContainerStyle={styles.container} >
@@ -122,7 +93,6 @@ export default class GatherInterests extends React.Component {
           buttonStyle={{ backgroundColor: 'green' }}
           title="Next"
           onPress={this.handleNext}
-
         />
       </ScrollView>
     );

@@ -2,17 +2,15 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Header, Text, Button } from 'react-native-elements';
 import axios from 'axios';
-import logo from '../img/logo.png';
 import { keys } from '../config';
 import { schedule1 } from '../scheduleExample';
-import { Header, Button, Text } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,7 +20,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 export default class NewItinerary extends React.Component {
   constructor() {
@@ -45,9 +56,6 @@ export default class NewItinerary extends React.Component {
   }
 
   getItinerary() {
-    console.log(this.state.startDate);
-    console.log(this.state.endDate);
-    console.log(this.state.destination);
     const body = {
       startDate: this.state.startDate,
       endDate: this.state.endDate,
@@ -56,10 +64,9 @@ export default class NewItinerary extends React.Component {
     axios.post('http://18.218.102.64/schedule', body)
       .then((res) => {
         console.log(res);
-        this.props.navigation.navigate('Itinerary', { dayInfo: schedule1 });
+        this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
       })
       .catch(err => console.error(err));
-    // Build the itinerary
   }
 
   showStartDateTimePicker() {
@@ -100,8 +107,18 @@ export default class NewItinerary extends React.Component {
     return (
       <View style={styles.container}>
         {/* <Image source={logo} style={{ width: 100, height: 100 }} /> */}
-        <Header backgroundColor="#0e416d"
-          centerComponent={{ text: '               wander', style: { color: 'white', fontSize: 40, fontWeight: 'bold', width: 400, alignItems: 'center' } }}
+        <Header
+          backgroundColor="#0e416d"
+          centerComponent={{
+            text: '               wander',
+            style: {
+              color: 'white',
+              fontSize: 40,
+              fontWeight: 'bold',
+              width: 400,
+              alignItems: 'center',
+            },
+          }}
         />
         <GooglePlacesAutocomplete
           placeholder="Where are you Wandering?"

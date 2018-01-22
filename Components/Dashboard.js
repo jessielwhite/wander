@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button, Header } from 'react-native-elements';
 import axios from 'axios';
 import logo from '../img/logo.png';
 import Trip from './Trip';
 import { schedule1, schedule2 } from '../scheduleExample';
+import goldenGate from '../img/GoldenGate.jpg';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,15 +25,18 @@ export default class Dashboard extends React.Component {
     this.signout = this.signout.bind(this);
     this.goToTrip = this.goToTrip.bind(this);
   }
+
   componentWillMount() {
     // Query the database to get this user's schedules
-    axios.get('http://18.218.102.64/userid/schedules')
-      .then((res) => {
-        console.log(res);
-        this.setState({ schedules: [schedule1, schedule2] });
-      })
-      .catch(err => console.error(err));
+    // axios.get('http://18.218.102.64/userid/schedules')
+    //   .then((res) => {
+    //     console.log(res);
+    //     this.setState({ schedules: res.data });
+    //   })
+    //   .catch(err => console.error(err));
+    this.setState({ schedules: [schedule1, schedule2] });
   }
+
   signout() {
     console.log('signing out');
     axios.get('http://18.218.102.64/logout')
@@ -42,17 +46,27 @@ export default class Dashboard extends React.Component {
       })
       .catch(err => console.error(err));
   }
+
   goToTrip() {
-    console.log('clicked');
-    axios.get('http://18.218.102.64/schedule')
-      .then((res) => {
-        console.log(res);
-        this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
-      })
-      .catch(err => console.error(err));
+    // axios.get('http://18.218.102.64/schedule')
+    //   .then((res) => {
+    //     console.log(res);
+      // this.props.navigation.navigate('Itinerary', { dayInfo: this.state.schedules[0] });
+      // })
+      // .catch(err => console.error(err));
   }
+
   render() {
-    const trips = this.state.schedules.map(event => (<Trip style={{ borderWidth: 1, borderColor: 'black' }} navigation={this.props.navigation} schedule={event} key={event.name} />));
+    // Build out the trip components from the schedules recieved from the database
+    const trips = this.state.schedules
+      .map(event =>
+        (<Trip
+          style={{ borderWidth: 1, borderColor: 'black' }}
+          navigation={this.props.navigation}
+          schedule={event}
+          key={event.name}
+        />));
+
     return (
       <ImageBackground
         style={{
@@ -63,29 +77,39 @@ export default class Dashboard extends React.Component {
           height: '100%',
           justifyContent: 'center',
         }}
-        source={require('../img/GoldenGate.jpg')}
+        source={goldenGate}
       >
         <View style={styles.container}>
-        <View style={{ alignItems: 'center' }}>
-        <Header backgroundColor="#0e416d"
-          centerComponent={{ text: '                wander', style: { color: 'white', fontSize: 40, fontWeight: 'bold', width: 400, alignItems: 'center' } }}
-        />
-          <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
-          {trips}
+          <View style={{ alignItems: 'center' }}>
+            <Header
+              backgroundColor="#0e416d"
+              centerComponent={{
+                text: '                wander',
+                style: {
+                  color: 'white',
+                  fontSize: 40,
+                  fontWeight: 'bold',
+                  width: 400,
+                  alignItems: 'center',
+                },
+              }}
+            />
+            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
+            {trips}
+            <Button
+              title="Plan a new trip"
+              buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+              onPress={() => this.props.navigation.navigate('NewItinerary')}
+            />
+          </View>
           <Button
-            title="Plan a new trip"
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            onPress={() => this.props.navigation.navigate('NewItinerary')}
-          />
-        </View>
-          {/* <Button
             small
             raised
             buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            style={{ alignItems: 'flex-end', position:'absolute', bottom:-100 }}
+            style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
             title="Sign out"
             onPress={this.signout}
-          /> */}
+          />
         </View>
       </ImageBackground>
     );
