@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    // alignItems: 'center',
     backgroundColor: '#DDDDDD',
     padding: 10,
     width: '100%',
@@ -30,18 +29,21 @@ export default class GatherInterests extends React.Component {
     this.state = {
       types: [],
     };
-    this.handleClick = this.handleClick.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
+
   componentWillMount() {
+    // This binding is lost in the get request, so we need to store it
     const self = this;
+
+    // Get all the types of places from the database
     axios.get('http://18.218.102.64/types')
       .then((response) => {
         console.log(response);
         self.setState({ types: response.data.map(type => type.name) });
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }
 
@@ -50,17 +52,15 @@ export default class GatherInterests extends React.Component {
   }
 
   render() {
-    const interests = [];
-    for (let i = 0; i < this.state.types.length; i += 1) {
-      let name = this.state.types[i];
-      name = `${name.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
-      interests.push(<Interest
+    const interests = this.state.types.map((type, i) => {
+      const name = `${type.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
+      return (<Interest
         name={name}
-        type={this.state.types[i]}
+        type={type}
         navigation={this.props.navigation}
         key={name}
       />);
-    }
+    });
     return (
       <ScrollView contentContainerStyle={styles.container} >
         <Text style={styles.titleText}>wander</Text>
