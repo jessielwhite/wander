@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ImageBackground } from 'react-native';
 import Swiper from 'react-native-swiper';
 import PropTypes from 'prop-types';
 import Event from './Event';
@@ -38,9 +38,21 @@ export default class Itinerary extends React.Component {
         />));
 
     return (
+      <ImageBackground
+      style={{
+        backgroundColor: '#000000',
+        flex: 1,
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+      }}
+      source={require('../img/Chicago.jpg')}
+      >
       <Swiper>
         {eventViews}
       </Swiper>
+        </ImageBackground>
     );
   }
 }

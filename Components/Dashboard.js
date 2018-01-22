@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from 'react-native-elements';
+import { Button, Header } from 'react-native-elements';
 import axios from 'axios';
 import logo from '../img/logo.png';
 import Trip from './Trip';
@@ -80,7 +80,19 @@ export default class Dashboard extends React.Component {
       >
         <View style={styles.container}>
           <View style={{ alignItems: 'center' }}>
-            <Image source={logo} style={{ width: 100, height: 100, marginTop: 20 }} />
+            <Header
+              backgroundColor="#0e416d"
+              centerComponent={{
+                text: '                wander',
+                style: {
+                  color: 'white',
+                  fontSize: 40,
+                  fontWeight: 'bold',
+                  width: 400,
+                  alignItems: 'center',
+                },
+              }}
+            />
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
             {trips}
             <Button

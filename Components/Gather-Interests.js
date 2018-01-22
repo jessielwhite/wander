@@ -64,9 +64,15 @@ export default class GatherInterests extends React.Component {
       });
   }
   handleClick(item) {
-    // When an item is clicked, it is saved to the state
-    this.setState({ selected: this.state.selected.concat(buttonMap[item.target]) }, () =>
-      console.log(this.state.selected));
+    this.setState({ selected: this.state.selected.concat(buttonMap[item.target]) });
+    const interest = buttonMap[item.target];
+    // database helper needs to be updated
+
+    axios.post('http://18.218.102.64/user_like', { like: true })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(err => console.error(err));
   }
   handleNext() {
     // Send information to database

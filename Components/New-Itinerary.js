@@ -1,20 +1,17 @@
 import React from 'react';
 import {
-  Button,
   View,
   StyleSheet,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Header, Text } from 'react-native-elements';
+import { Header, Text, Button } from 'react-native-elements';
 import axios from 'axios';
-import logo from '../img/logo.png';
 import { keys } from '../config';
 import { schedule1 } from '../scheduleExample';
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -23,7 +20,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 export default class NewItinerary extends React.Component {
   constructor() {
@@ -100,12 +110,13 @@ export default class NewItinerary extends React.Component {
         <Header
           backgroundColor="#0e416d"
           centerComponent={{
-            text: '         wander',
+            text: '               wander',
             style: {
               color: 'white',
               fontSize: 40,
               fontWeight: 'bold',
-              width: 300,
+              width: 400,
+              alignItems: 'center',
             },
           }}
         />
@@ -135,7 +146,7 @@ export default class NewItinerary extends React.Component {
           onPress={this.searchPlaces}
         />
         <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination}</Text>
-        <Text>When are you leaving?</Text>
+        <Text h4>When are you leaving?</Text>
         <TouchableOpacity onPress={this.showStartDateTimePicker}>
           <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
         </TouchableOpacity>
@@ -145,7 +156,7 @@ export default class NewItinerary extends React.Component {
           onCancel={this.hideStartDateTimePicker}
         />
         <Text>{`${months[this.state.startDate.getMonth()]} ${this.state.startDate.getDate()}`}</Text>
-        <Text>When do you come back?</Text>
+        <Text h4>When do you come back?</Text>
         <TouchableOpacity onPress={this.showEndDateTimePicker}>
           <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
         </TouchableOpacity>
@@ -156,10 +167,16 @@ export default class NewItinerary extends React.Component {
         />
         <Text>{`${months[this.state.endDate.getMonth()]} ${this.state.endDate.getDate()}`}</Text>
         <Button
+          large
+          raised
+          buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
           title="Go to Dashboard"
           onPress={() => this.props.navigation.navigate('Dashboard')}
         />
         <Button
+          large
+          raised
+          buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
           title="Get my itinerary"
           onPress={this.getItinerary}
         />
