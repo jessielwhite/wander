@@ -1,9 +1,8 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, Image, TextInput } from 'react-native';
+import { StyleSheet, ImageBackground, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from 'react-native-elements';
-import { FormLabel, FormInput } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { FormInput, Button } from 'react-native-elements';
 import axios from 'axios';
 import logo from '../img/logo.png';
 

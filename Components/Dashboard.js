@@ -26,7 +26,7 @@ export default class Dashboard extends React.Component {
   }
   componentWillMount() {
     // Query the database to get this user's schedules
-    axios.get('http://18.218.102.64/schedules')
+    axios.get('http://18.218.102.64/userid/schedules')
       .then((res) => {
         console.log(res);
         this.setState({ schedules: [schedule1, schedule2] });
