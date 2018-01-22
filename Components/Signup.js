@@ -1,10 +1,9 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, Image, TextInput } from 'react-native';
+import { StyleSheet, ImageBackground, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { FormInput, Button } from 'react-native-elements';
 import logo from '../img/logo.png';
-import { FormLabel, FormInput } from 'react-native-elements'
-import { Button } from 'react-native-elements'
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +28,7 @@ export default class Signup extends React.Component {
     console.log(this.state.email);
     console.log(this.state.password);
     console.log(this.state.username);
-    this.props.navigation.navigate('Dashboard');
+    this.props.navigation.navigate('GatherInterests');
   }
   render() {
     return (
