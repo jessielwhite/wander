@@ -4,7 +4,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { FormInput, Button } from 'react-native-elements';
-import axios from 'axios';
 import logo from '../img/logo.png';
 
 const styles = StyleSheet.create({
@@ -46,7 +45,7 @@ export default class Login extends React.Component {
     const user = this.state;
     axios.post('http://18.218.102.64/login', user)
       .then((res) => {
-        const token = res.data; // this is the user's token
+        const token = res.data;
         if (token !== 'Password is incorrect') {
           this.props.navigation.navigate('Dashboard');
         } else {
