@@ -64,18 +64,20 @@ export default class GatherInterests extends React.Component {
       });
   }
   handleClick(item) {
-    this.setState({ selected: this.state.selected.concat(buttonMap[item.target]) }, () => console.log(this.state.selected));
+    // When an item is clicked, it is saved to the state
+    this.setState({ selected: this.state.selected.concat(buttonMap[item.target]) }, () =>
+      console.log(this.state.selected));
   }
   handleNext() {
     // Send information to database
-    // this.state.selected.forEach((interest) => {
-    //   axios.post('http://18.218.102.64/user_like', { interest })
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch(err => console.error(err));
-    // });
-    this.props.navigation.navigate('Dashboard');
+    this.state.selected.forEach((interest) => {
+      axios.post('http://18.218.102.64/user_like', { interest })
+        .then((res) => {
+          console.log(res);
+          this.props.navigation.navigate('Dashboard', { created: false });
+        })
+        .catch(err => console.error(err));
+    });
   }
   render() {
     const interests = [];
@@ -83,19 +85,17 @@ export default class GatherInterests extends React.Component {
       let name = this.state.types[i];
       name = `${name.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
 
-      interests.push(
-        <Button
-          large
-          raised
-          buttonStyle={{ backgroundColor: '#0e416d', width: 500, marginVertical: 5 }}
-          // style={styles.button}
-          icon={{ name: 'envira', type: 'font-awesome' }}
-          onPress={this.handleClick.bind(this)}
-          key={i}
-          title={name}
-        />
-        // ,{/* <Text>interests {i}</Text> */}
-      );
+      interests.push(<Button
+        large
+        raised
+        buttonStyle={{ backgroundColor: '#0e416d', width: 500, marginVertical: 5 }}
+        // style={styles.button}
+        icon={{ name: 'envira', type: 'font-awesome' }}
+        onPress={this.handleClick}
+        key={i}
+        title={name}
+      />);
+      // ,{/* <Text>interests {i}</Text> */}
     }
     return (
       <ScrollView contentContainerStyle={styles.container} >

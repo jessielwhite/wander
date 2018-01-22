@@ -1,6 +1,7 @@
 import React from 'react';
 import openMap from 'react-native-open-maps';
 // import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { List, ListItem, Header } from 'react-native-elements';
 import { Text, Button, View, StyleSheet, Image } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
@@ -10,8 +11,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
 
@@ -31,7 +32,7 @@ export default class Event extends React.Component {
 
   render() {
     const events = Object.keys(this.props.dayInfo);
-    const eventNames = events.map((event, i) => (<Text key={`day${i}`} >{this.props.dayInfo[event].name}</Text>));
+    const eventNames = events.map((event, i) => (<ListItem key={`day${i}`} title={this.props.dayInfo[event].name}></ListItem>));
     const eventCoordinates = events.map((event) => { 
       return { title: this.props.dayInfo[event].name, coordinates: this.props.dayInfo[event].location };
     });
@@ -44,8 +45,11 @@ export default class Event extends React.Component {
     };
     return (
       <View style={styles.container}>
-        <Image source={logo} style={{ width: 100, height: 100 }} />
-        <View style={{ width: 200, height: 200 }}>
+        {/* <Image source={logo} style={{ width: 400, height: 100 }} /> */}
+        <Header backgroundColor='#0e416d'
+          centerComponent={{ text: 'wander', style: {color: 'white', fontSize: 40, fontWeight: 'bold' } }}
+        />
+        <View style={{ width: 400, height: 200 }}>
           <MapView
             style={{ flex: 1 }}
             initialRegion={startingPoint}
@@ -53,10 +57,12 @@ export default class Event extends React.Component {
             {eventMarkers}
           </MapView>
         </View>
+        <List>
         {eventNames}
+        </List>
         <Button
           title="Go to Dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
+          onPress={() => this.props.navigation.navigate('Dashboard', { created: true })}
         />
       </View>
     );

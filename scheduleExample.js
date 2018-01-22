@@ -14,7 +14,7 @@ module.exports.schedule1 = {
       location: { latitude: 40.7828647, longitude: -73.9653551 },
     },
     {
-      name: 'I forgot where this is',
+      name: 'The American Museum of Natural History',
       location: { latitude: 40.7794366, longitude: -73.963244 },
     },
     {
@@ -70,7 +70,7 @@ module.exports.schedule2 = {
       location: { latitude: 40.7828647, longitude: -73.9653551 },
     },
     {
-      name: 'I forgot where this is',
+      name: 'The American Museum of Natural History',
       location: { latitude: 40.7794366, longitude: -73.963244 },
     },
     {

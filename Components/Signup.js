@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { FormInput, Button } from 'react-native-elements';
 import axios from 'axios';
 import logo from '../img/logo.png';
+import Chicago from '../img/Chicago.jpg';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,7 +27,11 @@ export default class Signup extends React.Component {
     this.signup = this.signup.bind(this);
   }
   signup() {
-    const user = this.state;
+    const user = {
+      email: this.state.email,
+      password: this.state.password,
+      username: this.state.username,
+    };
     axios.post('http://18.218.102.64/signup', user)
       .then((res) => {
         console.log(res.data);
@@ -37,7 +42,7 @@ export default class Signup extends React.Component {
         }
       })
       .catch((err) => {
-        console.log('this is signup error ', err);
+        console.error('signup error ', err);
       });
   }
   render() {
@@ -51,7 +56,7 @@ export default class Signup extends React.Component {
           height: '100%',
           justifyContent: 'center',
         }}
-        source={require('../img/Chicago.jpg')}
+        source={Chicago}
       >
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
           <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />

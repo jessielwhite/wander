@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Text,
   Button,
   View,
   StyleSheet,
@@ -10,11 +9,12 @@ import {
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Header, Text } from 'react-native-elements';
 import axios from 'axios';
 import logo from '../img/logo.png';
 import { keys } from '../config';
 import { schedule1 } from '../scheduleExample';
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -46,9 +46,6 @@ export default class NewItinerary extends React.Component {
   }
 
   getItinerary() {
-    console.log(this.state.startDate);
-    console.log(this.state.endDate);
-    console.log(this.state.destination);
     const body = {
       startDate: this.state.startDate,
       endDate: this.state.endDate,
@@ -57,10 +54,9 @@ export default class NewItinerary extends React.Component {
     axios.post('http://18.218.102.64/schedule', body)
       .then((res) => {
         console.log(res);
-        this.props.navigation.navigate('Itinerary', { dayInfo: schedule1 });
+        this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
       })
       .catch(err => console.error(err));
-    // Build the itinerary
   }
 
   showStartDateTimePicker() {
@@ -100,7 +96,19 @@ export default class NewItinerary extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={logo} style={{ width: 100, height: 100 }} />
+        {/* <Image source={logo} style={{ width: 100, height: 100 }} /> */}
+        <Header
+          backgroundColor="#0e416d"
+          centerComponent={{
+            text: '         wander',
+            style: {
+              color: 'white',
+              fontSize: 40,
+              fontWeight: 'bold',
+              width: 300,
+            },
+          }}
+        />
         <GooglePlacesAutocomplete
           placeholder="Where are you Wandering?"
           minLength={2}
@@ -126,6 +134,7 @@ export default class NewItinerary extends React.Component {
           debounce={200}
           onPress={this.searchPlaces}
         />
+        <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination}</Text>
         <Text>When are you leaving?</Text>
         <TouchableOpacity onPress={this.showStartDateTimePicker}>
           <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
