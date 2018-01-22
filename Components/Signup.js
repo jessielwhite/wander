@@ -1,10 +1,11 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
+import { Button } from 'react-native-elements';
+import { FormLabel, FormInput } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
 import logo from '../img/logo.png';
-import { FormLabel, FormInput } from 'react-native-elements'
-import { Button } from 'react-native-elements'
 
 const styles = StyleSheet.create({
   container: {
@@ -26,10 +27,19 @@ export default class Signup extends React.Component {
     this.signup = this.signup.bind(this);
   }
   signup() {
-    console.log(this.state.email);
-    console.log(this.state.password);
-    console.log(this.state.username);
-    this.props.navigation.navigate('Dashboard');
+    const user = this.state;
+    axios.post('http://18.218.102.64/signup', user)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data === 'User created') {
+          this.props.navigation.navigate('GatherInterests');
+        } else {
+          this.props.navigation.navigate('Signup');
+        }
+      })
+      .catch((err) => {
+        console.log('this is signup error ', err);
+      });
   }
   render() {
     return (
@@ -44,10 +54,10 @@ export default class Signup extends React.Component {
         }}
         source={require('../img/Chicago.jpg')}
       >
-      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-        <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />
-        <FormInput
-          style={{
+        <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+          <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />
+          <FormInput
+            style={{
             height: 40,
             width: 300,
             borderColor: 'gray',
@@ -55,13 +65,13 @@ export default class Signup extends React.Component {
             borderRadius: 6,
             marginBottom: 5,
           }}
-          keyboardType='email-address'
-          onChangeText={text => this.setState({ email: text })}
-          placeholder="Enter your email address"
-          placeholderTextColor='white'
-        />
-        <FormInput
-          style={{
+            keyboardType="email-address"
+            onChangeText={text => this.setState({ email: text })}
+            placeholder="Enter your email address"
+            placeholderTextColor="white"
+          />
+          <FormInput
+            style={{
             height: 40,
             width: 300,
             borderColor: 'gray',
@@ -69,12 +79,12 @@ export default class Signup extends React.Component {
             borderRadius: 6,
             marginBottom: 5,
           }}
-          placeholder="Enter a username"
-          placeholderTextColor='white'
-          onChangeText={text => this.setState({ username: text })}
-        />
-        <FormInput
-          style={{
+            placeholder="Enter a username"
+            placeholderTextColor="white"
+            onChangeText={text => this.setState({ username: text })}
+          />
+          <FormInput
+            style={{
             height: 40,
             width: 300,
             borderColor: 'gray',
@@ -82,18 +92,18 @@ export default class Signup extends React.Component {
             borderRadius: 6,
             marginBottom: 5,
           }}
-          placeholder="Enter a password"
-          placeholderTextColor='white'
-          secureTextEntry={true} 
-          onChangeText={text => this.setState({ password: text })}
-        />
-        <Button
-          large
-          raised
-          buttonStyle={{backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10}}
-          title="Create your account"
-          onPress={this.signup}
-        />
+            placeholder="Enter a password"
+            placeholderTextColor="white"
+            secureTextEntry
+            onChangeText={text => this.setState({ password: text })}
+          />
+          <Button
+            large
+            raised
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
+            title="Create your account"
+            onPress={this.signup}
+          />
         </KeyboardAwareScrollView>
       </ImageBackground>
     );
