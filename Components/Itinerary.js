@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ImageBackground } from 'react-native';
 import Swiper from 'react-native-swiper';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -36,9 +36,21 @@ export default class Itinerary extends React.Component {
     const days = Object.keys(this.state.itinerary).filter(item => typeof this.state.itinerary[item] === 'object');
     const eventViews = days.map(day => (<Event dayInfo={this.state.itinerary[day]} key={day} />));
     return (
+      <ImageBackground
+      style={{
+        backgroundColor: '#000000',
+        flex: 1,
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+      }}
+      source={require('../img/Chicago.jpg')}
+      >
       <Swiper>
         {eventViews}
       </Swiper>
+        </ImageBackground>
     );
   }
 }
