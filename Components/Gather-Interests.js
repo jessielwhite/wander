@@ -68,14 +68,14 @@ export default class GatherInterests extends React.Component {
   }
   handleNext() {
     // Send information to database
-    this.state.selected.forEach((interest) => {
-      axios.post('http://18.218.102.64/user_like', { interest })
-        .then((res) => {
-          console.log(res);
-          this.props.navigation.navigate('Dashboard');
-        })
-        .catch(err => console.error(err));
-    });
+    // this.state.selected.forEach((interest) => {
+    //   axios.post('http://18.218.102.64/user_like', { interest })
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch(err => console.error(err));
+    // });
+    this.props.navigation.navigate('Dashboard');
   }
   render() {
     const interests = [];

@@ -44,12 +44,12 @@ export default class Login extends React.Component {
   login() {
     console.log(this.state.email);
     console.log(this.state.password);
-    axios.get('http://18.218.102.64/')
-      .then((res) => {
-        console.log(res);
-        this.props.navigation.navigate('Dashboard');
-      })
-      .catch(err => console.error(err));
+    // axios.get('http://18.218.102.64/')
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => console.error(err));
+    this.props.navigation.navigate('Dashboard');
   }
 
   render() {
