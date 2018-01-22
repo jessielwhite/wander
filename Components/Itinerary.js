@@ -39,20 +39,20 @@ export default class Itinerary extends React.Component {
 
     return (
       <ImageBackground
-      style={{
-        backgroundColor: '#000000',
-        flex: 1,
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-      }}
-      source={require('../img/Chicago.jpg')}
+        style={{
+          backgroundColor: '#000000',
+          flex: 1,
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+        source={require('../img/Chicago.jpg')}
       >
-      <Swiper>
-        {eventViews}
-      </Swiper>
-        </ImageBackground>
+        <Swiper>
+          {eventViews}
+        </Swiper>
+      </ImageBackground>
     );
   }
 }

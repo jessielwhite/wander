@@ -1,6 +1,6 @@
 import React from 'react';
 import openMap from 'react-native-open-maps';
-import { Button, View, StyleSheet } from 'react-native';
+import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
 import { List, ListItem, Header } from 'react-native-elements';
@@ -19,21 +19,27 @@ export default class Event extends React.Component {
     this.openNewMap = this.openNewMap.bind(this);
   }
 
-  openNewMap() {
-    // Get the coordinates out of the event's info
-    openMap({ latutude: 40.7128, longitude: -74.0060 });
+  openNewMap(event) {
+    console.log('id', event.id);
+    // openMap({ latutude: 40.7128, longitude: -74.0060 });
   }
 
   saveTrip() {
     const events = this.props.dayInfo;
-
     console.log(events);
   }
 
 
   render() {
     const events = Object.keys(this.props.dayInfo);
-    const eventNames = events.map((event, i) => (<ListItem key={`day${i}`} title={this.props.dayInfo[event].name} />));
+    const eventNames = events
+      .map((event, i) =>
+        (<ListItem
+          key={`day${i}`}
+          title={this.props.dayInfo[event].name}
+          onPress={this.openNewMap}
+          id={this.props.dayInfo[event].location}
+        />));
     const eventCoordinates = events.map((event) => { 
       return {
         title: this.props.dayInfo[event].name,
@@ -64,9 +70,11 @@ export default class Event extends React.Component {
             {eventMarkers}
           </MapView>
         </View>
-        <List>
-          {eventNames}
-        </List>
+        <ScrollView>
+          <List>
+            {eventNames}
+          </List>
+        </ScrollView>
         <Button
           title="Save your Trip Recommendations"
           onPress={this.saveTrip}

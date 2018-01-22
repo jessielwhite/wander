@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button, Header } from 'react-native-elements';
 import axios from 'axios';
@@ -28,12 +28,13 @@ export default class Dashboard extends React.Component {
 
   componentWillMount() {
     // Query the database to get this user's schedules
-    axios.get('http://18.218.102.64/userid/schedules')
-      .then((res) => {
-        console.log(res);
-        this.setState({ schedules: res.data });
-      })
-      .catch(err => console.error(err));
+    // axios.get('http://18.218.102.64/userid/schedules')
+    //   .then((res) => {
+    //     console.log(res);
+    //     this.setState({ schedules: res.data });
+    //   })
+    //   .catch(err => console.error(err));
+    this.setState({ schedules: [schedule1, schedule2] });
   }
 
   signout() {
@@ -47,12 +48,12 @@ export default class Dashboard extends React.Component {
   }
 
   goToTrip() {
-    axios.get('http://18.218.102.64/schedule')
-      .then((res) => {
-        console.log(res);
-        this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
-      })
-      .catch(err => console.error(err));
+    // axios.get('http://18.218.102.64/schedule')
+    //   .then((res) => {
+    //     console.log(res);
+      // this.props.navigation.navigate('Itinerary', { dayInfo: this.state.schedules[0] });
+      // })
+      // .catch(err => console.error(err));
   }
 
   render() {
