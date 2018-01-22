@@ -31,9 +31,12 @@ export default class Event extends React.Component {
     openMap({ latutude: 40.7128, longitude: -74.0060 });
   }
 
-  componentDidMount() {
-    
+  saveTrip() {
+    const events = this.props.dayInfo;
+
+    console.log(events);
   }
+
 
   render() {
     const events = Object.keys(this.props.dayInfo);
@@ -67,9 +70,14 @@ export default class Event extends React.Component {
         {eventNames}
           </List>
         <Button
+          title="Save your Trip Recommendations"
+          onPress={this.saveTrip}
+        />
+        <Button
           title="Go to Dashboard"
           onPress={() => this.props.navigation.navigate('Dashboard')}
         />
+
       </View>
     );
   }
