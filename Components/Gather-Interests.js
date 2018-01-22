@@ -5,25 +5,6 @@ import { Button } from 'react-native-elements';
 import axios from 'axios';
 import Interest from './Interest';
 
-const buttonMap = {
-  99: 'amusement_park',
-  106: 'aquarium',
-  113: 'art_gallery',
-  119: 'book_store',
-  126: 'bowling_alley',
-  133: 'casino',
-  139: 'clothing_store',
-  146: 'point_of_interest',
-  153: 'shopping_mall',
-  159: 'library',
-  166: 'movie_theater',
-  173: 'museum',
-  179: 'night_club',
-  186: 'park',
-  193: 'stadium',
-  199: 'zoo',
-};
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
@@ -47,7 +28,6 @@ export default class GatherInterests extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: [],
       types: [],
     };
     this.handleClick = this.handleClick.bind(this);
@@ -80,7 +60,6 @@ export default class GatherInterests extends React.Component {
         navigation={this.props.navigation}
         key={name}
       />);
-      // ,{/* <Text>interests {i}</Text> */}
     }
     return (
       <ScrollView contentContainerStyle={styles.container} >
