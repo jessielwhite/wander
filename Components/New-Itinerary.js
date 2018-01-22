@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  Text,
-  Button,
   View,
   StyleSheet,
   Image,
@@ -14,6 +12,7 @@ import axios from 'axios';
 import logo from '../img/logo.png';
 import { keys } from '../config';
 import { schedule1 } from '../scheduleExample';
+import { Header, Button, Text } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   container: {
@@ -100,7 +99,10 @@ export default class NewItinerary extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={logo} style={{ width: 100, height: 100 }} />
+        {/* <Image source={logo} style={{ width: 100, height: 100 }} /> */}
+        <Header backgroundColor="#0e416d"
+          centerComponent={{ text: '               wander', style: { color: 'white', fontSize: 40, fontWeight: 'bold', width: 400, alignItems: 'center' } }}
+        />
         <GooglePlacesAutocomplete
           placeholder="Where are you Wandering?"
           minLength={2}
@@ -126,7 +128,8 @@ export default class NewItinerary extends React.Component {
           debounce={200}
           onPress={this.searchPlaces}
         />
-        <Text>When are you leaving?</Text>
+        <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination}</Text>
+        <Text h4>When are you leaving?</Text>
         <TouchableOpacity onPress={this.showStartDateTimePicker}>
           <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
         </TouchableOpacity>
@@ -136,7 +139,7 @@ export default class NewItinerary extends React.Component {
           onCancel={this.hideStartDateTimePicker}
         />
         <Text>{`${months[this.state.startDate.getMonth()]} ${this.state.startDate.getDate()}`}</Text>
-        <Text>When do you come back?</Text>
+        <Text h4>When do you come back?</Text>
         <TouchableOpacity onPress={this.showEndDateTimePicker}>
           <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
         </TouchableOpacity>
@@ -147,10 +150,16 @@ export default class NewItinerary extends React.Component {
         />
         <Text>{`${months[this.state.endDate.getMonth()]} ${this.state.endDate.getDate()}`}</Text>
         <Button
+          large
+          raised
+          buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
           title="Go to Dashboard"
           onPress={() => this.props.navigation.navigate('Dashboard')}
         />
         <Button
+          large
+          raised
+          buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
           title="Get my itinerary"
           onPress={this.getItinerary}
         />
