@@ -39,7 +39,7 @@ export default class GatherInterests extends React.Component {
     // Get all the types of places from the database
     axios.get('http://18.218.102.64/types')
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         self.setState({ types: response.data.map(type => type.name) });
       })
       .catch((error) => {
