@@ -6,6 +6,8 @@ import { MapView } from 'expo';
 import { List, ListItem, Header } from 'react-native-elements';
 import axios from 'axios';
 import { keys } from '../config';
+import Schedule from './Schedule';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -44,6 +46,7 @@ export default class Event extends React.Component {
 
 
   render() {
+    console.log(this.props);
     const events = Object.keys(this.props.dayInfo);
     const eventNames = events
       .map(event =>
@@ -77,16 +80,19 @@ export default class Event extends React.Component {
         {/* <Image source={logo} style={{ width: 100, height: 100 }} /> */}
         <View style={{ width: 400, height: 200 }}>
           <MapView
-            style={{ flex: 1 }}
-            initialRegion={startingPoint}
+          style={{ flex: 1 }}
+          initialRegion={startingPoint}
           >
-            {eventMarkers}
+          {eventMarkers}
           </MapView>
         </View>
         <ScrollView>
-          <List>
-            {eventNames}
-          </List>
+          {/* <List> */}
+            {/* {eventNames} */}
+          <Schedule
+            data={this.props.dayInfo}
+          />
+          {/* </List> */}
         </ScrollView>
         <Button
           title="Save your Trip Recommendations"
@@ -95,7 +101,7 @@ export default class Event extends React.Component {
         <Button
           title="Go to Dashboard"
           onPress={() => this.props.navigation.navigate('Dashboard', { created: true })}
-        />
+        /> 
 
       </View>
     );
