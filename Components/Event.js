@@ -4,6 +4,8 @@ import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
 import { List, ListItem, Header } from 'react-native-elements';
+import Schedule from './List';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -31,6 +33,7 @@ export default class Event extends React.Component {
 
 
   render() {
+    console.log(this.props);
     const events = Object.keys(this.props.dayInfo);
     const eventNames = events
       .map((event, i) =>
@@ -64,16 +67,19 @@ export default class Event extends React.Component {
         {/* <Image source={logo} style={{ width: 100, height: 100 }} /> */}
         <View style={{ width: 400, height: 200 }}>
           <MapView
-            style={{ flex: 1 }}
-            initialRegion={startingPoint}
+          style={{ flex: 1 }}
+          initialRegion={startingPoint}
           >
-            {eventMarkers}
+          {eventMarkers}
           </MapView>
         </View>
         <ScrollView>
-          <List>
-            {eventNames}
-          </List>
+          {/* <List> */}
+            {/* {eventNames} */}
+          <Schedule
+            data={this.props.dayInfo}
+          />
+          {/* </List> */}
         </ScrollView>
         <Button
           title="Save your Trip Recommendations"
@@ -82,7 +88,7 @@ export default class Event extends React.Component {
         <Button
           title="Go to Dashboard"
           onPress={() => this.props.navigation.navigate('Dashboard', { created: true })}
-        />
+        /> 
 
       </View>
     );
