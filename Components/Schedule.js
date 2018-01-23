@@ -4,7 +4,9 @@ import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
 import { List, ListItem, Header } from 'react-native-elements';
-import Schedule from './List';
+import axios from 'axios';
+import { keys } from '../config';
+import Schedule from './Schedule';
 
 
 const styles = StyleSheet.create({
@@ -21,14 +23,25 @@ export default class Event extends React.Component {
     this.openNewMap = this.openNewMap.bind(this);
   }
 
+  componentWillMount() {
+    console.log(this.props.dayInfo);
+    this.props.dayInfo.forEach((obj) => {
+      if (obj.googleId) {
+        axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.googleId}&key=${keys.googleMapsAPI}`)
+          .then(res => console.log(res))
+          .catch(err => console.error(err));
+      }
+    });
+  }
+
   openNewMap(event) {
-    console.log('id', event.id);
+    // console.log('id', event.id);
     // openMap({ latutude: 40.7128, longitude: -74.0060 });
   }
 
   saveTrip() {
     const events = this.props.dayInfo;
-    console.log(events);
+    // console.log(events);
   }
 
 
@@ -36,9 +49,9 @@ export default class Event extends React.Component {
     console.log(this.props);
     const events = Object.keys(this.props.dayInfo);
     const eventNames = events
-      .map((event, i) =>
+      .map(event =>
         (<ListItem
-          key={`day${i}`}
+          key={event}
           title={this.props.dayInfo[event].name}
           onPress={this.openNewMap}
           id={this.props.dayInfo[event].location}

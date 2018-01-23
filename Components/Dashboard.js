@@ -38,10 +38,10 @@ export default class Dashboard extends React.Component {
   }
 
   signout() {
-    console.log('signing out');
+    // console.log('signing out');
     axios.get('http://18.218.102.64/logout')
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.props.navigation.navigate('Login');
       })
       .catch(err => console.error(err));

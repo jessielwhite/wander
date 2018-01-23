@@ -63,7 +63,7 @@ export default class NewItinerary extends React.Component {
     };
     axios.post('http://18.218.102.64/schedule', body)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
       })
       .catch(err => console.error(err));
@@ -99,7 +99,7 @@ export default class NewItinerary extends React.Component {
 
   searchPlaces(destination) {
     // The city, state, and country is saved in the description key
-    console.log('destination', destination.description);
+    // console.log('destination', destination.description);
     this.setState({ destination: destination.description });
   }
 
