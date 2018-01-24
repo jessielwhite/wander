@@ -45,6 +45,8 @@ export default class Login extends React.Component {
 
   login() {
     const user = { email: this.state.email, password: this.state.password };
+    // Actual requests is commented out for testing purposes
+    
     // axios.post('http://18.218.102.64/login', user)
     //   .then((res) => {
     //     const token = res.data;
