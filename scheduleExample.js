@@ -56,7 +56,6 @@ module.exports.schedule1 = {
     },
   ],
 }; // For individual schedule view
-
 module.exports.schedule2 = {
   name: 'New Donk City',
   day_1: [
@@ -112,6 +111,4 @@ module.exports.schedule2 = {
     },
   ],
 }; // For individual schedule view
-
 const getSchedules = [{ name: 'City name', id: 'schedule id' }]; // for dashboard page
-
