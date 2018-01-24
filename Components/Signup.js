@@ -32,18 +32,18 @@ export default class Signup extends React.Component {
       password: this.state.password,
       username: this.state.username,
     };
-    axios.post('http://18.218.102.64/signup', user)
-      .then((res) => {
-        console.log(res.data);
-        if (res.data === 'User created') {
+    // Actual request commented out for testing purposes
+    // axios.post('http://18.218.102.64/signup', user)
+    //   .then((res) => {
+    //     if (res.data === 'User created') {
           this.props.navigation.navigate('GatherInterests');
-        } else {
-          this.props.navigation.navigate('Signup');
-        }
-      })
-      .catch((err) => {
-        console.error('signup error ', err);
-      });
+      //   } else {
+      //     this.props.navigation.navigate('Signup');
+      //   }
+      // })
+      // .catch((err) => {
+      //   console.error('signup error ', err);
+      // });
   }
   render() {
     return (
