@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import SortableList from 'react-native-sortable-list'; // 0.0.16
+import axios from 'axios';
 
 const window = Dimensions.get('window');
 
@@ -60,7 +61,7 @@ const window = Dimensions.get('window');
 export default class Schedule extends Component {
   render() {
 
-    console.log('props.events from render', this.props.data)
+    // console.log('props.events from render', this.props.data)
 
     return (
       <View style={styles.container}>
@@ -76,7 +77,7 @@ export default class Schedule extends Component {
   }
 
   _renderRow = ({data, active}) => {
-      console.log('data from render row', data);
+      // console.log('data from render row', data);
     return <Row data={data} active={active} />
   }
 }
@@ -119,6 +120,7 @@ class Row extends Component {
     };
   }
 
+  
   componentWillReceiveProps(nextProps) {
     if (this.props.active !== nextProps.active) {
       Animated.timing(this._active, {
@@ -129,10 +131,18 @@ class Row extends Component {
     }
   }
 
+  componentWillMount(){
+    if (this.props.data.googleId) {
+      axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.googleId}&key=${keys.googleMapsAPI}`)
+          .then(res => console.log(res))
+          .catch(err => console.error(err));
+    }
+  }
+
   render() {
    const {data} = this.props;
 
-   console.log(this.props)
+  //  console.log(this.props)
    
 
     return (
