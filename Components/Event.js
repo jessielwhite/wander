@@ -1,10 +1,12 @@
 import React from 'react';
 import openMap from 'react-native-open-maps';
-import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
+import { Button, View, StyleSheet, ScrollView } from 'react-native';
 import { MapView } from 'expo';
+import axios from 'axios';
 // https://github.com/react-community/react-native-maps for more information on how this library works
-import { List, ListItem, Header } from 'react-native-elements';
+import { ListItem, Header } from 'react-native-elements';
 import Schedule from './List';
+
 
 
 const styles = StyleSheet.create({
@@ -22,18 +24,28 @@ export default class Event extends React.Component {
   }
 
   openNewMap(event) {
-    console.log('id', event.id);
+    // console.log('id', event.id);
     // openMap({ latutude: 40.7128, longitude: -74.0060 });
   }
 
   saveTrip() {
     const events = this.props.dayInfo;
-    console.log(events);
+  }
+
+  componentWillMount() {
+    // console.log(this.props.dayInfo);
+    this.props.dayInfo.forEach((obj) => {
+      if (obj.googleId) {
+        axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.googleId}&key=${keys.googleMapsAPI}`)
+          .then(res => console.log(res))
+          .catch(err => console.error(err));
+      }
+    });
   }
 
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const events = Object.keys(this.props.dayInfo);
     const eventNames = events
       .map((event, i) =>
