@@ -2,11 +2,9 @@ import React from 'react';
 import openMap from 'react-native-open-maps';
 import { Button, View, StyleSheet, ScrollView } from 'react-native';
 import { MapView } from 'expo';
-import axios from 'axios';
 // https://github.com/react-community/react-native-maps for more information on how this library works
 import { ListItem, Header } from 'react-native-elements';
-import Schedule from './List';
-
+import { Schedule } from './SortList';
 
 
 const styles = StyleSheet.create({
@@ -29,20 +27,8 @@ export default class Event extends React.Component {
   }
 
   saveTrip() {
-    const events = this.props.dayInfo;
+    // const events = this.props.dayInfo;
   }
-
-  componentWillMount() {
-    // console.log(this.props.dayInfo);
-    this.props.dayInfo.forEach((obj) => {
-      if (obj.googleId) {
-        axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.googleId}&key=${keys.googleMapsAPI}`)
-          .then(res => console.log(res))
-          .catch(err => console.error(err));
-      }
-    });
-  }
-
 
   render() {
     // console.log(this.props);
@@ -55,12 +41,10 @@ export default class Event extends React.Component {
           onPress={this.openNewMap}
           id={this.props.dayInfo[event].location}
         />));
-    const eventCoordinates = events.map((event) => { 
-      return {
+    const eventCoordinates = events.map((event) => ({
         title: this.props.dayInfo[event].name,
         coordinates: this.props.dayInfo[event].location,
-      };
-    });
+      }));
     const eventMarkers = eventCoordinates
       .map(coor =>
         (<MapView.Marker coordinate={coor.coordinates} title={coor.title} key={coor.title} />));
@@ -79,19 +63,19 @@ export default class Event extends React.Component {
         {/* <Image source={logo} style={{ width: 100, height: 100 }} /> */}
         <View style={{ width: 400, height: 200 }}>
           <MapView
-          style={{ flex: 1 }}
-          initialRegion={startingPoint}
+            style={{ flex: 1 }}
+            initialRegion={startingPoint}
           >
-          {eventMarkers}
+            {eventMarkers}
           </MapView>
         </View>
         <ScrollView>
-          {/* <List> */}
-            {/* {eventNames} */}
+
+
           <Schedule
             data={this.props.dayInfo}
           />
-          {/* </List> */}
+
         </ScrollView>
         <Button
           title="Save your Trip Recommendations"
@@ -100,7 +84,7 @@ export default class Event extends React.Component {
         <Button
           title="Go to Dashboard"
           onPress={() => this.props.navigation.navigate('Dashboard', { created: true })}
-        /> 
+        />
 
       </View>
     );
