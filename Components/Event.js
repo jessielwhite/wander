@@ -27,11 +27,11 @@ export default class Event extends React.Component {
   }
 
   componentWillMount() {
-    // this.props.dayInfo.forEach((obj) => {
-    //   if (obj.googleId) {
-    //     axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.googleId}&key=${keys.googleMapsAPI}`)
-    //       .then(res => console.log(res))
-    //       .catch(err => console.error(err));
+    // this.props.dayInfo.events.forEach((obj) => {
+    //   if (obj.placeId) {
+    //     axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.placeId}&key=${keys.googleMapsAPI}`)
+    //       .then(res => console.log('google api response', res))
+    //       .catch(err => console.error('google api error', err));
     //   }
     // });
   }
@@ -67,14 +67,14 @@ export default class Event extends React.Component {
           backgroundColor="#0e416d"
           centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 40, fontWeight: 'bold' } }}
         />
-        <View style={{ width: 400, height: 200 }}>
+        {/* <View style={{ width: 400, height: 200 }}>
           <MapView
             style={{ flex: 1 }}
             initialRegion={startingPoint}
           >
             {eventMarkers}
           </MapView>
-        </View>
+        </View> */}
         <ScrollView>
           <Schedule
             data={this.props.dayInfo}
