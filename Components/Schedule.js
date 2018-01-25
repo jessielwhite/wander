@@ -59,6 +59,7 @@ export default class Schedule extends Component {
   }
 
   render() {
+
     return (
       <View style={styles.container}>
         <SortableList

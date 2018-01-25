@@ -26,18 +26,7 @@ export default class Event extends React.Component {
     this.openNewMap = this.openNewMap.bind(this);
   }
 
-  componentWillMount() {
-    // console.log(this.props.dayInfo.events);
-    this.props.dayInfo.events.forEach((obj) => {
-      // console.log('component will mount', obj);
-      if (obj.placeId) {
-        axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.placeId}&key=${keys.googleMapsAPI}`)
-          .then(res => console.log('this is the response from axios', res))
-          .catch(err => console.error(err));
-      }
-    });
-  }
-
+  
   openNewMap(event) {
     // openMap({ latutude: 40.7128, longitude: -74.0060 });
   }
