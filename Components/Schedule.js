@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     width: window.width,
-
     ...Platform.select({
       ios: {
         paddingHorizontal: 30,
@@ -58,7 +57,6 @@ export default class Schedule extends Component {
     return (
       <View style={styles.container}>
         <SortableList
-          autoscrollAreaSize={1000}
           style={styles.list}
           contentContainerStyle={styles.contentContainer}
           data={this.props.data.events}

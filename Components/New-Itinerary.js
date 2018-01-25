@@ -11,7 +11,7 @@ import { Header, Text, Button } from 'react-native-elements';
 import axios from 'axios';
 import { keys } from '../config';
 import { exampleSchedule } from '../scheduleExample';
-import { getSchedule } from '../scheduleBuilder';
+import { getSchedule } from '../Schedule';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,6 +45,8 @@ export default class NewItinerary extends React.Component {
       startDateTimePickerVisible: false,
       endDateTimePickerVisible: false,
       destination: '',
+      functionStartDate: '',
+      functionEndDate: '',
     };
     this.getItinerary = this.getItinerary.bind(this);
     this.showStartDateTimePicker = this.showStartDateTimePicker.bind(this);
@@ -57,10 +59,10 @@ export default class NewItinerary extends React.Component {
   }
 
   getItinerary() {
-    let { startDate, endDate, destination } = this.state;
-    startDate = `${months[startDate.getMonth()]} ${startDate.getDate()}, ${startDate.getFullYear()} 00:00:00`;
-    endDate = `${months[endDate.getMonth()]} ${endDate.getDate()}, ${endDate.getFullYear()} 00:00:00`;
-    destination = destination.split('').slice(0, destination.indexOf(',')).join('');
+    const { destination } = this.state;
+    const startDate = this.state.functionStartDate;
+    const endDate = this.state.functionEndDate;
+    // console.log(startDate, endDate, destination);
     // const interests = ['museum', 'park', 'point_of_interest', 'music'];
     // axios.get('http://18.218.102.64/user/uid/likes')
     //   .then((userLikes) => {
@@ -69,7 +71,7 @@ export default class NewItinerary extends React.Component {
     //     });
     //   })
     //   .catch(err => console.error(err));
-    this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
+    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showStartDateTimePicker() {
@@ -89,17 +91,27 @@ export default class NewItinerary extends React.Component {
   }
 
   handleStartDatePicked(date) {
+    const startDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} 00:00:00`;
     this.setState({ startDate: date });
+    this.setState({ functionStartDate: startDate });
     this.hideStartDateTimePicker();
   }
 
   handleEndDatePicked(date) {
+    const endDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} 00:00:00`;
     this.setState({ endDate: date });
+    this.setState({ functionEndDate: endDate });
     this.hideEndDateTimePicker();
   }
 
   searchPlaces(destination) {
-    this.setState({ destination: destination.description });
+    destination = destination.description
+      .split('')
+      .slice(0, destination.description.indexOf(','))
+      .join('')
+      .split(' ')
+      .join('+');
+    this.setState({ destination });
   }
 
   render() {
@@ -143,7 +155,7 @@ export default class NewItinerary extends React.Component {
           debounce={200}
           onPress={this.searchPlaces}
         />
-        <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination}</Text>
+        <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination.split('+').join(' ')}</Text>
         <Text h4>When are you leaving?</Text>
         <TouchableOpacity onPress={this.showStartDateTimePicker}>
           <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
