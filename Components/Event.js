@@ -27,13 +27,13 @@ export default class Event extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dayInfo.events.forEach((obj) => {
-      if (obj.placeId) {
-        axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.placeId}&key=${keys.googleMapsAPI}`)
-          .then(res => console.log('google api response', res))
-          .catch(err => console.error('google api error', err));
-      }
-    });
+    // this.props.dayInfo.events.forEach((obj) => {
+    //   if (obj.placeId) {
+    //     axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.placeId}&key=${keys.googleMapsAPI}`)
+    //       .then(res => console.log('google api response', res))
+    //       .catch(err => console.error('google api error', err));
+    //   }
+    // });
   }
 
   openNewMap(event) {
