@@ -1,9 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
-import { StyleSheet, ImageBackground, Text, Image, StatusBar } from 'react-native';
-=======
 import { StyleSheet, ImageBackground, Text, Image, AsyncStorage } from 'react-native';
->>>>>>> 13c59fd6ad966f85b5ccca7177191a5b5bd92145
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import PropTypes from 'prop-types';

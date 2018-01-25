@@ -103,7 +103,7 @@ Dashboard.navigationOptions = () => ({
   headerStyle: {
     backgroundColor: 'blue',
   },
-  headerLeft: <Button title="Dashboard" />,
+  headerLeft: <Button title="Dashboard" style={{ backgroundColor: 'blue' }} />,
 });
 
 
