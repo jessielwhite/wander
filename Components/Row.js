@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import SortableList from 'react-native-sortable-list'; // 0.0.16
+import axios from 'axios';
+import { keys } from '../config';
 
 const window = Dimensions.get('window');
 
@@ -52,6 +54,10 @@ export default class Row extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      extraData: {},
+    };
+
     this._active = new Animated.Value(0);
 
     this._style = {
@@ -85,6 +91,16 @@ export default class Row extends React.Component {
     };
   }
 
+  componentWillMount() {
+    if (this.props.data.placeId) {
+      axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.props.data.placeId}&key=${keys.googleMapsAPI}`)
+        .then((res) => {
+          this.setState({ extraData: res });
+        })
+        .catch(err => console.error('google api error', err));
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.active !== nextProps.active) {
       Animated.timing(this._active, {
@@ -94,6 +110,7 @@ export default class Row extends React.Component {
       }).start();
     }
   }
+
 
   render() {
     const { data } = this.props;
