@@ -156,4 +156,8 @@ export default class Schedule extends Component {
 
 Schedule.propTypes = {
   navigation: PropTypes.object,
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 0881239cadd66f28efe8365d87ffc52d1e4fd58a
