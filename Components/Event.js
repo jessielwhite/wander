@@ -3,7 +3,7 @@ import openMap from 'react-native-open-maps';
 import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
-import { List, ListItem, Header } from 'react-native-elements';
+import { List, ListItem, Header, Text } from 'react-native-elements';
 import axios from 'axios';
 import { keys } from '../config';
 import Schedule from './Schedule';
@@ -27,13 +27,15 @@ export default class Event extends React.Component {
   }
 
   componentWillMount() {
-    // this.props.dayInfo.forEach((obj) => {
-    //   if (obj.googleId) {
-    //     axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.googleId}&key=${keys.googleMapsAPI}`)
-    //       .then(res => console.log(res))
-    //       .catch(err => console.error(err));
-    //   }
-    // });
+    // console.log(this.props.dayInfo.events);
+    this.props.dayInfo.events.forEach((obj) => {
+      // console.log('component will mount', obj);
+      if (obj.placeId) {
+        axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.placeId}&key=${keys.googleMapsAPI}`)
+          .then(res => console.log('this is the response from axios', res))
+          .catch(err => console.error(err));
+      }
+    });
   }
 
   openNewMap(event) {
@@ -43,9 +45,10 @@ export default class Event extends React.Component {
   saveTrip() {
     // const events = this.props.dayInfo;
   }
-
-
+  
   render() {
+    
+
     const eventCoordinates = this.props.dayInfo.events.map((event) => { 
       return {
         title: event.name,
@@ -67,18 +70,20 @@ export default class Event extends React.Component {
           backgroundColor="#0e416d"
           centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 40, fontWeight: 'bold' } }}
         />
-        <View style={{ width: 400, height: 200 }}>
-          <MapView
+        {/* <View style={{ width: 400, height: 200 }}> */}
+          {/* <MapView
             style={{ flex: 1 }}
             initialRegion={startingPoint}
           >
             {eventMarkers}
-          </MapView>
-        </View>
+          </MapView> */}
+        {/* </View> */}
         <ScrollView>
+            <Text h4>Click on a event to edit!</Text>
           <Schedule
             data={this.props.dayInfo}
-          />
+            >
+          </Schedule>
         </ScrollView>
         <Button
           title="Save your Trip Recommendations"
