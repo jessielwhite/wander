@@ -1,5 +1,9 @@
 import React from 'react';
+<<<<<<< HEAD
 import { StyleSheet, ImageBackground, Text, Image, StatusBar } from 'react-native';
+=======
+import { StyleSheet, ImageBackground, Text, Image, AsyncStorage } from 'react-native';
+>>>>>>> 13c59fd6ad966f85b5ccca7177191a5b5bd92145
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -7,6 +11,7 @@ import { FormInput, Button } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 import logo from '../img/logo.png';
 import NYC from '../img/NYC.jpg';
+import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -52,17 +57,27 @@ export default class Login extends React.Component {
         actions:
           [NavigationActions.navigate({ routeName: 'Dashboard' })],
       }));
-    // Actual request is commented out for testing purposes
+    // Actual requests is commented out for testing purposes
     // axios.post('http://18.218.102.64/login', user)
     //   .then((res) => {
-    //     const token = res.data;
+    //     const token = res.data.slice(4);
+    //     console.log(token);
     //     if (token !== 'Password is incorrect') {
-    //       this.props.navigation
-    //         .dispatch(NavigationActions.reset({
-    //           index: 0,
-    //           actions:
-    //             [NavigationActions.navigate({ routeName: 'Dashboard' })],
-    //         }));
+    //       AsyncStorage.setItem('Token', JSON.stringify(token));
+    //       axios.get('http://18.218.102.64/dashboard', {
+    //         headers: { authorization: token },
+    //       })
+    //         .then(() => {
+    //           this.props.navigation
+    //             .dispatch(NavigationActions.reset({
+    //               index: 0,
+    //               actions:
+    //                 [NavigationActions.navigate({ routeName: 'Dashboard' })],
+    //             }));
+    //         })
+    //         .catch((err) => {
+    //           console.log(`dashboard get call error ${err}`);
+    //         });
     //     } else {
     //       this.props.navigation.navigate('Login');
     //     }

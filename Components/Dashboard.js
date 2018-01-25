@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, StatusBar } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, AsyncStorage, StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button, Header } from 'react-native-elements';
 import axios from 'axios';
 import NavigationBar from 'react-native-navbar';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
+import { keys } from '../config';
 import { dashboardExample } from '../scheduleExample';
 
 const styles = StyleSheet.create({
@@ -40,8 +41,11 @@ export default class Dashboard extends React.Component {
 
 
   signout() {
+    console.log('signing out');
     axios.get('http://18.218.102.64/logout')
-      .then(() => {
+      .then((res) => {
+        console.log(res);
+        AsyncStorage.removeItem('Token');
         this.props.navigation.navigate('Login');
       })
       .catch(err => console.error(err));
