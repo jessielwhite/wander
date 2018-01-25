@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, ImageBackground, AsyncStorage } from 'react-nat
 import PropTypes from 'prop-types';
 import { Button, Header } from 'react-native-elements';
 import axios from 'axios';
-import { Trip } from './Trip';
+import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
 import { keys } from '../config';
 import { dashboardExample } from '../scheduleExample';
@@ -38,7 +38,7 @@ export default class Dashboard extends React.Component {
 
   signout() {
     console.log('signing out');
-    axios.get(`${keys.prodURI}/logout`)
+    axios.get('http://18.218.102.64/logout')
       .then((res) => {
         console.log(res);
         AsyncStorage.removeItem('Token');

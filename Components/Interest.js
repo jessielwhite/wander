@@ -12,7 +12,7 @@ export default class Interest extends React.Component {
   }
 
   selectInterest() {
-    axios.post(`${keys.propURI}/user_like`, { userLike: this.props.type })
+    axios.post('http://18.218.102.64/user_like', { userLike: this.props.type })
       .then((res) => {
         // console.log(res);
       })

@@ -33,7 +33,7 @@ export default class Signup extends React.Component {
       password: this.state.password,
       username: this.state.username,
     };
-    axios.post(`${keys.prodURI}/signup`, user)
+    axios.post('http://18.218.102.64/signup', user)
       .then((res) => {
         console.log(res.data);
         if (res.data !== 'User was not created') {

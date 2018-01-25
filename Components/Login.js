@@ -46,12 +46,21 @@ export default class Login extends React.Component {
 
   login() {
     const user = { email: this.state.email, password: this.state.password };
-    axios.post(`${keys.prodURI}/login`, user)
+    axios.post('http://18.218.102.64/login', user)
       .then((res) => {
-        const token = res.data;
+        const token = res.data.slice(4);
+        console.log(token);
         if (token !== 'Password is incorrect') {
           AsyncStorage.setItem('Token', JSON.stringify(token));
-          this.props.navigation.navigate('Dashboard', { created: false });
+          axios.get('http://18.218.102.64/dashboard', {
+            headers: { authorization: token },
+          })
+            .then(() => {
+              this.props.navigation.navigate('Dashboard', { created: false });
+            })
+            .catch((err) => {
+              console.log(`dashboard get call error ${err}`);
+            });
         } else {
           this.props.navigation.navigate('Login');
         }
@@ -65,7 +74,7 @@ export default class Login extends React.Component {
     //   .then((res) => {
     //     const token = res.data;
     //     if (token !== 'Password is incorrect') {
-    this.props.navigation.navigate('Dashboard');
+    // this.props.navigation.navigate('Dashboard');
     //   } else {
     //     this.props.navigation.navigate('Login');
     //   }
