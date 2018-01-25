@@ -1,3 +1,5 @@
+module.exports.dashboardExample = [{ name: 'New York City', id: 3 }, { name: 'New Orleans', id: 5 }];
+
 module.exports.exampleSchedule = {
   name: 'New York City',
   day_1: {
