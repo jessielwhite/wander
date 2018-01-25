@@ -59,6 +59,20 @@ export default class Login extends React.Component {
       .catch((err) => {
         console.log('this is login error ', err);
       });
+    // Actual requests is commented out for testing purposes
+    
+    // axios.post('http://18.218.102.64/login', user)
+    //   .then((res) => {
+    //     const token = res.data;
+    //     if (token !== 'Password is incorrect') {
+    this.props.navigation.navigate('Dashboard');
+    //   } else {
+    //     this.props.navigation.navigate('Login');
+    //   }
+    // })
+    // .catch((err) => {
+    //   console.log('this is login error ', err);
+    // });
   }
 
   render() {

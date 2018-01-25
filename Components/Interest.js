@@ -14,7 +14,7 @@ export default class Interest extends React.Component {
   selectInterest() {
     axios.post(`${keys.propURI}/user_like`, { userLike: this.props.type })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch(err => console.error(err));
   }

@@ -3,11 +3,10 @@ import { Text, View, StyleSheet, ImageBackground, AsyncStorage } from 'react-nat
 import PropTypes from 'prop-types';
 import { Button, Header } from 'react-native-elements';
 import axios from 'axios';
-import logo from '../img/logo.png';
-import Trip from './Trip';
-import { schedule1, schedule2 } from '../scheduleExample';
+import { Trip } from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
 import { keys } from '../config';
+import { dashboardExample } from '../scheduleExample';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +23,6 @@ export default class Dashboard extends React.Component {
       schedules: [],
     };
     this.signout = this.signout.bind(this);
-    this.goToTrip = this.goToTrip.bind(this);
   }
 
   componentWillMount() {
@@ -35,7 +33,7 @@ export default class Dashboard extends React.Component {
     //     this.setState({ schedules: res.data });
     //   })
     //   .catch(err => console.error(err));
-    this.setState({ schedules: [schedule1, schedule2] });
+    this.setState({ schedules: dashboardExample });
   }
 
   signout() {
@@ -47,15 +45,6 @@ export default class Dashboard extends React.Component {
         this.props.navigation.navigate('Login');
       })
       .catch(err => console.error(err));
-  }
-
-  goToTrip() {
-    // axios.get('http://18.218.102.64/schedule')
-    //   .then((res) => {
-    //     console.log(res);
-      // this.props.navigation.navigate('Itinerary', { dayInfo: this.state.schedules[0] });
-      // })
-      // .catch(err => console.error(err));
   }
 
   render() {
