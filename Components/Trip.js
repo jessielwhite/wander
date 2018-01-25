@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { exampleSchedule } from '../scheduleExample';
+import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,9 +19,9 @@ export default class Trip extends React.Component {
 
   handleTripSelect() {
     // Commented out for testing purposes
-    // axios.get(`http://18.218.102.64/${this.props.schedule.id}/schedules`)
-    //   .then(res => this.props.navigation.navigate('Itinerary', { dayInfo: res }))
-    //   .catch(err => console.error(err));
+    axios.get(`http://18.218.102.64/${this.props.schedule.id}/schedules`)
+      .then(res => this.props.navigation.navigate('Itinerary', { dayInfo: res }))
+      .catch(err => console.error(err));
     this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 

@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Image } from 'react-native';
+import { StyleSheet, ImageBackground, Image, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FormInput, Button } from 'react-native-elements';
 import axios from 'axios';
 import logo from '../img/logo.png';
 import Chicago from '../img/Chicago.jpg';
+import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,18 +33,19 @@ export default class Signup extends React.Component {
       password: this.state.password,
       username: this.state.username,
     };
-    // Actual request commented out for testing purposes
-    // axios.post('http://18.218.102.64/signup', user)
-    //   .then((res) => {
-    //     if (res.data === 'User created') {
+    axios.post('http://18.218.102.64/signup', user)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data !== 'User was not created') {
+          AsyncStorage.setItem('Token', JSON.stringify(res.data));
           this.props.navigation.navigate('GatherInterests');
-      //   } else {
-      //     this.props.navigation.navigate('Signup');
-      //   }
-      // })
-      // .catch((err) => {
-      //   console.error('signup error ', err);
-      // });
+        } else {
+          this.props.navigation.navigate('Signup');
+        }
+      })
+      .catch((err) => {
+        console.error('signup error ', err);
+      });
   }
   render() {
     return (
