@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, Image } from 'react-native';
+import { StyleSheet, ImageBackground, Text, Image, AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { FormInput, Button } from 'react-native-elements';
 import logo from '../img/logo.png';
 import NYC from '../img/NYC.jpg';
+import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,10 +46,11 @@ export default class Login extends React.Component {
 
   login() {
     const user = { email: this.state.email, password: this.state.password };
-    axios.post('http://18.218.102.64/login', user)
+    axios.post(`${keys.prodURI}/login`, user)
       .then((res) => {
         const token = res.data;
         if (token !== 'Password is incorrect') {
+          AsyncStorage.setItem('Token', JSON.stringify(token));
           this.props.navigation.navigate('Dashboard', { created: false });
         } else {
           this.props.navigation.navigate('Login');

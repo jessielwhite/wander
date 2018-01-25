@@ -10,6 +10,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Header, Text, Button } from 'react-native-elements';
 import axios from 'axios';
 import { keys } from '../config';
+// import { keys } from '../config';
 import { schedule1 } from '../scheduleExample';
 
 const styles = StyleSheet.create({
@@ -61,7 +62,7 @@ export default class NewItinerary extends React.Component {
       endDate: this.state.endDate,
       destination: this.state.destination,
     };
-    axios.post('http://18.218.102.64/schedule', body)
+    axios.post(`${keys.prodURI}/schedule`, body)
       .then((res) => {
         console.log(res);
         this.props.navigation.navigate('Itinerary', { dayInfo: res.data });

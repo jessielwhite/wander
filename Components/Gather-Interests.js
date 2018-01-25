@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 import Interest from './Interest';
+import { keys } from '../config';
 
 const buttonMap = {
   99: 'amusement_park',
@@ -50,14 +51,14 @@ export default class GatherInterests extends React.Component {
       selected: [],
       types: [],
     };
-    this.handleClick = this.handleClick.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
   componentWillMount() {
     const self = this;
-    axios.get('http://18.218.102.64/types')
+    axios.get(`${keys.propURI}/types`)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         self.setState({ types: response.data.map(type => type.name) });
       })
       .catch((error) => {
