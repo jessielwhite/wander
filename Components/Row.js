@@ -3,18 +3,24 @@ import {
   Animated,
   Easing,
   StyleSheet,
-  Text,
   Dimensions,
   Platform,
-  View
+  View,
+  Modal
 } from 'react-native';
 import PropTypes from 'prop-types';
 import SortableList from 'react-native-sortable-list'; // 0.0.16
 import axios from 'axios';
 import { keys } from '../config';
-import { Button, Icon } from 'react-native-elements';
+import { Button, Icon, Text } from 'react-native-elements';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+
 
 const window = Dimensions.get('window');
+
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
 
 const styles = StyleSheet.create({
   row: {
@@ -22,7 +28,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 16,
-    height: 80,
+    height: 90,
     flex: 1,
     marginTop: 7,
     marginBottom: 12,
@@ -44,11 +50,24 @@ const styles = StyleSheet.create({
       },
     }),
   },
-
   text: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#222222',
+    alignItems: 'center',
+    padding: 10
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'grey',
+  },
+  innerContainer: {
+    alignItems: 'center',
   },
 });
 
@@ -59,6 +78,7 @@ export default class Row extends React.Component {
 
     this.state = {
       extraData: {},
+      modalVisible: false,
     };
 
     this._active = new Animated.Value(0);
@@ -114,6 +134,18 @@ export default class Row extends React.Component {
     }
   }
 
+  componentDidMount(){
+
+  }
+
+  openModal() {
+    this.setState({modalVisible:true});
+  }
+
+  closeModal() {
+    this.setState({modalVisible:false});
+  }
+
 
   render() {
     const { data } = this.props;
@@ -125,13 +157,35 @@ export default class Row extends React.Component {
         ]}
       >
         <Icon
-          raised
           name='plus-circle'
           type='font-awesome'
           color='#f50'
-          onPress={() => console.log('hello')} 
+          style={{ padding: 2 }}
+          onPress={() => {
+            console.log(this.state.extraData.data.result.name);
+            this.openModal()
+            }
+          }
         />
-         <View style={{ flex: 1}}>
+        <View>
+          <Modal
+              visible={this.state.modalVisible}
+              animationType={'slide'}
+              onRequestClose={() => this.closeModal()}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.innerContainer}>
+                <Text>{this.state.extraData.data.result.name}</Text>
+                <Button
+                    onPress={() => this.closeModal()}
+                    title="Close modal"
+                >
+                </Button>
+              </View>
+            </View>
+          </Modal>
+        </View>
+          <View style={{ flex: 1}}>
             <Text style={styles.text}>{data.name}</Text>
           </View>
         {/* <Image source={{uri: data.image}} style={styles.image} /> */}
