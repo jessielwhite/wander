@@ -92,3 +92,7 @@ export default class Event extends React.Component {
     );
   }
 }
+
+Event.navigationOptions = () => ({
+  title: 'Wander',
+});

@@ -11,7 +11,7 @@ import { Header, Text, Button } from 'react-native-elements';
 import axios from 'axios';
 import { keys } from '../config';
 import { exampleSchedule } from '../scheduleExample';
-import { getSchedule } from '../Schedule';
+import { getSchedule } from '../ScheduleMethods';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,11 +40,13 @@ export default class NewItinerary extends React.Component {
   constructor() {
     super();
     this.state = {
+      // This is the actual start date displayed on the calendar
       startDate: new Date(),
       endDate: new Date(),
       startDateTimePickerVisible: false,
       endDateTimePickerVisible: false,
       destination: '',
+      // This is the formatted start date that we pass to the schedule builder function
       functionStartDate: '',
       functionEndDate: '',
     };
@@ -58,12 +60,12 @@ export default class NewItinerary extends React.Component {
     this.searchPlaces = this.searchPlaces.bind(this);
   }
 
+  // Called when the user clicks the get itinerary button
   getItinerary() {
     const { destination } = this.state;
     const startDate = this.state.functionStartDate;
     const endDate = this.state.functionEndDate;
     // console.log(startDate, endDate, destination);
-    // const interests = ['museum', 'park', 'point_of_interest', 'music'];
     // axios.get('http://18.218.102.64/user/uid/likes')
     //   .then((userLikes) => {
     //     getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
@@ -71,7 +73,7 @@ export default class NewItinerary extends React.Component {
     //     });
     //   })
     //   .catch(err => console.error(err));
-    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
+    this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showStartDateTimePicker() {
@@ -90,17 +92,17 @@ export default class NewItinerary extends React.Component {
     this.setState({ endDateTimePickerVisible: false });
   }
 
-  handleStartDatePicked(date) {
-    const startDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} 00:00:00`;
-    this.setState({ startDate: date });
-    this.setState({ functionStartDate: startDate });
+  handleStartDatePicked(startDate) {
+    const formattedDate = `${months[startDate.getMonth()]} ${startDate.getDate()}, ${startDate.getFullYear()} 00:00:00`;
+    this.setState({ startDate });
+    this.setState({ functionStartDate: formattedDate });
     this.hideStartDateTimePicker();
   }
 
-  handleEndDatePicked(date) {
-    const endDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} 00:00:00`;
-    this.setState({ endDate: date });
-    this.setState({ functionEndDate: endDate });
+  handleEndDatePicked(endDate) {
+    const formattedDate = `${months[endDate.getMonth()]} ${endDate.getDate()}, ${endDate.getFullYear()} 00:00:00`;
+    this.setState({ endDate });
+    this.setState({ functionEndDate: formattedDate });
     this.hideEndDateTimePicker();
   }
 
@@ -194,6 +196,10 @@ export default class NewItinerary extends React.Component {
     );
   }
 }
+
+NewItinerary.navigationOptions = () => ({
+  title: 'Wander',
+});
 
 NewItinerary.propTypes = {
   navigation: PropTypes.object,
