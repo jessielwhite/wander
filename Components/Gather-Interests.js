@@ -39,7 +39,6 @@ export default class GatherInterests extends React.Component {
     // Get all the types of places from the database
     axios.get('http://18.218.102.64/types')
       .then((response) => {
-        // console.log(response);
         self.setState({ types: response.data.map(type => type.name) });
       })
       .catch((error) => {
@@ -52,7 +51,7 @@ export default class GatherInterests extends React.Component {
   }
 
   render() {
-    const interests = this.state.types.map((type, i) => {
+    const interests = this.state.types.map((type) => {
       const name = `${type.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
       return (<Interest
         name={name}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import openMap from 'react-native-open-maps';
 import { Button, View, StyleSheet, ScrollView } from 'react-native';
@@ -12,38 +13,60 @@ import Schedule from './Schedule';
 import { ListItem, Header } from 'react-native-elements';
 import { Schedule } from './SortList';
 >>>>>>> d9dadafc3a3dab8f09109759d285e22f0e0da77f:Components/Event.js
+=======
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Platform,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import SortableList from 'react-native-sortable-list'; // 0.0.16
+import Row from './Row';
+
+const window = Dimensions.get('window');
+>>>>>>> 0881239cadd66f28efe8365d87ffc52d1e4fd58a
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eee',
+
+    ...Platform.select({
+      ios: {
+        paddingTop: 20,
+      },
+    }),
+  },
+  title: {
+    fontSize: 20,
+    paddingVertical: 20,
+    color: '#999999',
+  },
+  list: {
+    flex: 1,
+  },
+  contentContainer: {
+    width: window.width,
+
+    ...Platform.select({
+      ios: {
+        paddingHorizontal: 30,
+      },
+
+      android: {
+        paddingHorizontal: 0,
+      },
+    }),
   },
 });
 
-
-export default class Event extends React.Component {
-  constructor(props) {
-    super(props);
-    this.openNewMap = this.openNewMap.bind(this);
-  }
-
-  componentWillMount() {
-    console.log(this.props.dayInfo);
-    this.props.dayInfo.forEach((obj) => {
-      if (obj.googleId) {
-        axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.googleId}&key=${keys.googleMapsAPI}`)
-          .then(res => console.log(res))
-          .catch(err => console.error(err));
-      }
-    });
-  }
-
-  openNewMap(event) {
-    // console.log('id', event.id);
-    // openMap({ latutude: 40.7128, longitude: -74.0060 });
-  }
-
+<<<<<<< HEAD
   saveTrip() {
 <<<<<<< HEAD:Components/Schedule.js
     const events = this.props.dayInfo;
@@ -109,7 +132,28 @@ export default class Event extends React.Component {
           onPress={() => this.props.navigation.navigate('Dashboard', { created: true })}
         />
 
+=======
+export default class Schedule extends Component {
+  _renderRow({ data, active }) {
+    return <Row data={data} active={active} />
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <SortableList
+          autoscrollAreaSize={1000}
+          style={styles.list}
+          contentContainerStyle={styles.contentContainer}
+          data={this.props.data.events}
+          renderRow={this._renderRow}
+        />
+>>>>>>> 0881239cadd66f28efe8365d87ffc52d1e4fd58a
       </View>
     );
   }
 }
+
+Schedule.propTypes = {
+  navigation: PropTypes.object,
+};

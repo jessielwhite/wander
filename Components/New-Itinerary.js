@@ -10,7 +10,8 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Header, Text, Button } from 'react-native-elements';
 import axios from 'axios';
 import { keys } from '../config';
-import { schedule1 } from '../scheduleExample';
+import { exampleSchedule } from '../scheduleExample';
+import { getSchedule } from '../scheduleBuilder';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,17 +57,19 @@ export default class NewItinerary extends React.Component {
   }
 
   getItinerary() {
-    const body = {
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
-      destination: this.state.destination,
-    };
-    axios.post('http://18.218.102.64/schedule', body)
-      .then((res) => {
-        // console.log(res);
-        this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
-      })
-      .catch(err => console.error(err));
+    let { startDate, endDate, destination } = this.state;
+    startDate = `${months[startDate.getMonth()]} ${startDate.getDate()}, ${startDate.getFullYear()} 00:00:00`;
+    endDate = `${months[endDate.getMonth()]} ${endDate.getDate()}, ${endDate.getFullYear()} 00:00:00`;
+    destination = destination.split('').slice(0, destination.indexOf(',')).join('');
+    // const interests = ['museum', 'park', 'point_of_interest', 'music'];
+    // axios.get('http://18.218.102.64/user/uid/likes')
+    //   .then((userLikes) => {
+    //     getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
+    //       this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+    //     });
+    //   })
+    //   .catch(err => console.error(err));
+    this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showStartDateTimePicker() {
@@ -86,27 +89,22 @@ export default class NewItinerary extends React.Component {
   }
 
   handleStartDatePicked(date) {
-    // console.log('A start date has been picked: ', date);
     this.setState({ startDate: date });
     this.hideStartDateTimePicker();
   }
 
   handleEndDatePicked(date) {
-    // console.log('An end date has been picked: ', date);
     this.setState({ endDate: date });
     this.hideEndDateTimePicker();
   }
 
   searchPlaces(destination) {
-    // The city, state, and country is saved in the description key
-    // console.log('destination', destination.description);
     this.setState({ destination: destination.description });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {/* <Image source={logo} style={{ width: 100, height: 100 }} /> */}
         <Header
           backgroundColor="#0e416d"
           centerComponent={{

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ImageBackground } from 'react-native';
+import { StyleSheet, ImageBackground, Text } from 'react-native';
 import Swiper from 'react-native-swiper';
 import PropTypes from 'prop-types';
 import Event from './Event';
@@ -28,7 +28,7 @@ export default class Itinerary extends React.Component {
 
   render() {
     // Create the event components from the dayinfo
-    const days = Object.keys(this.state.itinerary).filter(item => typeof this.state.itinerary[item] === 'object');
+    const days = Object.keys(this.state.itinerary).filter(item => item[0] === 'd');
     const eventViews = days
       .map(day =>
         (<Event
@@ -38,21 +38,9 @@ export default class Itinerary extends React.Component {
         />));
 
     return (
-      <ImageBackground
-        style={{
-          backgroundColor: '#000000',
-          flex: 1,
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-        }}
-        source={require('../img/Chicago.jpg')}
-      >
-        <Swiper>
-          {eventViews}
-        </Swiper>
-      </ImageBackground>
+      <Swiper>
+        {eventViews || <Text>Loading...</Text>}
+      </Swiper>
     );
   }
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, Button } from 'react-native';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { exampleSchedule } from '../scheduleExample';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,12 +13,15 @@ const styles = StyleSheet.create({
 export default class Trip extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.handleTripSelect = this.handleTripSelect.bind(this);
   }
 
-  componentWillMount() {
-    // console.log('trip props', this.props.schedule);
+  handleTripSelect() {
+    // Commented out for testing purposes
+    // axios.get(`http://18.218.102.64/${this.props.schedule.id}/schedules`)
+    //   .then(res => this.props.navigation.navigate('Itinerary', { dayInfo: res }))
+    //   .catch(err => console.error(err));
+    this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   render() {
@@ -24,7 +29,7 @@ export default class Trip extends React.Component {
       <View style={styles.container}>
         <Text>{this.props.schedule.name}</Text>
         <Button
-          onPress={() => this.props.navigation.navigate('Itinerary', { dayInfo: this.props.schedule })}
+          onPress={this.handleTripSelect}
           title="View this trip"
         />
       </View>
