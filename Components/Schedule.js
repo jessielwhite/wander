@@ -9,6 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import SortableList from 'react-native-sortable-list'; // 0.0.16
 import Row from './Row';
+import { exampleSchedule } from '../scheduleExample';
 
 const window = Dimensions.get('window');
 
@@ -50,12 +51,13 @@ const styles = StyleSheet.create({
 });
 
 export default class Schedule extends Component {
-  _renderRow({ data, active }) {
-    return <Row data={data} active={active} />
-  }
 
-  handlePress(){
-    console.log('this was clicked');
+  _renderRow({ data, active }) {
+
+    return <Row 
+      data={data} 
+      active={active} 
+      />
   }
 
   render() {
@@ -63,12 +65,13 @@ export default class Schedule extends Component {
     return (
       <View style={styles.container}>
         <SortableList
-          autoscrollAreaSize={1000}
+
           style={styles.list}
           contentContainerStyle={styles.contentContainer}
           data={this.props.data.events}
           renderRow={this._renderRow}
-          onPress={this.handlePress}
+          
+
         />
       </View>
     );

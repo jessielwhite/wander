@@ -68,11 +68,13 @@ export default class Event extends React.Component {
           </MapView> */}
         {/* </View> */}
         <ScrollView>
-            <Text h4>Click on a event to edit!</Text>
-          <Schedule
-            data={this.props.dayInfo}
-            >
-          </Schedule>
+            <Text h4 center>   Sort and Edit Your Scheudle</Text>
+
+            <Schedule
+              data={this.props.dayInfo}
+              >
+            </Schedule>
+
         </ScrollView>
         <Button
           title="Save your Trip Recommendations"

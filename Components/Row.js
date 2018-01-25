@@ -6,11 +6,13 @@ import {
   Text,
   Dimensions,
   Platform,
+  View
 } from 'react-native';
 import PropTypes from 'prop-types';
 import SortableList from 'react-native-sortable-list'; // 0.0.16
 import axios from 'axios';
 import { keys } from '../config';
+import { Button, Icon } from 'react-native-elements';
 
 const window = Dimensions.get('window');
 
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 7,
     marginBottom: 12,
-    borderRadius: 4,
+    borderRadius: 25,
 
     ...Platform.select({
       ios: {
@@ -44,7 +46,8 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 24,
+    fontSize: 18,
+    fontWeight: 'bold',
     color: '#222222',
   },
 });
@@ -114,14 +117,24 @@ export default class Row extends React.Component {
 
   render() {
     const { data } = this.props;
+
     return (
       <Animated.View style={[
           styles.row,
           this._style,
         ]}
       >
+        <Icon
+          raised
+          name='plus-circle'
+          type='font-awesome'
+          color='#f50'
+          onPress={() => console.log('hello')} 
+        />
+         <View style={{ flex: 1}}>
+            <Text style={styles.text}>{data.name}</Text>
+          </View>
         {/* <Image source={{uri: data.image}} style={styles.image} /> */}
-        <Text style={styles.text}>{data.name}</Text>
       </Animated.View>
     );
   }
