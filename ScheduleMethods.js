@@ -17,6 +17,8 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return dist;
 };
 
+// Helper funtion to sort all events based on distance from one event
+// Could be improved
 const sortByDistance = (googleData) => {
   let sortedByDistance = googleData.slice(1);
   sortedByDistance.forEach((event) => {
@@ -34,6 +36,7 @@ const sortByDistance = (googleData) => {
   return sortedByDistance;
 };
 
+// Finds the closest restaurant to the target event
 const findRestaurant = (location, placed, restaurants) => {
   restaurants.forEach(restaurant =>
     calculateDistance(
@@ -54,6 +57,7 @@ const findRestaurant = (location, placed, restaurants) => {
   return result;
 };
 
+// Sorts schedule based on the possibility that a person will like an event
 const sortScheduleByLikes = (scheduleDayEvents, userLikes) => {
   const likes = [];
   const dislikes = [];
@@ -77,6 +81,7 @@ const sortScheduleByLikes = (scheduleDayEvents, userLikes) => {
   });
 };
 
+// Since we're querying Google multiple times, we end up with duplicates. This filters them
 const filterAndRemoveDuplicates = (data) => {
   const filteredData = data.map((loc) => {
     return {
@@ -145,6 +150,7 @@ const scheduleBuilder = (startDate, endDate, google, restaurantData, predictHQ, 
   return schedule;
 };
 
+// This handles all the async calls to APIs and puts data into the schedule builder
 module.exports.getSchedule = (startDate, endDate, query, userLikes, cb) => {
   let googleData = [];
   axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}+point+of+interest&language=en&key=${keys.googlePlacesAPI}`)
@@ -220,24 +226,28 @@ const properSort = (scheduleEvent, userLikes) => {
   const findUserIntersection = (user1, user2) => {
     let similarity = 1;
     let dissimilarity = 1;
-    let user1likes = Object.keys(user1.likes);
-    let user2likes = Object.keys(user2.likes);
+    let totalIntersection = 0;
+    const user1likes = Object.keys(user1.likes);
     user1likes.forEach((like) => {
       if (user1.likes[like] === true && user2.likes[like] === true) {
         similarity++;
+        total++;
       } else if (user1.likes[like] === false && user2.likes[like] === false) {
         similarity++;
+        total++;
       } else if (user1.likes[like] === true && user2.likes[like] === false) {
         dissimilarity++;
+        total++;
       } else if (user1.likes[like] === false && user2.likes[like] === true) {
         dissimilarity++;
+        total++;
       }
     });
-    return (similarity - dissimilarity) / (user1likes.length + user2likes.length);
+    return (similarity - dissimilarity) / totalIntersection;
   };
 
   allUserLikes.forEach((user) => {
-    summaryArr.push(findUserIntersection(userLikes, user1));
+    summaryArr.push(findUserIntersection(userLikes, user));
   });
   const reduced = summaryArr.reduce((seed, element) => { 
     return seed + element;
