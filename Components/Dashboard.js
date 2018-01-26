@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, AsyncStorage } from 'react-native';
-import PropTypes from 'prop-types';
 import { Button, Header, Icon } from 'react-native-elements';
+import Drawer from 'react-native-drawer';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
