@@ -3,10 +3,11 @@ import { View, StyleSheet, Text, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { exampleSchedule } from '../scheduleExample';
+import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
   },
 });
 
