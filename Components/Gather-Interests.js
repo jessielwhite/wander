@@ -89,6 +89,10 @@ export default class GatherInterests extends React.Component {
   }
 }
 
+GatherInterests.navigationOptions = () => ({
+  header: null,
+});
+
 GatherInterests.propTypes = {
   navigation: PropTypes.object,
 };
