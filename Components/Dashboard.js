@@ -1,5 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, AsyncStorage, TouchableOpacity } from 'react-native';
+import { RNS3 } from 'react-native-aws3';
+// import { Camera, Permissions } from 'expo';
 import PropTypes from 'prop-types';
 import { Button, Header } from 'react-native-elements';
 import axios from 'axios';
