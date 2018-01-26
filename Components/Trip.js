@@ -15,6 +15,7 @@ export default class Trip extends React.Component {
   constructor(props) {
     super(props);
     this.handleTripSelect = this.handleTripSelect.bind(this);
+    this.handleShareTrip = this.handleShareTrip.bind(this);
   }
 
   handleTripSelect() {
@@ -25,6 +26,10 @@ export default class Trip extends React.Component {
     this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
+  handleShareTrip() {
+    console.log('sharing trip');
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -32,6 +37,10 @@ export default class Trip extends React.Component {
         <Button
           onPress={this.handleTripSelect}
           title="View this trip"
+        />
+        <Button
+          onPress={this.handleShareTrip}
+          title="Share this trip"
         />
       </View>
     );
