@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FormInput, Button } from 'react-native-elements';
 import axios from 'axios';
+import { NavigationActions } from 'react-navigation';
 import logo from '../img/logo.png';
 import Chicago from '../img/Chicago.jpg';
 import { keys } from '../config';
@@ -33,19 +34,31 @@ export default class Signup extends React.Component {
       password: this.state.password,
       username: this.state.username,
     };
-    axios.post('http://18.218.102.64/signup', user)
-      .then((res) => {
-        console.log(res.data);
-        if (res.data !== 'User was not created') {
-          AsyncStorage.setItem('Token', JSON.stringify(res.data));
-          this.props.navigation.navigate('GatherInterests');
-        } else {
-          this.props.navigation.navigate('Signup');
-        }
-      })
-      .catch((err) => {
-        console.error('signup error ', err);
-      });
+    this.props.navigation
+      .dispatch(NavigationActions.reset({
+        index: 0,
+        actions:
+          [NavigationActions.navigate({ routeName: 'GatherInterests' })],
+      }));
+    // Actual request commented out for testing purposes
+    // axios.post('http://18.218.102.64/signup', user)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     if (res.data !== 'User was not created') {
+    //       AsyncStorage.setItem('Token', JSON.stringify(res.data));
+    //       this.props.navigation
+    //         .dispatch(NavigationActions.reset({
+    //           index: 0,
+    //           actions:
+    //             [NavigationActions.navigate({ routeName: 'GatherInterests' })],
+    //         }));
+    //     } else {
+    //       this.props.navigation.navigate('Signup');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error('signup error ', err);
+    //   });
   }
   render() {
     return (
@@ -115,6 +128,10 @@ export default class Signup extends React.Component {
     );
   }
 }
+
+Signup.navigationOptions = () => ({
+  header: null,
+});
 
 Signup.propTypes = {
   navigation: PropTypes.object,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, Header } from 'react-native-elements';
+import { Button, Header, Icon } from 'react-native-elements';
 import axios from 'axios';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 });
 
 export default class Dashboard extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +26,7 @@ export default class Dashboard extends React.Component {
     this.signout = this.signout.bind(this);
   }
 
+  
   componentWillMount() {
     // Query the database to get this user's schedules
     // axios.get('http://18.218.102.64/userid/schedules')
@@ -35,6 +37,7 @@ export default class Dashboard extends React.Component {
     //   .catch(err => console.error(err));
     this.setState({ schedules: dashboardExample });
   }
+
 
   signout() {
     console.log('signing out');
@@ -57,7 +60,6 @@ export default class Dashboard extends React.Component {
           schedule={event}
           key={event.name}
         />));
-
     return (
       <ImageBackground
         style={{
@@ -70,21 +72,21 @@ export default class Dashboard extends React.Component {
         }}
         source={goldenGate}
       >
+        <Header
+          statusBarProps={{ barStyle: 'light-content' }}
+          outerContainerStyles={{ backgroundColor: '#0e416d' }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          leftComponent={<Icon
+            name="home"
+            color="#fff"
+          />}
+          rightComponent={<Icon
+            name="menu"
+            color="#fff"
+          />}
+        />
         <View style={styles.container}>
           <View style={{ alignItems: 'center' }}>
-            <Header
-              backgroundColor="#0e416d"
-              centerComponent={{
-                text: '                wander',
-                style: {
-                  color: 'white',
-                  fontSize: 40,
-                  fontWeight: 'bold',
-                  width: 400,
-                  alignItems: 'center',
-                },
-              }}
-            />
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
             {trips}
             <Button
@@ -106,6 +108,10 @@ export default class Dashboard extends React.Component {
     );
   }
 }
+
+Dashboard.navigationOptions = () => ({
+  header: null,
+});
 
 Dashboard.propTypes = {
   navigation: PropTypes.object,
