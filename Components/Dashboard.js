@@ -1,9 +1,8 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, AsyncStorage, StatusBar } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, Header } from 'react-native-elements';
+import { Button, Header, Icon } from 'react-native-elements';
 import axios from 'axios';
-import NavigationBar from 'react-native-navbar';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
 import { keys } from '../config';
@@ -73,6 +72,19 @@ export default class Dashboard extends React.Component {
         }}
         source={goldenGate}
       >
+        <Header
+          statusBarProps={{ barStyle: 'light-content' }}
+          outerContainerStyles={{ backgroundColor: '#0e416d' }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          leftComponent={<Icon
+            name="home"
+            color="#fff"
+          />}
+          rightComponent={<Icon
+            name="menu"
+            color="#fff"
+          />}
+        />
         <View style={styles.container}>
           <View style={{ alignItems: 'center' }}>
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
@@ -98,14 +110,8 @@ export default class Dashboard extends React.Component {
 }
 
 Dashboard.navigationOptions = () => ({
-  title: 'Wander',
-  headerTintColor: 'white',
-  headerStyle: {
-    backgroundColor: 'blue',
-  },
-  headerLeft: <Button title="Dashboard" style={{ backgroundColor: 'blue' }} />,
+  header: null,
 });
-
 
 Dashboard.propTypes = {
   navigation: PropTypes.object,

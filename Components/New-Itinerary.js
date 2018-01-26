@@ -7,7 +7,8 @@ import {
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Header, Text, Button } from 'react-native-elements';
+import { Header, Text, Button, Icon } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import { keys } from '../config';
 import { exampleSchedule } from '../scheduleExample';
@@ -118,20 +119,27 @@ export default class NewItinerary extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <Header
-          backgroundColor="#0e416d"
-          centerComponent={{
-            text: '               wander',
-            style: {
-              color: 'white',
-              fontSize: 40,
-              fontWeight: 'bold',
-              width: 400,
-              alignItems: 'center',
-            },
-          }}
+          statusBarProps={{ barStyle: 'light-content' }}
+          outerContainerStyles={{ backgroundColor: '#0e416d' }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          leftComponent={<Icon
+            name="home"
+            color="#fff"
+            onPress={() => this.props.navigation
+              .dispatch(NavigationActions.reset({
+                index: 0,
+                actions:
+                  [NavigationActions.navigate({ routeName: 'Dashboard' })],
+              }))}
+          />}
+          rightComponent={<Icon
+            name="menu"
+            color="#fff"
+          />}
         />
+      <View style={styles.container}>
         <GooglePlacesAutocomplete
           placeholder="Where are you Wandering?"
           minLength={2}
@@ -193,12 +201,13 @@ export default class NewItinerary extends React.Component {
           onPress={this.getItinerary}
         />
       </View>
+      </View>
     );
   }
 }
 
 NewItinerary.navigationOptions = () => ({
-  title: 'Wander',
+  header: null,
 });
 
 NewItinerary.propTypes = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, ImageBackground, Text, Image, AsyncStorage, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -7,7 +7,6 @@ import { FormInput, Button } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 import logo from '../img/logo.png';
 import NYC from '../img/NYC.jpg';
-import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -96,8 +95,8 @@ export default class Login extends React.Component {
         }}
         source={NYC}
       >
+        <View style={{ height: 100 }} />
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-          <Image source={logo} style={{ width: 150, height: 150, marginBottom: 150 }} />
           <Text style={{ fontSize: 30, color: 'white' }}>email</Text>
           <FormInput
             keyboardType="email-address"
