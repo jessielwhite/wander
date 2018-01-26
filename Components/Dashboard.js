@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
 });
 
 export default class Dashboard extends React.Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +25,6 @@ export default class Dashboard extends React.Component {
     this.signout = this.signout.bind(this);
   }
 
-  
   componentWillMount() {
     // Query the database to get this user's schedules
     // axios.get('http://18.218.102.64/userid/schedules')
@@ -37,7 +35,6 @@ export default class Dashboard extends React.Component {
     //   .catch(err => console.error(err));
     this.setState({ schedules: dashboardExample });
   }
-
 
   signout() {
     console.log('signing out');
