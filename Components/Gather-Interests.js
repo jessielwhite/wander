@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet } from 'react-native';
+import { Text, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 import Interest from './Interest';
+import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,10 +36,9 @@ export default class GatherInterests extends React.Component {
   componentWillMount() {
     // This binding is lost in the get request, so we need to store it
     const self = this;
-
-    // Get all the types of places from the database
     axios.get('http://18.218.102.64/types')
       .then((response) => {
+        // console.log(response);
         self.setState({ types: response.data.map(type => type.name) });
       })
       .catch((error) => {
@@ -47,7 +47,19 @@ export default class GatherInterests extends React.Component {
   }
 
   handleNext() {
-    this.props.navigation.navigate('Dashboard', { created: false });
+    AsyncStorage.getItem('Token').then((res) => {
+      console.log(JSON.parse(res));
+      const savedToken = JSON.parse(res);
+      axios.get('http://18.218.102.64/dashboard', {
+        headers: { authorization: savedToken },
+      })
+        .then(() => {
+          this.props.navigation.navigate('Dashboard', { created: false });
+        })
+        .catch((err) => {
+          console.log(`dashboard get call error ${err}`);
+        });
+    });
   }
 
   render() {
@@ -76,6 +88,10 @@ export default class GatherInterests extends React.Component {
     );
   }
 }
+
+GatherInterests.navigationOptions = () => ({
+  header: null,
+});
 
 GatherInterests.propTypes = {
   navigation: PropTypes.object,

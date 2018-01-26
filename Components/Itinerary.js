@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text } from 'react-native';
+import { StyleSheet, ImageBackground, Text, Button, Header, View } from 'react-native';
+import { Icon } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import PropTypes from 'prop-types';
 import Event from './Event';
@@ -19,11 +20,16 @@ export default class Itinerary extends React.Component {
     this.state = {
       itinerary: [],
     };
+    this.goToDashboard = this.goToDashboard.bind(this);
   }
 
   componentWillMount() {
     // The day info should always be pulled in from the higher level
     this.setState({ itinerary: this.props.navigation.state.params.dayInfo });
+  }
+
+  goToDashboard() {
+    this.props.navigation.navigate('Dashboard');
   }
 
   render() {
@@ -44,6 +50,10 @@ export default class Itinerary extends React.Component {
     );
   }
 }
+
+Itinerary.navigationOptions = () => ({
+  header: null,
+});
 
 Itinerary.propTypes = {
   navigation: PropTypes.object,

@@ -3,8 +3,11 @@ import openMap from 'react-native-open-maps';
 import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
-import { List, ListItem, Header, Text } from 'react-native-elements';
+
+import { List, ListItem, Header, Icon, Text } from 'react-native-elements';
+
 import axios from 'axios';
+import { NavigationActions } from 'react-navigation';
 import { keys } from '../config';
 import Schedule from './Schedule';
 
@@ -56,8 +59,23 @@ export default class Event extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor="#0e416d"
-          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 40, fontWeight: 'bold' } }}
+          statusBarProps={{ barStyle: 'light-content' }}
+          outerContainerStyles={{ backgroundColor: '#0e416d' }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          leftComponent={<Icon
+            name="home"
+            color="#fff"
+            onPress={() => this.props.navigation
+              .dispatch(NavigationActions.reset({
+                index: 0,
+                actions:
+                  [NavigationActions.navigate({ routeName: 'Dashboard' })],
+              }))}
+          />}
+          rightComponent={<Icon
+            name="menu"
+            color="#fff"
+          />}
         />
         {/* <View style={{ width: 400, height: 200 }}> */}
           {/* <MapView
