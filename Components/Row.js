@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import SortableList from 'react-native-sortable-list'; // 0.0.16
 import axios from 'axios';
 import { keys } from '../config';
-import { Button, Icon, Text } from 'react-native-elements';
+import { Button, Icon, Text, Card } from 'react-native-elements';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 
 
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     backgroundColor: 'grey',
   },
   innerContainer: {
@@ -150,6 +150,10 @@ export default class Row extends React.Component {
   render() {
     const { data } = this.props;
 
+    // const daysOpen = this.state.extraData.data.result.weekday_text.map(day => day);
+
+    
+
     return (
       <Animated.View style={[
           styles.row,
@@ -162,7 +166,7 @@ export default class Row extends React.Component {
           color='#f50'
           style={{ padding: 2 }}
           onPress={() => {
-            console.log(this.state.extraData.data.result.name);
+            // console.log(this.state.extraData.data.result);
             this.openModal()
             }
           }
@@ -175,7 +179,11 @@ export default class Row extends React.Component {
           >
             <View style={styles.modalContainer}>
               <View style={styles.innerContainer}>
-                <Text>{this.state.extraData.data.result.name}</Text>
+                <Card title={this.state.extraData.data.result.name}> 
+                  <Text>{this.state.extraData.data.result.formatted_address}</Text>
+                  <Text>{this.state.extraData.data.result.formatted_phone_number}</Text>
+                  <Text></Text>
+                </Card>
                 <Button
                     onPress={() => this.closeModal()}
                     title="Close modal"
