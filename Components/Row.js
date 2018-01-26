@@ -67,7 +67,8 @@ export default class Row extends React.Component {
     if (this.props.data.placeId) {
       axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.props.data.placeId}&key=${keys.googleMapsAPI}`)
         .then((res) => {
-          this.setState({ extraData: res });
+          this.setState({ extraData: res.data.result });
+          // console.log(res.data);
         })
         .catch(err => console.error('google api error', err));
     }
@@ -95,6 +96,13 @@ export default class Row extends React.Component {
   render() {
     const { data } = this.props;
 
+    // console.log(this.state.extraData, 'from extra data');
+    // const modalInfo = this.state.extraData;
+
+    const modalInfo  =  this.state.extraData || {};
+
+    // console.log( modalInfo.opening_hours.weekday_text );
+
     return (
       <Animated.View style={[
           styles.row,
@@ -107,8 +115,7 @@ export default class Row extends React.Component {
           color="#f50"
           style={{ padding: 2 }}
           onPress={() => {
-            // console.log(this.state.extraData.data.result);
-            this.openModal();
+            this.openModal()
             }
           }
         />
@@ -120,9 +127,10 @@ export default class Row extends React.Component {
           >
             <View style={styles.modalContainer}>
               <View style={styles.innerContainer}>
-                <Card title={this.state.extraData.data.result.name}> 
-                  <Text>{this.state.extraData.data.result.formatted_address}</Text>
-                  <Text>{this.state.extraData.data.result.formatted_phone_number}</Text>
+                <Card title={modalInfo.name !== undefined ? modalInfo.name : '...loading'}> 
+                  <Text>Phone Number: {modalInfo.formatted_phone_number !== undefined ? modalInfo.formatted_phone_number : '...loading'}</Text>
+                  <Text>{modalInfo.formatted_address !== undefined ? modalInfo.formatted_address : '...loading'}</Text>
+                  <Text>Open Hours {""}{modalInfo.rating}</Text>
                 </Card>
                 <Button
                   onPress={() => this.closeModal()}
