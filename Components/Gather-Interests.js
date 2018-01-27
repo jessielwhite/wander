@@ -35,8 +35,8 @@ export default class GatherInterests extends React.Component {
 
   componentWillMount() {
     // This binding is lost in the get request, so we need to store it
-    console.log(this.state.types);
     const self = this;
+    console.log(self.state.types);
     axios.get('http://18.218.102.64/types')
       .then((response) => {
         // console.log(response);

@@ -8,16 +8,14 @@ import {
   Modal,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, Icon, Text, Card } from 'react-native-elements';
-import { SlideAnimation } from 'react-native-popup-dialog';
-import axios from 'axios';
-import { keys } from '../config';
-
 import { Button, Icon, Text, Card, FormInput } from 'react-native-elements';
-
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { TextField } from 'react-native-material-textfield';
+import axios from 'axios';
+import { keys } from '../config';
+
+
 
 
 const window = Dimensions.get('window');
@@ -167,31 +165,26 @@ export default class Row extends React.Component {
                       onChangeText={ (text) => this.setState({ text }) }
                     />
                   </View>
-                    <View >
-                      <Button 
-                        onPress={this._showDateTimePicker}
-                        title='pick a start time'
-                      >
-                      </Button> 
-                      <View>
-                        <DateTimePicker
-                          isVisible={this.state.isDateTimePickerVisible}
-                          onConfirm={this._handleDatePicked}
-                          onCancel={this._hideDateTimePicker}
-                          mode='time'
-                        />
-                        </View>
+                  <View>
+                    <Button 
+                      onPress={this._showDateTimePicker}
+                      title='pick a start time'
+                    >
+                    </Button> 
+                    <View>
+                      <DateTimePicker
+                        isVisible={this.state.isDateTimePickerVisible}
+                        onConfirm={this._handleDatePicked}
+                        onCancel={this._hideDateTimePicker}
+                        mode='time'
+                      />
                     </View>
-
-                <Button
-                  onPress={() => this.closeModal()}
-                  title="Close modal"
-
-                />
-
-                  </Button>
+                  </View>
+                  <Button
+                    onPress={() => this.closeModal()}
+                    title="Close modal"
+                  />
                 </Card>
-
               </View>
             </View>
           </Modal>

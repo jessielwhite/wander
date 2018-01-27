@@ -15,9 +15,15 @@ export default class Interest extends React.Component {
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
       console.log(savedToken);
-      axios.post('http://18.218.102.64/user_like', {
-        headers: { authorization: savedToken },
-        data: { userLike: this.props.type },
+      console.log(this.props);
+      axios({
+        method: 'post',
+        url: 'http://18.218.102.64/user_like',
+        headers: {
+          authorization: savedToken,
+          'Content-Type': 'application/json',
+        },
+        data: { id_type: this.props.type },
       })
         .then((response) => {
           console.log(`user like post response ${response}`);
