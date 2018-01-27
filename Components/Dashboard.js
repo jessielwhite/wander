@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
 import Drawer from 'react-native-drawer';
 import PropTypes from 'prop-types';
@@ -22,8 +22,11 @@ export default class Dashboard extends React.Component {
     super(props);
     this.state = {
       schedules: [],
+      invitedSchedules: [],
     };
     this.signout = this.signout.bind(this);
+    this.acceptTrip = this.acceptTrip.bind(this);
+    this.rejectTrip = this.rejectTrip.bind(this);
   }
 
   componentWillMount() {
@@ -31,10 +34,55 @@ export default class Dashboard extends React.Component {
     // axios.get('http://18.218.102.64/userid/schedules')
     //   .then((res) => {
     //     console.log(res);
-    //     this.setState({ schedules: res.data });
+    //     res.data.forEach((schedule) => {
+    //       if (schedule.status === 'creator') {
+    //         this.setState({ createdSchedules: createdSchedules.concat(schedule) });
+    //       } else if (schedule.status === 'invited') {
+    //         this.setState({ invitedSchedules: invitedSchedules.concat(schedule) });
+    //       } else if (schedule.status === 'attending') {
+    //         this.setState({ attendingSchedules: attendingSchedules.concat(schedule) });
+    //       }
+    //     });
     //   })
     //   .catch(err => console.error(err));
-    this.setState({ schedules: dashboardExample });
+    const attending = [];
+    const invited = [];
+    dashboardExample.forEach((schedule) => {
+      if (schedule.status === 'invited') {
+        invited.push(schedule);
+      } else if (schedule.status === 'attending' || schedule.status === 'creator') {
+        attending.push(schedule);
+      }
+    });
+    this.setState({ schedules: attending });
+    this.setState({ invitedSchedules: invited });
+  }
+
+  componentDidMount() {
+    this.state.invitedSchedules.forEach((schedule) => {
+      Alert.alert(
+        'You\'ve been invited on a trip!',
+        `Would you like to join on this trip to ${schedule.name}?`,
+        [
+          { text: 'Yes!', onPress: () => this.acceptTrip(schedule) },
+          { text: 'No thanks', onPress: () => this.rejectTrip(schedule) },
+        ],
+      );
+    });
+  }
+
+  acceptTrip(trip) {
+    axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: true })
+      .then((success) => {
+        this.setState({ schedules: this.state.schedules.concat(trip) });
+      })
+      .catch(err => console.error(err));
+  }
+
+  rejectTrip(trip) {
+    axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: false })
+      .then(success => console.log(success))
+      .catch(err => console.error(err));
   }
 
   signout() {
