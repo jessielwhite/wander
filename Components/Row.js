@@ -14,7 +14,9 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { TextField } from 'react-native-material-textfield';
 import axios from 'axios';
 import { keys } from '../config';
-import { styles } from './Styles';
+import { style } from './Styles';
+
+
 
 
 const window = Dimensions.get('window');
@@ -164,28 +166,26 @@ export default class Row extends React.Component {
                       onChangeText={ (text) => this.setState({ text }) }
                     />
                   </View>
-                    <View >
-                      <Button 
-                        onPress={this._showDateTimePicker}
-                        title='pick a start time'
-                      /> 
-                      <View>
-                        <DateTimePicker
-                          isVisible={this.state.isDateTimePickerVisible}
-                          onConfirm={this._handleDatePicked}
-                          onCancel={this._hideDateTimePicker}
-                          mode='time'
-                        />
-                        </View>
+                  <View>
+                    <Button 
+                      onPress={this._showDateTimePicker}
+                      title='pick a start time'
+                    >
+                    </Button> 
+                    <View>
+                      <DateTimePicker
+                        isVisible={this.state.isDateTimePickerVisible}
+                        onConfirm={this._handleDatePicked}
+                        onCancel={this._hideDateTimePicker}
+                        mode='time'
+                      />
                     </View>
-
-                <Button
-                  onPress={() => this.closeModal()}
-                  title="Close modal"
-
-                />
+                  </View>
+                  <Button
+                    onPress={() => this.closeModal()}
+                    title="Close modal"
+                  />
                 </Card>
-
               </View>
             </View>
           </Modal>

@@ -34,10 +34,25 @@ export default class Dashboard extends React.Component {
     // Query the database to get this user's schedules
     // Since setState is async, we need to temporarily store the schedules,
     // then put them in state at the end
+    // AsyncStorage.getItem('Token')
+    //   .then((res) => {
+    //     const savedToken = JSON.parse(res);
+    //     return axios.get('http://18.218.102.64/user/schedules', {
+    //       headers: { authorization: savedToken },
+    //     })
+    //       .then((response) => {
+    //         console.log(response);
+    //         this.setState({ schedules: response.data });
+    //       })
+    //       .catch(err => console.error(err));
+    //   });
     const attending = [];
     const invited = [];
     AsyncStorage.getItem('Token')
-      .then(token => axios.get('http://18.218.102.64/dashboard', { headers: { authorization: JSON.parse(token) } }))
+      .then((res) => {
+        const savedToken = JSON.parse(res);
+        return axios.get('http://18.218.102.64/dashboard', { headers: { authorization: JSON.parse(savedToken) } });
+      })
       .then((res) => {
         console.log(res);
         res.data.forEach((schedule) => {
