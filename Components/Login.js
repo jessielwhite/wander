@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, View } from 'react-native';
+import { StyleSheet, ImageBackground, Text, View, AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -45,40 +45,40 @@ export default class Login extends React.Component {
 
   login() {
     const user = { email: this.state.email, password: this.state.password };
-    // this.props.navigation
-    //   .dispatch(NavigationActions.reset({
-    //     index: 0,
-    //     actions:
-    //       [NavigationActions.navigate({ routeName: 'Dashboard' })],
-    //   }));
+    this.props.navigation
+      .dispatch(NavigationActions.reset({
+        index: 0,
+        actions:
+          [NavigationActions.navigate({ routeName: 'Dashboard' })],
+      }));
     // Actual requests is commented out for testing purposes
-    axios.post('http://18.218.102.64/login', user)
-      .then((res) => {
-        const token = res.data.slice(4);
-        console.log(token);
-        if (token !== 'Password is incorrect') {
-          AsyncStorage.setItem('Token', JSON.stringify(token));
-          axios.get('http://18.218.102.64/dashboard', {
-            headers: { authorization: token },
-          })
-            .then(() => {
-              this.props.navigation
-                .dispatch(NavigationActions.reset({
-                  index: 0,
-                  actions:
-                    [NavigationActions.navigate({ routeName: 'Dashboard' })],
-                }));
-            })
-            .catch((err) => {
-              console.log(`dashboard get call error ${err}`);
-            });
-        } else {
-          this.props.navigation.navigate('Login');
-        }
-      })
-      .catch((err) => {
-        console.log('this is login error ', err);
-      });
+    // axios.post('http://18.218.102.64/login', user)
+    //   .then((res) => {
+    //     const token = res.data.slice(4);
+    //     console.log(token);
+    //     if (token !== 'Password is incorrect') {
+    //       AsyncStorage.setItem('Token', JSON.stringify(token));
+    //       axios.get('http://18.218.102.64/dashboard', {
+    //         headers: { authorization: token },
+    //       })
+    //         .then(() => {
+    //           this.props.navigation
+    //             .dispatch(NavigationActions.reset({
+    //               index: 0,
+    //               actions:
+    //                 [NavigationActions.navigate({ routeName: 'Dashboard' })],
+    //             }));
+    //         })
+    //         .catch((err) => {
+    //           console.log(`dashboard get call error ${err}`);
+    //         });
+    //     } else {
+    //       this.props.navigation.navigate('Login');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log('this is login error ', err);
+    //   });
   }
 
   render() {

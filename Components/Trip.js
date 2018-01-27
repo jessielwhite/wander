@@ -38,20 +38,12 @@ export default class Trip extends React.Component {
   }
 
   addByEmail() {
-    const body = { userEmail: this.state.email, tripId: this.props.schedule.id };
-    console.log(body);
-    axios.post('http://localhost:3000/', body)
-      .then((res) => {
-        console.log(res);
+    const body = { userEmail: this.state.email, scheduleId: this.props.schedule.id };
+    axios.post('http://18.218.102.64/join_schedule', body)
+      .then(() => {
         this.hideModal();
       })
       .catch(err => console.error(err));
-    // axios.post('http://18.218.102.64/join_schedule', body)
-    //   .then((res) => {
-    //     console.log(res);
-    //     this.hideModal();
-    //   })
-    //   .catch(err => console.error(err));
   }
 
   render() {

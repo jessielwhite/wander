@@ -48,7 +48,6 @@ export default class GatherInterests extends React.Component {
 
   handleNext() {
     AsyncStorage.getItem('Token').then((res) => {
-      console.log(JSON.parse(res));
       const savedToken = JSON.parse(res);
       axios.get('http://18.218.102.64/dashboard', {
         headers: { authorization: savedToken },
