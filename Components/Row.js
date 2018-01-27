@@ -14,6 +14,7 @@ import axios from 'axios';
 import { keys } from '../config';
 import { Button, Icon, Text, Card } from 'react-native-elements';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 
 const window = Dimensions.get('window');
@@ -79,6 +80,8 @@ export default class Row extends React.Component {
     this.state = {
       extraData: {},
       modalVisible: false,
+      isDateTimePickerVisible: false,
+      time: ''
     };
 
     this._active = new Animated.Value(0);
@@ -143,6 +146,16 @@ export default class Row extends React.Component {
     this.setState({modalVisible:false});
   }
 
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = (time) => {
+    console.log('A time has been picked: ', time);
+    this.setState({ time:time });
+    this._hideDateTimePicker();
+  };
+
 
   render() {
     const { data } = this.props;
@@ -152,11 +165,11 @@ export default class Row extends React.Component {
 
     const modalInfo  =  this.state.extraData || {};
 
-  if ( modalInfo.opening_hours !== undefined || null ) {
-    var openHours = modalInfo.opening_hours.weekday_text;
-      openHours.join('\r\n');
+    if ( modalInfo.opening_hours !== undefined || null ) {
+      var openHours = modalInfo.opening_hours.weekday_text;
+        openHours.join('\r\n');
 
-  }
+    }
 
 
     // console.log(dateArr)
@@ -195,12 +208,27 @@ export default class Row extends React.Component {
                       'N/A'
                     }{"\n"}
                   </Text>
-                </Card>
+                    <View >
+                      <Button 
+                        onPress={this._showDateTimePicker}
+                        title='pick a start time'
+                      >
+                      </Button> 
+                      <View>
+                        <DateTimePicker
+                          isVisible={this.state.isDateTimePickerVisible}
+                          onConfirm={this._handleDatePicked}
+                          onCancel={this._hideDateTimePicker}
+                          mode='time'
+                        />
+                        </View>
+                    </View>
                 <Button
                   onPress={() => this.closeModal()}
                   title="Close modal"
-                >
-                </Button>
+                  >
+                  </Button>
+                </Card>
               </View>
             </View>
           </Modal>
