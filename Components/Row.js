@@ -9,13 +9,11 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button, Icon, Text, Card } from 'react-native-elements';
-import { SlideAnimation } from 'react-native-popup-dialog';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from 'axios';
 import { keys } from '../config';
 import { styles } from './Styles';
-import { Button, Icon, Text, Card } from 'react-native-elements';
-import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 
 
 const window = Dimensions.get('window');
@@ -163,8 +161,7 @@ export default class Row extends React.Component {
                       <Button 
                         onPress={this._showDateTimePicker}
                         title='pick a start time'
-                      >
-                      </Button> 
+                      /> 
                       <View>
                         <DateTimePicker
                           isVisible={this.state.isDateTimePickerVisible}
@@ -177,13 +174,8 @@ export default class Row extends React.Component {
                 <Button
                   onPress={() => this.closeModal()}
                   title="Close modal"
-<<<<<<< HEAD
                 />
-=======
-                  >
-                  </Button>
                 </Card>
->>>>>>> 163d6f490cc3b8250b63bed2ec74c00bc070b5c9
               </View>
             </View>
           </Modal>

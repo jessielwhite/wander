@@ -3,6 +3,8 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
+  AsyncStorage,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -19,6 +21,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -50,6 +53,7 @@ export default class NewItinerary extends React.Component {
       // This is the formatted start date that we pass to the schedule builder function
       functionStartDate: '',
       functionEndDate: '',
+      loading: false,
     };
     this.getItinerary = this.getItinerary.bind(this);
     this.showStartDateTimePicker = this.showStartDateTimePicker.bind(this);
@@ -66,15 +70,19 @@ export default class NewItinerary extends React.Component {
     const { destination } = this.state;
     const startDate = this.state.functionStartDate;
     const endDate = this.state.functionEndDate;
-    // console.log(startDate, endDate, destination);
-    // axios.get('http://18.218.102.64/user/uid/likes')
-    //   .then((userLikes) => {
-    //     getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
-    //       this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
-    //     });
-    //   })
-    //   .catch(err => console.error(err));
-    this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
+    this.setState({ loading: true });
+    console.log(startDate, endDate, destination);
+    AsyncStorage.getItem('Token', (token) => {
+      axios.get('http://18.218.102.64/user/uid/likes', { headers: { authorization: token } })
+        .then((userLikes) => {
+          getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
+            this.setState({ loading: false });
+            this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+          });
+        })
+        .catch(err => console.error(err));
+    });
+    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showStartDateTimePicker() {
@@ -119,10 +127,10 @@ export default class NewItinerary extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
-          outerContainerStyles={{ backgroundColor: '#0e416d' }}
+          outerContainerStyles={{ backgroundColor: '#0e416d', width: '100%' }}
           centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
           leftComponent={<Icon
             name="home"
@@ -139,68 +147,73 @@ export default class NewItinerary extends React.Component {
             color="#fff"
           />}
         />
-      <View style={styles.container}>
-        <GooglePlacesAutocomplete
-          placeholder="Where are you Wandering?"
-          minLength={2}
-          autoFocus={false}
-          returnKeyType="search"
-          query={{
-            key: keys.googlePlacesAPI,
-            language: 'en',
-            types: '(cities)',
-          }}
-          styles={{
-            textInputContainer: {
-              width: '100%',
-              marginBottom: 10,
-            },
-            description: {
-              fontWeight: 'bold',
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb',
-            },
-          }}
-          debounce={200}
-          onPress={this.searchPlaces}
-        />
-        <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination.split('+').join(' ')}</Text>
-        <Text h4>When are you leaving?</Text>
-        <TouchableOpacity onPress={this.showStartDateTimePicker}>
-          <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
-        </TouchableOpacity>
-        <DateTimePicker
-          isVisible={this.state.startDateTimePickerVisible}
-          onConfirm={this.handleStartDatePicked}
-          onCancel={this.hideStartDateTimePicker}
-        />
-        <Text>{`${months[this.state.startDate.getMonth()]} ${this.state.startDate.getDate()}`}</Text>
-        <Text h4>When do you come back?</Text>
-        <TouchableOpacity onPress={this.showEndDateTimePicker}>
-          <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
-        </TouchableOpacity>
-        <DateTimePicker
-          isVisible={this.state.endDateTimePickerVisible}
-          onConfirm={this.handleEndDatePicked}
-          onCancel={this.hideEndDateTimePicker}
-        />
-        <Text>{`${months[this.state.endDate.getMonth()]} ${this.state.endDate.getDate()}`}</Text>
-        <Button
-          large
-          raised
-          buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
-          title="Go to Dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
-        />
-        <Button
-          large
-          raised
-          buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
-          title="Get my itinerary"
-          onPress={this.getItinerary}
-        />
-      </View>
+        <View style={styles.container}>
+          <GooglePlacesAutocomplete
+            placeholder="Where are you Wandering?"
+            minLength={2}
+            autoFocus={false}
+            returnKeyType="search"
+            query={{
+              key: keys.googlePlacesAPI,
+              language: 'en',
+              types: '(cities)',
+            }}
+            styles={{
+              textInputContainer: {
+                width: '100%',
+                marginBottom: 10,
+              },
+              description: {
+                fontWeight: 'bold',
+              },
+              predefinedPlacesDescription: {
+                color: '#1faadb',
+              },
+            }}
+            debounce={200}
+            onPress={this.searchPlaces}
+          />
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            animating={this.state.loading}
+          />
+          <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination.split('+').join(' ')}</Text>
+          <Text h4>When are you leaving?</Text>
+          <TouchableOpacity onPress={this.showStartDateTimePicker}>
+            <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
+          </TouchableOpacity>
+          <DateTimePicker
+            isVisible={this.state.startDateTimePickerVisible}
+            onConfirm={this.handleStartDatePicked}
+            onCancel={this.hideStartDateTimePicker}
+          />
+          <Text>{`${months[this.state.startDate.getMonth()]} ${this.state.startDate.getDate()}`}</Text>
+          <Text h4>When do you come back?</Text>
+          <TouchableOpacity onPress={this.showEndDateTimePicker}>
+            <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
+          </TouchableOpacity>
+          <DateTimePicker
+            isVisible={this.state.endDateTimePickerVisible}
+            onConfirm={this.handleEndDatePicked}
+            onCancel={this.hideEndDateTimePicker}
+          />
+          <Text>{`${months[this.state.endDate.getMonth()]} ${this.state.endDate.getDate()}`}</Text>
+          <Button
+            large
+            raised
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
+            title="Go to Dashboard"
+            onPress={() => this.props.navigation.navigate('Dashboard')}
+          />
+          <Button
+            large
+            raised
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
+            title="Get my itinerary"
+            onPress={this.getItinerary}
+          />
+        </View>
       </View>
     );
   }

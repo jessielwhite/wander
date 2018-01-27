@@ -39,8 +39,6 @@ export default class Event extends React.Component {
   }
   
   render() {
-    
-
     const eventCoordinates = this.props.dayInfo.events.map((event) => { 
       return {
         title: event.name,
