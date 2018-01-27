@@ -72,16 +72,15 @@ export default class NewItinerary extends React.Component {
     const endDate = this.state.functionEndDate;
     this.setState({ loading: true });
     console.log(startDate, endDate, destination);
-    AsyncStorage.getItem('Token', (token) => {
-      axios.get('http://18.218.102.64/user/uid/likes', { headers: { authorization: token } })
-        .then((userLikes) => {
-          getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
-            this.setState({ loading: false });
-            this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
-          });
-        })
-        .catch(err => console.error(err));
-    });
+    AsyncStorage.getItem('Token')
+      .then(token => axios.get('http://18.218.102.64/user/uid/likes', { headers: { authorization: token } }))
+      .then((userLikes) => {
+        getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
+          this.setState({ loading: false });
+          this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+        });
+      })
+      .catch(err => console.error(err));
     // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 

@@ -21,20 +21,6 @@ export default class Interest extends React.Component {
       .catch(err => console.error(err));
   }
 
-//   AsyncStorage.getItem('Token')
-//       .then(token => axios.get('http://18.218.102.64/dashboard', { headers: { authorization: JSON.parse(token) } }))
-//       .then((res) => {
-//   console.log(res);
-//   res.data.forEach((schedule) => {
-//     if (schedule.status === 'invited') {
-//       invited.push(schedule);
-//     } else if (schedule.status === 'attending' || schedule.status === 'creator') {
-//       attending.push(schedule);
-//     }
-//   });
-// })
-//       .catch (error => console.error(error));
-
   render() {
     return (
       <Button
