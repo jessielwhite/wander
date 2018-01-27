@@ -2,17 +2,19 @@ import React from 'react';
 import {
   Animated,
   Easing,
-  StyleSheet,
   Dimensions,
   Platform,
   View,
-  Modal
+  Modal,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import SortableList from 'react-native-sortable-list'; // 0.0.16
+import { Button, Icon, Text, Card } from 'react-native-elements';
+import { SlideAnimation } from 'react-native-popup-dialog';
 import axios from 'axios';
 import { keys } from '../config';
+
 import { Button, Icon, Text, Card, FormInput } from 'react-native-elements';
+
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { TextField } from 'react-native-material-textfield';
@@ -23,56 +25,6 @@ const window = Dimensions.get('window');
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: 16,
-    height: 90,
-    flex: 1,
-    marginTop: 7,
-    marginBottom: 12,
-    borderRadius: 25,
-
-    ...Platform.select({
-      ios: {
-        width: window.width - 30 * 2,
-        shadowColor: 'rgba(0,0,0,0.2)',
-        shadowOpacity: 1,
-        shadowOffset: { height: 2, width: 2 },
-        shadowRadius: 2,
-      },
-
-      android: {
-        width: window.width - 30 * 2,
-        elevation: 0,
-        marginHorizontal: 30,
-      },
-    }),
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#222222',
-    alignItems: 'center',
-    padding: 10
-  },
-  modalView: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'grey',
-  },
-  innerContainer: {
-    alignItems: 'center',
-  },
-});
-
 
 export default class Row extends React.Component {
   constructor(props) {
@@ -141,11 +93,11 @@ export default class Row extends React.Component {
   }
 
   openModal() {
-    this.setState({modalVisible:true});
+    this.setState({ modalVisible: true });
   }
 
   closeModal() {
-    this.setState({modalVisible:false});
+    this.setState({ modalVisible: false });
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -177,9 +129,9 @@ export default class Row extends React.Component {
         ]}
       >
         <Icon
-          name='plus-circle'
-          type='font-awesome'
-          color='#f50'
+          name="plus-circle"
+          type="font-awesome"
+          color="#f50"
           style={{ padding: 2 }}
           onPress={() => {
             this.openModal()
@@ -189,7 +141,9 @@ export default class Row extends React.Component {
         <View>
           <Modal
             visible={this.state.modalVisible}
+
             animationType={'slide'}
+
             onRequestClose={() => this.closeModal()}
           >
             <View style={styles.modalContainer}>
@@ -228,19 +182,27 @@ export default class Row extends React.Component {
                         />
                         </View>
                     </View>
-                  <Button
-                    onPress={() => this.closeModal()}
-                    title="Close modal"
-                    >
+
+                <Button
+                  onPress={() => this.closeModal()}
+                  title="Close modal"
+
+                />
+
                   </Button>
                 </Card>
+
               </View>
             </View>
           </Modal>
         </View>
-          <View style={{ flex: 1}}>
-            <Text style={styles.text}>{data.name}</Text>
-          </View>
+
+
+        <View style={{ flex: 1 }}>
+          <Text style={styles.text}>{data.name}</Text>
+        </View>
+        {/* <Image source={{uri: data.image}} style={styles.image} /> */}
+
       </Animated.View>
     );
   }

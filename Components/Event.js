@@ -78,6 +78,7 @@ export default class Event extends React.Component {
             color="#fff"
           />}
         />
+
         <View style={{ width: 400, height: 200 }}>
           <MapView
             style={{ flex: 1 }}
@@ -86,13 +87,13 @@ export default class Event extends React.Component {
             {eventMarkers}
           </MapView>
         </View>
-        <ScrollView>
-            <Text h4 center>   Sort and Edit Your Scheudle</Text>
 
-            <Schedule
-              data={this.props.dayInfo}
-              >
-            </Schedule>
+        <ScrollView>
+          <Text h4 center>   Sort and Edit Your Scheudle</Text>
+
+          <Schedule
+            data={this.props.dayInfo}
+          />
 
         <Button
           title="Save your Trip Recommendations"

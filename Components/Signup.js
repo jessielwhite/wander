@@ -34,31 +34,30 @@ export default class Signup extends React.Component {
       password: this.state.password,
       username: this.state.username,
     };
-    this.props.navigation
-      .dispatch(NavigationActions.reset({
-        index: 0,
-        actions:
-          [NavigationActions.navigate({ routeName: 'GatherInterests' })],
-      }));
+    // this.props.navigation
+    //   .dispatch(NavigationActions.reset({
+    //     index: 0,
+    //     actions:
+    //       [NavigationActions.navigate({ routeName: 'GatherInterests' })],
+    //   }));
     // Actual request commented out for testing purposes
-    // axios.post('http://18.218.102.64/signup', user)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.data !== 'User was not created') {
-    //       AsyncStorage.setItem('Token', JSON.stringify(res.data));
-    //       this.props.navigation
-    //         .dispatch(NavigationActions.reset({
-    //           index: 0,
-    //           actions:
-    //             [NavigationActions.navigate({ routeName: 'GatherInterests' })],
-    //         }));
-    //     } else {
-    //       this.props.navigation.navigate('Signup');
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error('signup error ', err);
-    //   });
+    axios.post('http://18.218.102.64/signup', user)
+      .then((res) => {
+        if (res.data !== 'User was not created') {
+          AsyncStorage.setItem('Token', JSON.stringify(res.data));
+          this.props.navigation
+            .dispatch(NavigationActions.reset({
+              index: 0,
+              actions:
+                [NavigationActions.navigate({ routeName: 'GatherInterests' })],
+            }));
+        } else {
+          this.props.navigation.navigate('Signup');
+        }
+      })
+      .catch((err) => {
+        console.error('signup error ', err);
+      });
   }
   render() {
     return (
