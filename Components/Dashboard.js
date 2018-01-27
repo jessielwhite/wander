@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
 import Drawer from 'react-native-drawer';
+import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Trip from './Trip';
@@ -31,41 +32,45 @@ export default class Dashboard extends React.Component {
 
   componentWillMount() {
     // Query the database to get this user's schedules
-    AsyncStorage.getItem('Token').then((res) => {
-      const savedToken = JSON.parse(res);
-      axios.get('http://18.218.102.64/user/schedules', {
-        headers: { authorization: savedToken },
-      })
-        .then((response) => {
-          console.log(response);
-          this.setState({ schedules: response.data });
-        })
-        .catch(err => console.error(err));
-    });
-    this.setState({ schedules: dashboardExample });
-    // axios.get('http://18.218.102.64/userid/schedules')
+    // Since setState is async, we need to temporarily store the schedules,
+    // then put them in state at the end
+    // AsyncStorage.getItem('Token')
     //   .then((res) => {
-    //     console.log(res);
-    //     res.data.forEach((schedule) => {
-    //       if (schedule.status === 'creator') {
-    //         this.setState({ createdSchedules: createdSchedules.concat(schedule) });
-    //       } else if (schedule.status === 'invited') {
-    //         this.setState({ invitedSchedules: invitedSchedules.concat(schedule) });
-    //       } else if (schedule.status === 'attending') {
-    //         this.setState({ attendingSchedules: attendingSchedules.concat(schedule) });
-    //       }
-    //     });
-    //   })
-    //   .catch(err => console.error(err));
+    //     const savedToken = JSON.parse(res);
+    //     return axios.get('http://18.218.102.64/user/schedules', {
+    //       headers: { authorization: savedToken },
+    //     })
+    //       .then((response) => {
+    //         console.log(response);
+    //         this.setState({ schedules: response.data });
+    //       })
+    //       .catch(err => console.error(err));
+    //   });
     const attending = [];
     const invited = [];
-    dashboardExample.forEach((schedule) => {
-      if (schedule.status === 'invited') {
-        invited.push(schedule);
-      } else if (schedule.status === 'attending' || schedule.status === 'creator') {
-        attending.push(schedule);
-      }
-    });
+    AsyncStorage.getItem('Token')
+      .then((res) => {
+        const savedToken = JSON.parse(res);
+        return axios.get('http://18.218.102.64/dashboard', { headers: { authorization: savedToken } });
+      })
+      .then((res) => {
+        console.log(res);
+        res.data.forEach((schedule) => {
+          if (schedule.status === 'invited') {
+            invited.push(schedule);
+          } else if (schedule.status === 'attending' || schedule.status === 'creator') {
+            attending.push(schedule);
+          }
+        });
+      })
+      .catch(error => console.error(error));
+    // dashboardExample.forEach((schedule) => {
+    //   if (schedule.status === 'invited') {
+    //     invited.push(schedule);
+    //   } else if (schedule.status === 'attending' || schedule.status === 'creator') {
+    //     attending.push(schedule);
+    //   }
+    // });
     this.setState({ schedules: attending });
     this.setState({ invitedSchedules: invited });
   }
@@ -84,24 +89,31 @@ export default class Dashboard extends React.Component {
   }
 
   acceptTrip(trip) {
-    axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: true })
-      .then((success) => {
+    AsyncStorage.getItem('Token')
+      .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: true, headers: { authorization: token } }))
+      .then(() => {
         this.setState({ schedules: this.state.schedules.concat(trip) });
       })
       .catch(err => console.error(err));
   }
 
   rejectTrip(trip) {
-    axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: false })
+    AsyncStorage.getItem('Token')
+      .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: false, headers: { authorization: token } }))
       .then(success => console.log(success))
       .catch(err => console.error(err));
   }
 
   signout() {
     axios.get('http://18.218.102.64/logout')
-      .then((res) => {
+      .then(() => {
         AsyncStorage.removeItem('Token');
-        this.props.navigation.navigate('Login');
+        this.props.navigation
+          .dispatch(NavigationActions.reset({
+            index: 0,
+            actions:
+              [NavigationActions.navigate({ routeName: 'Login' })],
+          }));
       })
       .catch(err => console.error(err));
   }
