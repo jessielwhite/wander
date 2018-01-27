@@ -14,10 +14,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { TextField } from 'react-native-material-textfield';
 import axios from 'axios';
 import { keys } from '../config';
-import { style } from './Styles';
-
-
-
+import { styles } from './Styles';
 
 const window = Dimensions.get('window');
 

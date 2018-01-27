@@ -1,8 +1,13 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, Button, Header, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  AsyncStorage,
+} from 'react-native';
 import { Icon } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import Event from './Event';
 
 const styles = StyleSheet.create({
@@ -18,9 +23,10 @@ export default class Itinerary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      itinerary: [],
+      itinerary: {},
     };
     this.goToDashboard = this.goToDashboard.bind(this);
+    this.saveSchedule = this.saveSchedule.bind(this);
   }
 
   componentWillMount() {
@@ -32,6 +38,32 @@ export default class Itinerary extends React.Component {
     this.props.navigation.navigate('Dashboard');
   }
 
+  updateSchedule(schedule) {
+    this.setState({ itinerary: schedule });
+  }
+
+  saveSchedule() {
+    AsyncStorage.getItem('Token').then((res) => {
+      const savedToken = JSON.parse(res);
+      axios({
+        method: 'post',
+        url: 'http://18.218.102.64/user/schedule',
+        headers: {
+          authorization: savedToken,
+          'Content-Type': 'application/json',
+        },
+        data: { schedule: this.state.itinerary },
+      })
+        .then((response) => {
+          console.log('schedule post response', response);
+          this.props.navigation.navigate('Dashboard');
+        })
+        .catch((err) => {
+          console.error('schedule post error', err);
+        });
+    });
+  }
+
   render() {
     // Create the event components from the dayinfo
     const days = Object.keys(this.state.itinerary).filter(item => item[0] === 'd');
@@ -41,6 +73,7 @@ export default class Itinerary extends React.Component {
           dayInfo={this.state.itinerary[day]}
           key={day}
           navigation={this.props.navigation}
+          saveSchedule={this.saveSchedule}
         />));
 
     return (

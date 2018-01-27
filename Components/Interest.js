@@ -20,7 +20,7 @@ export default class Interest extends React.Component {
           authorization: savedToken,
           'Content-Type': 'application/json',
         },
-        data: { id_type: this.props.type },
+        data: { id_type: this.props.type.id },
       })
         .then((response) => {
           console.log(`user like post response ${response}`);

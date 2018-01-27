@@ -70,21 +70,22 @@ export default class NewItinerary extends React.Component {
     const { destination } = this.state;
     const startDate = this.state.functionStartDate;
     const endDate = this.state.functionEndDate;
-    console.log(startDate, endDate, destination);
-    const interests = ['museum', 'park', 'point_of_interest', 'music'];
-    AsyncStorage.getItem('Token').then((res) => {
-      const savedToken = JSON.parse(res);
-      axios.get('http://18.218.102.64/user/likes', {
-        headers: { authorization: savedToken },
-      })
-        .then((userLikes) => {
-          getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
-            this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
-          });
+    this.setState({ loading: true });
+    AsyncStorage.getItem('Token')
+      .then((res) => {
+        const savedToken = JSON.parse(res);
+        axios.get('http://18.218.102.64/user/likes', {
+          headers: { authorization: savedToken },
         })
-        .catch(err => console.error(err));
-    this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
-    // });
+          .then((userLikes) => {
+            getSchedule(startDate, endDate, destination, userLikes.data, (schedule) => {
+              this.setState({ loading: false });
+              this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+            });
+          })
+          .catch(err => console.error(err));
+      });
+    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showStartDateTimePicker() {

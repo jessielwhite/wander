@@ -51,7 +51,7 @@ export default class Dashboard extends React.Component {
     AsyncStorage.getItem('Token')
       .then((res) => {
         const savedToken = JSON.parse(res);
-        return axios.get('http://18.218.102.64/dashboard', { headers: { authorization: JSON.parse(savedToken) } });
+        return axios.get('http://18.218.102.64/dashboard', { headers: { authorization: savedToken } });
       })
       .then((res) => {
         console.log(res);
