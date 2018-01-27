@@ -27,12 +27,17 @@ export default class Dashboard extends React.Component {
 
   componentWillMount() {
     // Query the database to get this user's schedules
-    // axios.get('http://18.218.102.64/userid/schedules')
-    //   .then((res) => {
-    //     console.log(res);
-    //     this.setState({ schedules: res.data });
+    // AsyncStorage.getItem('Token').then((res) => {
+    //   const savedToken = JSON.parse(res);
+    //   axios.get('http://18.218.102.64/user/schedules', {
+    //     headers: { authorization: savedToken },
     //   })
-    //   .catch(err => console.error(err));
+    //     .then((response) => {
+    //       console.log(response);
+    //       this.setState({ schedules: response.data });
+    //     })
+    //     .catch(err => console.error(err));
+    // });
     this.setState({ schedules: dashboardExample });
   }
 

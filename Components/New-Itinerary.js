@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -64,14 +65,19 @@ export default class NewItinerary extends React.Component {
     const endDate = this.state.functionEndDate;
     // console.log(startDate, endDate, destination);
     // const interests = ['museum', 'park', 'point_of_interest', 'music'];
-    // axios.get('http://18.218.102.64/user/uid/likes')
-    //   .then((userLikes) => {
-    //     getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
-    //       this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
-    //     });
-    //   })
-    //   .catch(err => console.error(err));
+    AsyncStorage.getItem('Token').then((res) => {
+      const savedToken = JSON.parse(res);
+      axios.get('http://18.218.102.64/user/likes', {
+        headers: { authorization: savedToken },
+      })
+        .then((userLikes) => {
+          getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
+            this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+          });
+        })
+        .catch(err => console.error(err));
     // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
+    });
   }
 
   showStartDateTimePicker() {
