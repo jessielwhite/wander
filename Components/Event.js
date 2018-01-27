@@ -93,11 +93,11 @@ export default class Event extends React.Component {
             data={this.props.dayInfo}
           />
 
-        <Button
-          title="Save your Trip Recommendations"
-          onPress={this.saveTrip}
+          <Button
+            title="Save your Trip Recommendations"
+            onPress={this.saveTrip}
           />
-          </ScrollView>
+        </ScrollView>
       </View>
     );
   }
