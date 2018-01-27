@@ -59,9 +59,10 @@ export default class Event extends React.Component {
     return (
       <View style={styles.container}>
         <Header
+          style={{ height: 35 }}
           statusBarProps={{ barStyle: 'light-content' }}
-          outerContainerStyles={{ backgroundColor: '#0e416d' }}
-          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          outerContainerStyles={{ backgroundColor: '#0e416d', }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 28, height: 30 } }}
           leftComponent={<Icon
             name="home"
             color="#fff"
@@ -77,14 +78,14 @@ export default class Event extends React.Component {
             color="#fff"
           />}
         />
-        {/* <View style={{ width: 400, height: 200 }}> */}
-          {/* <MapView
+        <View style={{ width: 400, height: 200 }}>
+          <MapView
             style={{ flex: 1 }}
             initialRegion={startingPoint}
           >
             {eventMarkers}
-          </MapView> */}
-        {/* </View> */}
+          </MapView>
+        </View>
         <ScrollView>
             <Text h4 center>   Sort and Edit Your Scheudle</Text>
 

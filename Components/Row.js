@@ -162,12 +162,12 @@ export default class Row extends React.Component {
   render() {
     const { data } = this.props;
     let { text } = this.state;
+    let { time } = this.state;
     const modalInfo  =  this.state.extraData || {};
 
     if ( modalInfo.opening_hours !== undefined || null ) {
       var openHours = modalInfo.opening_hours.weekday_text;
-        openHours.join('\r\n');
-
+        openHours.join('\n');
     }
 
     return (
