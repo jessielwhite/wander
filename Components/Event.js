@@ -93,15 +93,11 @@ export default class Event extends React.Component {
               >
             </Schedule>
 
-        </ScrollView>
         <Button
           title="Save your Trip Recommendations"
           onPress={this.saveTrip}
-        />
-        <Button
-          title="Go to Dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
-        />
+          />
+          </ScrollView>
       </View>
     );
   }
