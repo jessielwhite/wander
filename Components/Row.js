@@ -12,10 +12,12 @@ import { Button, Icon, Text, Card } from 'react-native-elements';
 import { SlideAnimation } from 'react-native-popup-dialog';
 import axios from 'axios';
 import { keys } from '../config';
-import { styles } from './Styles';
-import { Button, Icon, Text, Card } from 'react-native-elements';
+
+import { Button, Icon, Text, Card, FormInput } from 'react-native-elements';
+
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { TextField } from 'react-native-material-textfield';
 
 
 const window = Dimensions.get('window');
@@ -32,7 +34,8 @@ export default class Row extends React.Component {
       extraData: {},
       modalVisible: false,
       isDateTimePickerVisible: false,
-      time: ''
+      time: '',
+      text: '',
     };
 
     this._active = new Animated.Value(0);
@@ -110,20 +113,14 @@ export default class Row extends React.Component {
 
   render() {
     const { data } = this.props;
-
-    // console.log(this.state.extraData, 'from extra data');
-    // const modalInfo = this.state.extraData;
-
+    let { text } = this.state;
+    let { time } = this.state;
     const modalInfo  =  this.state.extraData || {};
 
     if ( modalInfo.opening_hours !== undefined || null ) {
       var openHours = modalInfo.opening_hours.weekday_text;
-        openHours.join('\r\n');
-
+        openHours.join('\n');
     }
-
-
-    // console.log(dateArr)
 
     return (
       <Animated.View style={[
@@ -144,21 +141,32 @@ export default class Row extends React.Component {
         <View>
           <Modal
             visible={this.state.modalVisible}
-            animationType="slide"
+
+            animationType={'slide'}
+
             onRequestClose={() => this.closeModal()}
           >
             <View style={styles.modalContainer}>
               <View style={styles.innerContainer}>
                 <Card title={modalInfo.name !== undefined ? modalInfo.name : '...loading'}> 
-                  <Text>Phone Number:{"\n"} {modalInfo.formatted_phone_number !== undefined ? modalInfo.formatted_phone_number : '...loading'}{"\n"}</Text>
-                  <Text>Address:{"\n"} {modalInfo.formatted_address !== undefined ? modalInfo.formatted_address : '...loading'}{"\n"}</Text>
-                  <Text>Open Hours{"\n"}
+                  <Text>Phone Number: {"\n"} {modalInfo.formatted_phone_number !== undefined ? modalInfo.formatted_phone_number : '...loading'}{"\n"}</Text>
+                  <Text>Address: {"\n"} {modalInfo.formatted_address !== undefined ? modalInfo.formatted_address : '...loading'}{"\n"}</Text>
+                  <Text>Open Hours
+                    {"\n"}
                     {
                       modalInfo.opening_hours ? 
                       openHours :
                       'N/A'
-                    }{"\n"}
+                    }
+                    {"\n"}
                   </Text>
+                  <View>
+                    <TextField
+                      label='Leave yourself some notes about the event'
+                      value={text}
+                      onChangeText={ (text) => this.setState({ text }) }
+                    />
+                  </View>
                     <View >
                       <Button 
                         onPress={this._showDateTimePicker}
@@ -174,24 +182,27 @@ export default class Row extends React.Component {
                         />
                         </View>
                     </View>
+
                 <Button
                   onPress={() => this.closeModal()}
                   title="Close modal"
-<<<<<<< HEAD
+
                 />
-=======
-                  >
+
                   </Button>
                 </Card>
->>>>>>> 163d6f490cc3b8250b63bed2ec74c00bc070b5c9
+
               </View>
             </View>
           </Modal>
         </View>
+
+
         <View style={{ flex: 1 }}>
           <Text style={styles.text}>{data.name}</Text>
         </View>
         {/* <Image source={{uri: data.image}} style={styles.image} /> */}
+
       </Animated.View>
     );
   }
