@@ -36,6 +36,7 @@ export default class GatherInterests extends React.Component {
   componentWillMount() {
     // This binding is lost in the get request, so we need to store it
     const self = this;
+    console.log(self.state.types);
     axios.get('http://18.218.102.64/types')
       .then((response) => {
         // console.log(response);
@@ -49,6 +50,7 @@ export default class GatherInterests extends React.Component {
   handleNext() {
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
+      console.log(savedToken);
       axios.get('http://18.218.102.64/dashboard', {
         headers: { authorization: savedToken },
       })

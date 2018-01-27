@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet } from 'react-native';
+import { Text, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
@@ -12,10 +12,26 @@ export default class Interest extends React.Component {
   }
 
   selectInterest() {
-    axios.post('http://18.218.102.64/user_like', { userLike: this.props.type })
-      .then((res) => {
+    AsyncStorage.getItem('Token').then((res) => {
+      const savedToken = JSON.parse(res);
+      console.log(savedToken);
+      console.log(this.props);
+      axios({
+        method: 'post',
+        url: 'http://18.218.102.64/user_like',
+        headers: {
+          authorization: savedToken,
+          'Content-Type': 'application/json',
+        },
+        data: { id_type: this.props.type },
       })
-      .catch(err => console.error(err));
+        .then((response) => {
+          console.log(`user like post response ${response}`);
+        })
+        .catch((err) => {
+          console.error(`select interest post error ${err}`);
+        });
+    });
   }
 
   render() {
