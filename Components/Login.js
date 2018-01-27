@@ -1,12 +1,11 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, ImageBackground, Text, View, AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { FormInput, Button } from 'react-native-elements';
-import logo from '../img/logo.png';
+import { NavigationActions } from 'react-navigation';
 import NYC from '../img/NYC.jpg';
-import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,42 +45,40 @@ export default class Login extends React.Component {
 
   login() {
     const user = { email: this.state.email, password: this.state.password };
-    axios.post('http://18.218.102.64/login', user)
-      .then((res) => {
-        const token = res.data.slice(4);
-        console.log(token);
-        if (token !== 'Password is incorrect') {
-          AsyncStorage.setItem('Token', JSON.stringify(token));
-          axios.get('http://18.218.102.64/dashboard', {
-            headers: { authorization: token },
-          })
-            .then(() => {
-              this.props.navigation.navigate('Dashboard', { created: false });
-            })
-            .catch((err) => {
-              console.log(`dashboard get call error ${err}`);
-            });
-        } else {
-          this.props.navigation.navigate('Login');
-        }
-      })
-      .catch((err) => {
-        console.log('this is login error ', err);
-      });
+    this.props.navigation
+      .dispatch(NavigationActions.reset({
+        index: 0,
+        actions:
+          [NavigationActions.navigate({ routeName: 'Dashboard' })],
+      }));
     // Actual requests is commented out for testing purposes
-    
     // axios.post('http://18.218.102.64/login', user)
     //   .then((res) => {
-    //     const token = res.data;
+    //     const token = res.data.slice(4);
+    //     console.log(token);
     //     if (token !== 'Password is incorrect') {
-    // this.props.navigation.navigate('Dashboard');
-    //   } else {
-    //     this.props.navigation.navigate('Login');
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.log('this is login error ', err);
-    // });
+    //       AsyncStorage.setItem('Token', JSON.stringify(token));
+    //       axios.get('http://18.218.102.64/dashboard', {
+    //         headers: { authorization: token },
+    //       })
+    //         .then(() => {
+    //           this.props.navigation
+    //             .dispatch(NavigationActions.reset({
+    //               index: 0,
+    //               actions:
+    //                 [NavigationActions.navigate({ routeName: 'Dashboard' })],
+    //             }));
+    //         })
+    //         .catch((err) => {
+    //           console.log(`dashboard get call error ${err}`);
+    //         });
+    //     } else {
+    //       this.props.navigation.navigate('Login');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log('this is login error ', err);
+    //   });
   }
 
   render() {
@@ -97,8 +94,8 @@ export default class Login extends React.Component {
         }}
         source={NYC}
       >
+        <View style={{ height: 100 }} />
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-          <Image source={logo} style={{ width: 150, height: 150, marginBottom: 150 }} />
           <Text style={{ fontSize: 30, color: 'white' }}>email</Text>
           <FormInput
             keyboardType="email-address"
@@ -149,6 +146,10 @@ export default class Login extends React.Component {
     );
   }
 }
+
+Login.navigationOptions = () => ({
+  header: null,
+});
 
 Login.propTypes = {
   navigation: PropTypes.object,

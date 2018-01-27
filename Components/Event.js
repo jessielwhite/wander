@@ -3,8 +3,11 @@ import openMap from 'react-native-open-maps';
 import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
-import { List, ListItem, Header } from 'react-native-elements';
+
+import { List, ListItem, Header, Icon, Text } from 'react-native-elements';
+
 import axios from 'axios';
+import { NavigationActions } from 'react-navigation';
 import { keys } from '../config';
 import Schedule from './Schedule';
 
@@ -26,16 +29,7 @@ export default class Event extends React.Component {
     this.openNewMap = this.openNewMap.bind(this);
   }
 
-  componentWillMount() {
-    // this.props.dayInfo.events.forEach((obj) => {
-    //   if (obj.placeId) {
-    //     axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${obj.placeId}&key=${keys.googleMapsAPI}`)
-    //       .then(res => console.log('google api response', res))
-    //       .catch(err => console.error('google api error', err));
-    //   }
-    // });
-  }
-
+  
   openNewMap(event) {
     // openMap({ latutude: 40.7128, longitude: -74.0060 });
   }
@@ -43,9 +37,10 @@ export default class Event extends React.Component {
   saveTrip() {
     // const events = this.props.dayInfo;
   }
-
-
+  
   render() {
+    
+
     const eventCoordinates = this.props.dayInfo.events.map((event) => { 
       return {
         title: event.name,
@@ -64,30 +59,47 @@ export default class Event extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor="#0e416d"
-          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 40, fontWeight: 'bold' } }}
+          style={{ height: 35 }}
+          statusBarProps={{ barStyle: 'light-content' }}
+          outerContainerStyles={{ backgroundColor: '#0e416d', }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 28, height: 30 } }}
+          leftComponent={<Icon
+            name="home"
+            color="#fff"
+            onPress={() => this.props.navigation
+              .dispatch(NavigationActions.reset({
+                index: 0,
+                actions:
+                  [NavigationActions.navigate({ routeName: 'Dashboard' })],
+              }))}
+          />}
+          rightComponent={<Icon
+            name="menu"
+            color="#fff"
+          />}
         />
-        {/* <View style={{ width: 400, height: 200 }}>
+
+        <View style={{ width: 400, height: 200 }}>
           <MapView
             style={{ flex: 1 }}
             initialRegion={startingPoint}
           >
             {eventMarkers}
           </MapView>
-        </View> */}
+        </View>
+
         <ScrollView>
+          <Text h4 center>   Sort and Edit Your Scheudle</Text>
+
           <Schedule
             data={this.props.dayInfo}
           />
-        </ScrollView>
+
         <Button
           title="Save your Trip Recommendations"
           onPress={this.saveTrip}
-        />
-        <Button
-          title="Go to Dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
-        />
+          />
+          </ScrollView>
       </View>
     );
   }

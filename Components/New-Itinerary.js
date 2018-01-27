@@ -8,11 +8,12 @@ import {
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Header, Text, Button } from 'react-native-elements';
+import { Header, Text, Button, Icon } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import { keys } from '../config';
 import { exampleSchedule } from '../scheduleExample';
-import { getSchedule } from '../Schedule';
+import { getSchedule } from '../ScheduleMethods';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,11 +42,13 @@ export default class NewItinerary extends React.Component {
   constructor() {
     super();
     this.state = {
+      // This is the actual start date displayed on the calendar
       startDate: new Date(),
       endDate: new Date(),
       startDateTimePickerVisible: false,
       endDateTimePickerVisible: false,
       destination: '',
+      // This is the formatted start date that we pass to the schedule builder function
       functionStartDate: '',
       functionEndDate: '',
     };
@@ -59,25 +62,26 @@ export default class NewItinerary extends React.Component {
     this.searchPlaces = this.searchPlaces.bind(this);
   }
 
+  // Called when the user clicks the get itinerary button
   getItinerary() {
     const { destination } = this.state;
     const startDate = this.state.functionStartDate;
     const endDate = this.state.functionEndDate;
-    // console.log(startDate, endDate, destination);
+    console.log(startDate, endDate, destination);
     // const interests = ['museum', 'park', 'point_of_interest', 'music'];
-    AsyncStorage.getItem('Token').then((res) => {
-      const savedToken = JSON.parse(res);
-      axios.get('http://18.218.102.64/user/likes', {
-        headers: { authorization: savedToken },
-      })
-        .then((userLikes) => {
-          getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
-            this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
-          });
-        })
-        .catch(err => console.error(err));
-    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
-    });
+    // AsyncStorage.getItem('Token').then((res) => {
+    //   const savedToken = JSON.parse(res);
+    //   axios.get('http://18.218.102.64/user/likes', {
+    //     headers: { authorization: savedToken },
+    //   })
+    //     .then((userLikes) => {
+    //       getSchedule(startDate, endDate, destination, userLikes, (schedule) => {
+    //         this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+    //       });
+    //     })
+    //     .catch(err => console.error(err));
+    this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
+    // });
   }
 
   showStartDateTimePicker() {
@@ -96,17 +100,17 @@ export default class NewItinerary extends React.Component {
     this.setState({ endDateTimePickerVisible: false });
   }
 
-  handleStartDatePicked(date) {
-    const startDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} 00:00:00`;
-    this.setState({ startDate: date });
-    this.setState({ functionStartDate: startDate });
+  handleStartDatePicked(startDate) {
+    const formattedDate = `${months[startDate.getMonth()]} ${startDate.getDate()}, ${startDate.getFullYear()} 00:00:00`;
+    this.setState({ startDate });
+    this.setState({ functionStartDate: formattedDate });
     this.hideStartDateTimePicker();
   }
 
-  handleEndDatePicked(date) {
-    const endDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} 00:00:00`;
-    this.setState({ endDate: date });
-    this.setState({ functionEndDate: endDate });
+  handleEndDatePicked(endDate) {
+    const formattedDate = `${months[endDate.getMonth()]} ${endDate.getDate()}, ${endDate.getFullYear()} 00:00:00`;
+    this.setState({ endDate });
+    this.setState({ functionEndDate: formattedDate });
     this.hideEndDateTimePicker();
   }
 
@@ -122,20 +126,27 @@ export default class NewItinerary extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <Header
-          backgroundColor="#0e416d"
-          centerComponent={{
-            text: '               wander',
-            style: {
-              color: 'white',
-              fontSize: 40,
-              fontWeight: 'bold',
-              width: 400,
-              alignItems: 'center',
-            },
-          }}
+          statusBarProps={{ barStyle: 'light-content' }}
+          outerContainerStyles={{ backgroundColor: '#0e416d' }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          leftComponent={<Icon
+            name="home"
+            color="#fff"
+            onPress={() => this.props.navigation
+              .dispatch(NavigationActions.reset({
+                index: 0,
+                actions:
+                  [NavigationActions.navigate({ routeName: 'Dashboard' })],
+              }))}
+          />}
+          rightComponent={<Icon
+            name="menu"
+            color="#fff"
+          />}
         />
+      <View style={styles.container}>
         <GooglePlacesAutocomplete
           placeholder="Where are you Wandering?"
           minLength={2}
@@ -197,9 +208,14 @@ export default class NewItinerary extends React.Component {
           onPress={this.getItinerary}
         />
       </View>
+      </View>
     );
   }
 }
+
+NewItinerary.navigationOptions = () => ({
+  header: null,
+});
 
 NewItinerary.propTypes = {
   navigation: PropTypes.object,
