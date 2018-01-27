@@ -78,20 +78,19 @@ export default class Event extends React.Component {
           />}
         />
         {/* <View style={{ width: 400, height: 200 }}> */}
-          {/* <MapView
-            style={{ flex: 1 }}
-            initialRegion={startingPoint}
-          >
-            {eventMarkers}
-          </MapView> */}
+        {/* <MapView
+          style={{ flex: 1 }}
+          initialRegion={startingPoint}
+        >
+          {eventMarkers}
+        </MapView> */}
         {/* </View> */}
         <ScrollView>
-            <Text h4 center>   Sort and Edit Your Scheudle</Text>
+          <Text h4 center>   Sort and Edit Your Scheudle</Text>
 
-            <Schedule
-              data={this.props.dayInfo}
-              >
-            </Schedule>
+          <Schedule
+            data={this.props.dayInfo}
+          />
 
         </ScrollView>
         <Button
