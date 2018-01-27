@@ -14,6 +14,7 @@ import axios from 'axios';
 import { keys } from '../config';
 import { Button, Icon, Text, Card } from 'react-native-elements';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 
 const window = Dimensions.get('window');
@@ -79,6 +80,8 @@ export default class Row extends React.Component {
     this.state = {
       extraData: {},
       modalVisible: false,
+      isDateTimePickerVisible: false,
+      time: ''
     };
 
     this._active = new Animated.Value(0);
@@ -117,12 +120,12 @@ export default class Row extends React.Component {
   componentWillMount() {
     if (this.props.data.placeId) {
       axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.props.data.placeId}&key=${keys.googleMapsAPI}`)
-        .then((res) => {
-          this.setState({ extraData: res.data.result });
-          // console.log(res.data);
+      .then((res) => {
+        this.setState({ extraData: res.data.result });
+        // console.log(res.data);
         })
         .catch(err => console.error('google api error', err));
-    }
+      }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -143,6 +146,16 @@ export default class Row extends React.Component {
     this.setState({modalVisible:false});
   }
 
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = (time) => {
+    console.log('A time has been picked: ', time);
+    this.setState({ time:time });
+    this._hideDateTimePicker();
+  };
+
 
   render() {
     const { data } = this.props;
@@ -152,7 +165,14 @@ export default class Row extends React.Component {
 
     const modalInfo  =  this.state.extraData || {};
 
-    // console.log( modalInfo.opening_hours.weekday_text );
+    if ( modalInfo.opening_hours !== undefined || null ) {
+      var openHours = modalInfo.opening_hours.weekday_text;
+        openHours.join('\r\n');
+
+    }
+
+
+    // console.log(dateArr)
 
     return (
       <Animated.View style={[
@@ -179,15 +199,36 @@ export default class Row extends React.Component {
             <View style={styles.modalContainer}>
               <View style={styles.innerContainer}>
                 <Card title={modalInfo.name !== undefined ? modalInfo.name : '...loading'}> 
-                  <Text>Phone Number: {modalInfo.formatted_phone_number !== undefined ? modalInfo.formatted_phone_number : '...loading'}</Text>
-                  <Text>{modalInfo.formatted_address !== undefined ? modalInfo.formatted_address : '...loading'}</Text>
-                  <Text>Open Hours {""}{modalInfo.rating}</Text>
-                </Card>
+                  <Text>Phone Number:{"\n"} {modalInfo.formatted_phone_number !== undefined ? modalInfo.formatted_phone_number : '...loading'}{"\n"}</Text>
+                  <Text>Address:{"\n"} {modalInfo.formatted_address !== undefined ? modalInfo.formatted_address : '...loading'}{"\n"}</Text>
+                  <Text>Open Hours{"\n"}
+                    {
+                      modalInfo.opening_hours ? 
+                      openHours :
+                      'N/A'
+                    }{"\n"}
+                  </Text>
+                    <View >
+                      <Button 
+                        onPress={this._showDateTimePicker}
+                        title='pick a start time'
+                      >
+                      </Button> 
+                      <View>
+                        <DateTimePicker
+                          isVisible={this.state.isDateTimePickerVisible}
+                          onConfirm={this._handleDatePicked}
+                          onCancel={this._hideDateTimePicker}
+                          mode='time'
+                        />
+                        </View>
+                    </View>
                 <Button
-                    onPress={() => this.closeModal()}
-                    title="Close modal"
-                >
-                </Button>
+                  onPress={() => this.closeModal()}
+                  title="Close modal"
+                  >
+                  </Button>
+                </Card>
               </View>
             </View>
           </Modal>
