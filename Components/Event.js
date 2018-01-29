@@ -38,21 +38,26 @@ export default class Event extends React.Component {
   }
 
   render() {
-    const eventCoordinates = this.props.dayInfo.events.map((event) => { 
-      return {
-        title: event.name,
-        coordinates: { latitude: event.latlng.lat, longitude: event.latlng.lng },
+    console.log('event day info', this.props.dayInfo);
+    let eventMarkers;
+    let startingPoint;
+    if (this.props.dayInfo.events[0]) {
+      const eventCoordinates = this.props.dayInfo.events.map((event) => { 
+        return {
+          title: event.name,
+          coordinates: { latitude: event.latlng.lat, longitude: event.latlng.lng },
+        };
+      });
+      eventMarkers = eventCoordinates
+        .map(coor =>
+          (<MapView.Marker coordinate={coor.coordinates} title={coor.title} key={coor.title} />));
+      startingPoint = {
+        latitude: this.props.dayInfo.events[0].latlng.lat,
+        longitude: this.props.dayInfo.events[0].latlng.lng,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
       };
-    });
-    const eventMarkers = eventCoordinates
-      .map(coor =>
-        (<MapView.Marker coordinate={coor.coordinates} title={coor.title} key={coor.title} />));
-    const startingPoint = {
-      latitude: this.props.dayInfo.events[0].latlng.lat,
-      longitude: this.props.dayInfo.events[0].latlng.lng,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    };
+    }
     return (
       <View style={styles.container}>
         <Header
@@ -79,7 +84,7 @@ export default class Event extends React.Component {
         <View style={{ width: 400, height: 200 }}>
           <MapView
             style={{ flex: 1 }}
-            initialRegion={startingPoint}
+            initialRegion={startingPoint || { latitude: 40.7128, longitude: -74.0060 }}
           >
             {eventMarkers}
           </MapView>
