@@ -85,6 +85,17 @@ export default class Dashboard extends React.Component {
     // });
     this.setState({ schedules: attending });
     this.setState({ invitedSchedules: invited });
+
+      const self = this;
+      console.log(self.state.photos);
+      axios.get(keys.server + '/photos')
+        .then((response) => {
+          // console.log(response);
+          self.setState({ avatarUrl: response.url });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
   }
 
   componentDidMount() {
@@ -132,20 +143,21 @@ export default class Dashboard extends React.Component {
 
 	_pickImage = async () => {
 		// open the image picker
-		let result = await ImagePicker.launchImageLibraryAsync({
+		const result = await ImagePicker.launchImageLibraryAsync({
 			allowsEditing: true,
 			aspect: [4, 3],
 		});
 
 		// result includes details about the image
-		console.log(result);
+		console.log('RESULT', result);
 
-		result.name = "avatar";
+    result.name = 'avatar';
+    result.contentType = result.type;
 
 		// save the image to S3
 		RNS3.put(result, s3Options).then(response => {
 		  if (response.status !== 201)
-		    throw new Error("Failed to upload image to S3");
+		    throw new Error('Failed to upload image to S3');
 		  console.log(response.body);
 		  /**
 		   * {
@@ -157,9 +169,9 @@ export default class Dashboard extends React.Component {
 		   *   }
 		   * }
 		   */
-			 let s3Photo = {
+			 const s3Photo = {
 				 url: response.body.postResponse.location,
-				 //user_id: need to get the current user id... how?
+				 id_user: response.body.data.id_user, //need to get the current user id... how?
 			 };
 			 console.log(s3Photo);
 			 axios.post(keys.server + '/photo', s3Photo)
