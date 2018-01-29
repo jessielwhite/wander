@@ -41,7 +41,7 @@ export default class GatherInterests extends React.Component {
     axios.get('http://18.218.102.64/types')
       .then((response) => {
         // console.log(response);
-        self.setState({ types: response.data.map(type => type.name) });
+        self.setState({ types: response.data.map(type => type) });
       })
       .catch((error) => {
         console.error(error);
@@ -49,22 +49,11 @@ export default class GatherInterests extends React.Component {
   }
 
   handleNext() {
-    AsyncStorage.getItem('Token').then((res) => {
-      const savedToken = JSON.parse(res);
-      console.log(savedToken);
-      axios.get('http://18.218.102.64/dashboard', {
-        headers: { authorization: savedToken },
-      })
-        .then(() => {
-          this.props.navigation.navigate('Dashboard', { created: false });
-        })
-        .catch((err) => {
-          console.log(`dashboard get call error ${err}`);
-        });
-    });
+    this.props.navigation.navigate('Dashboard', { created: false });
   }
 
   render() {
+    console.log(this.state.types);
     const interests = this.state.types.map((type) => {
       const name = `${type.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
       const icon = googleIcons[type];
@@ -80,7 +69,7 @@ export default class GatherInterests extends React.Component {
       <ScrollView contentContainerStyle={styles.container} >
         <Text style={styles.titleText}>wander</Text>
         <Text style={{ fontSize: 18 }}>Tell us what you like to do when you're on vacation</Text>
-        {interests}
+        {interests || <Text>loading</Text>}
         <Button
           large
           raised
