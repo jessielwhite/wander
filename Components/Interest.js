@@ -3,7 +3,6 @@ import { Text, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
-import { keys } from '../config';
 
 export default class Interest extends React.Component {
   constructor(props) {

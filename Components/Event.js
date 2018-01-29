@@ -29,18 +29,11 @@ export default class Event extends React.Component {
     this.openNewMap = this.openNewMap.bind(this);
   }
 
-  
   openNewMap(event) {
     // openMap({ latutude: 40.7128, longitude: -74.0060 });
   }
 
-  saveTrip() {
-    // const events = this.props.dayInfo;
-  }
-  
   render() {
-    
-
     const eventCoordinates = this.props.dayInfo.events.map((event) => { 
       return {
         title: event.name,
@@ -59,9 +52,10 @@ export default class Event extends React.Component {
     return (
       <View style={styles.container}>
         <Header
+          style={{ height: 35 }}
           statusBarProps={{ barStyle: 'light-content' }}
           outerContainerStyles={{ backgroundColor: '#0e416d' }}
-          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 28, height: 30 } }}
           leftComponent={<Icon
             name="home"
             color="#fff"
@@ -77,31 +71,28 @@ export default class Event extends React.Component {
             color="#fff"
           />}
         />
-        {/* <View style={{ width: 400, height: 200 }}> */}
-          {/* <MapView
+
+        <View style={{ width: 400, height: 200 }}>
+          <MapView
             style={{ flex: 1 }}
             initialRegion={startingPoint}
           >
             {eventMarkers}
-          </MapView> */}
-        {/* </View> */}
+          </MapView>
+        </View>
+
         <ScrollView>
-            <Text h4 center>   Sort and Edit Your Scheudle</Text>
+          <Text h4 center>   Sort and Edit Your Scheudle</Text>
 
-            <Schedule
-              data={this.props.dayInfo}
-              >
-            </Schedule>
+          <Schedule
+            data={this.props.dayInfo}
+          />
 
+          <Button
+            title="Save your Trip Recommendations"
+            onPress={this.props.saveSchedule}
+          />
         </ScrollView>
-        <Button
-          title="Save your Trip Recommendations"
-          onPress={this.saveTrip}
-        />
-        <Button
-          title="Go to Dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
-        />
       </View>
     );
   }

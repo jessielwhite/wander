@@ -103,6 +103,16 @@ const filterAndRemoveDuplicates = (data) => {
   return filteredData;
 };
 
+const buildLiveEvent = (predictHQEvent) => {
+  return {
+    name: predictHQEvent.title,
+    latlng: {
+      lat: predictHQEvent.location[1],
+      lng: predictHQEvent.location[0],
+    },
+  };
+};
+
 // Here's where the magic happens
 const scheduleBuilder = (startDate, endDate, google, restaurantData, predictHQ, location, userLikes) => {
   startDate = new Date(startDate);
@@ -135,7 +145,7 @@ const scheduleBuilder = (startDate, endDate, google, restaurantData, predictHQ, 
     schedule[day].restaurants = [];
     predictHQ.forEach((event, i) => {
       if (new Date(event.start).getDate() === currentDate.getDate()) {
-        schedule[day].liveEvents.push(event);
+        schedule[day].liveEvents.push(buildLiveEvent(event));
         predictHQ.splice(i, 1);
       }
     });
