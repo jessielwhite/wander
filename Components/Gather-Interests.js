@@ -5,6 +5,7 @@ import { Button } from 'react-native-elements';
 import axios from 'axios';
 import Interest from './Interest';
 import { keys } from '../config';
+import googleIcons from '../icons';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,7 +67,9 @@ export default class GatherInterests extends React.Component {
   render() {
     const interests = this.state.types.map((type) => {
       const name = `${type.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
+      const icon = googleIcons[type];
       return (<Interest
+        icon={icon}
         name={name}
         type={type}
         navigation={this.props.navigation}

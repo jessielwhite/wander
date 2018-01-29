@@ -3,6 +3,7 @@ import { Text, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
+import googleIcons from '../icons';
 import { keys } from '../config';
 
 export default class Interest extends React.Component {
@@ -40,7 +41,7 @@ export default class Interest extends React.Component {
         large
         raised
         buttonStyle={{ backgroundColor: '#0e416d', width: 500, marginVertical: 5 }}
-        icon={{ name: 'envira', type: 'font-awesome' }}
+        icon={{ name: 'book', type: 'font-awesome' }}
         onPress={this.selectInterest}
         title={this.props.name}
       />
