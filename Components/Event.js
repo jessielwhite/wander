@@ -29,6 +29,10 @@ export default class Event extends React.Component {
     this.openNewMap = this.openNewMap.bind(this);
   }
 
+  componentWillMount() {
+    // console.log(this.props.dayInfo);
+  }
+
   openNewMap(event) {
     // openMap({ latutude: 40.7128, longitude: -74.0060 });
   }

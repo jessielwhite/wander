@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
 export default class Schedule extends Component {
 
   _renderRow({ data, active }) {
-
     return <Row 
       data={data} 
       active={active} 
-      />
+      key={data.name}
+    />
   }
 
   render() {

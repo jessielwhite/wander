@@ -44,7 +44,6 @@ export default class Signup extends React.Component {
     axios.post('http://18.218.102.64/signup', user)
       .then((res) => {
         if (res.data !== 'User was not created') {
-          console.log(res.data);
           AsyncStorage.setItem('Token', JSON.stringify(res.data));
           this.props.navigation
             .dispatch(NavigationActions.reset({

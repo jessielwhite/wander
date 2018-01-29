@@ -7,6 +7,8 @@ import Itinerary from './Components/Itinerary';
 import NewItinerary from './Components/New-Itinerary';
 import Signup from './Components/Signup';
 
+console.disableYellowBox = true;
+
 const App = StackNavigator({
   Login: { screen: Login },
   Signup: { screen: Signup },

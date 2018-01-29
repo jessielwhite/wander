@@ -23,10 +23,24 @@ export default class Trip extends React.Component {
 
   handleTripSelect() {
     // Commented out for testing purposes
-    // axios.get(`http://18.218.102.64/${this.props.schedule.id}/schedules`)
-    //   .then(res => this.props.navigation.navigate('Itinerary', { dayInfo: res }))
-    //   .catch(err => console.error(err));
-    this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
+    axios.get(`http://18.218.102.64/${this.props.schedule.id}/schedules`)
+      .then((res) => {
+        const datesSummary = res.data.reduce((seed, obj) => {
+          seed[obj.dateTime] = true;
+          return seed;
+        }, {});
+        const schedule = {};
+        Object.keys(datesSummary).forEach((day, i) => {
+          datesSummary[day] = `day_${i + 1}`;
+          schedule[`day_${i + 1}`] = [];
+        });
+        res.data.forEach((event) => {
+          schedule[datesSummary[event.dateTime]].push(event);
+        });
+        this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+      })
+      .catch(err => console.error(err));
+    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showModal() {
@@ -97,7 +111,7 @@ export default class Trip extends React.Component {
             />
           </View>
         </Modal>
-        <Text>{this.props.schedule.name}</Text>
+        <Text style={{ fontSize: 25, alignContent: 'center' }}>{this.props.schedule.name}</Text>
         <Button
           buttonStyle={{
             backgroundColor: '#0e416d',
@@ -121,5 +135,4 @@ export default class Trip extends React.Component {
 
 Trip.propTypes = {
   navigation: PropTypes.object,
-  schedule: PropTypes.object,
 };
