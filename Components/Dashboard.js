@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
-<<<<<<< HEAD
 import { keys } from '../config';
 import { dashboardExample } from '../scheduleExample';
 import { RNS3 } from 'react-native-aws3';
@@ -21,8 +20,6 @@ const s3Options = {
   secretKey: keys.s3SecretKey,
   successActionStatus: 201
 }
-=======
->>>>>>> 432da5432971c96754be9f4623a48d2ba1ed1b44
 
 const styles = StyleSheet.create({
   container: {
