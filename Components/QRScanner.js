@@ -48,5 +48,7 @@ export default class BarcodeScannerExample extends React.Component {
           data: body,
         })
       })
+      .then(() => this.props.navigation.navigate('Dashboard'))
+      .catch((err) => console.error(err));
   }
 }
