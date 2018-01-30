@@ -50,7 +50,7 @@ module.exports.styles = StyleSheet.create({
   innerContainer: {
     alignItems: 'center',
   },
-  // Styles for Trip.js
+  // Trip page
   tripContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
   },
@@ -66,6 +66,17 @@ module.exports.styles = StyleSheet.create({
   },
   tripModalButton: {
     fontSize: 20,
+    fontWeight: 'bold',
+  },
+  // GatherInterests page
+  gatherInterestsContainer: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  },
+  gatherInterestsTitleText: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    fontSize: 60,
     fontWeight: 'bold',
   },
 });

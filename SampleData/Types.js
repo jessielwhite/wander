@@ -16,3 +16,22 @@ module.exports.typeIds = {
   stadium: 15,
   zoo: 16,
 };
+
+module.exports.typePlurals = {
+  amusement_park: 'Amusement parks',
+  aquarium: 'Aquariums',
+  art_gallery: 'Art galleries',
+  bowling_alley: 'Bowling alleys',
+  book_store: 'Book stores',
+  casino: 'Casinos',
+  clothing_store: 'Clothing stores',
+  point_of_interest: 'Points of interest',
+  shopping_mall: 'Shopping malls',
+  library: 'Libraries',
+  movie_theater: 'Movie theaters',
+  museum: 'Museums',
+  night_club: 'Night clubs',
+  park: 'Parks',
+  stadium: 'Stadiums',
+  zoo: 'Zoos',
+};

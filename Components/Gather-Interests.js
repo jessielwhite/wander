@@ -4,25 +4,8 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 import Interest from './Interest';
-import { keys } from '../config';
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-  titleText: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    fontSize: 60,
-    fontWeight: 'bold',
-  },
-  button: {
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    width: '100%',
-  },
-});
+import { styles } from './Styles';
+import { typePlurals } from '../SampleData/Types';
 
 export default class GatherInterests extends React.Component {
   constructor(props) {
@@ -51,17 +34,16 @@ export default class GatherInterests extends React.Component {
 
   render() {
     const interests = this.state.types.map((type) => {
-      const name = `${type.name.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
       return (<Interest
-        name={name}
+        name={typePlurals[type.name]}
         type={type}
         navigation={this.props.navigation}
-        key={name}
+        key={typePlurals[type.name]}
       />);
     });
     return (
-      <ScrollView contentContainerStyle={styles.container} >
-        <Text style={styles.titleText}>wander</Text>
+      <ScrollView contentContainerStyle={styles.gatherInterestsContainer} >
+        <Text style={styles.gatherInterestsTitleText}>wander</Text>
         <Text style={{ fontSize: 18 }}>Tell us what you like to do when you're on vacation</Text>
         {interests || <Text>loading</Text>}
         <Button
