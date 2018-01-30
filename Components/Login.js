@@ -44,32 +44,38 @@ export default class Login extends React.Component {
   }
 
   login() {
-    const user = { email: this.state.email, password: this.state.password };
+    // const user = { email: this.state.email, password: this.state.password };
+    // this.props.navigation
+    //   .dispatch(NavigationActions.reset({
+    //     index: 0,
+    //     actions:
+    //       [NavigationActions.navigate({ routeName: 'Dashboard' })],
+    //   }));
+    // // Actual requests is commented out for testing purposes
+    // axios.post('http://18.218.102.64/login', user)
+    //   .then((res) => {
+    //     const token = res.data.slice(4);
+    //     if (token !== 'Password is incorrect') {
+    //       AsyncStorage.setItem('Token', JSON.stringify(token));
+    //       this.props.navigation
+    //         .dispatch(NavigationActions.reset({
+    //           index: 0,
+    //           actions:
+    //             [NavigationActions.navigate({ routeName: 'Dashboard' })],
+    //         }));
+    //     } else {
+    //       this.props.navigation.navigate('Login');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error('Login error ', err);
+    //   });
     this.props.navigation
       .dispatch(NavigationActions.reset({
         index: 0,
         actions:
           [NavigationActions.navigate({ routeName: 'Dashboard' })],
       }));
-    // Actual requests is commented out for testing purposes
-    axios.post('http://18.218.102.64/login', user)
-      .then((res) => {
-        const token = res.data.slice(4);
-        if (token !== 'Password is incorrect') {
-          AsyncStorage.setItem('Token', JSON.stringify(token));
-          this.props.navigation
-            .dispatch(NavigationActions.reset({
-              index: 0,
-              actions:
-                [NavigationActions.navigate({ routeName: 'Dashboard' })],
-            }));
-        } else {
-          this.props.navigation.navigate('Login');
-        }
-      })
-      .catch((err) => {
-        console.error('Login error ', err);
-      });
   }
 
   render() {
