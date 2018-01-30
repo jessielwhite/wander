@@ -2,26 +2,19 @@ import React from 'react';
 import {
   Animated,
   Easing,
-  Dimensions,
-  Platform,
   View,
   Modal,
+  AsyncStorage,
 } from 'react-native';
 import openMap from 'react-native-open-maps';
-import PropTypes from 'prop-types';
-import { Button, Icon, Text, Card, FormInput } from 'react-native-elements';
-import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import { Button, Icon, Text, Card } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { TextField } from 'react-native-material-textfield';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { keys } from '../config';
 import { styles, rowStyle } from './Styles';
-
-const window = Dimensions.get('window');
-
-const slideAnimation = new SlideAnimation({
-  slideFrom: 'bottom',
-});
+import { typeIds } from '../SampleData/Types';
 
 export default class Row extends React.Component {
   constructor(props) {
@@ -38,25 +31,16 @@ export default class Row extends React.Component {
     this.openNewMap = this.openNewMap.bind(this);
     this.dislikeEvent = this.dislikeEvent.bind(this);
 
-    this._active = new Animated.Value(0);
-
-    this._style = rowStyle;
-
-  }
-
-  openNewMap() {
-    openMap({ latitude: this.props.data.latlng.lat, longitude: this.props.data.latlng.lng });
-  }
-
-  dislikeEvent() {
-
+    this.active = new Animated.Value(0);
   }
 
   componentWillMount() {
     if (this.props.data.placeId) {
       axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.props.data.placeId}&key=${keys.googleMapsAPI}`)
         .then((res) => {
-          this.setState({ extraData: res.data.result });
+          this.setState({ extraData: res.data.result }, () => {
+            console.log(this.state.extraData);
+          });
           // console.log(res.data);
         })
         .catch(err => console.error('google api error', err));
@@ -65,12 +49,41 @@ export default class Row extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.active !== nextProps.active) {
-      Animated.timing(this._active, {
+      Animated.timing(this.active, {
         duration: 300,
         easing: Easing.bounce,
         toValue: Number(nextProps.active),
       }).start();
     }
+  }
+
+  openNewMap() {
+    openMap({ latitude: this.props.data.latlng.lat, longitude: this.props.data.latlng.lng });
+  }
+
+  dislikeEvent() {
+    this.state.extraData.types.forEach((type) => {
+      if (typeIds[type]) {
+        AsyncStorage.getItem('Token').then((res) => {
+          const savedToken = JSON.parse(res);
+          axios({
+            method: 'post',
+            url: 'http://18.218.102.64/user_like',
+            headers: {
+              authorization: savedToken,
+              'Content-Type': 'application/json',
+            },
+            data: { id_type: typeIds[type], like: false },
+          })
+            .then((response) => {
+              // console.log(`user like post response ${response}`);
+            })
+            .catch((err) => {
+              console.error(`select interest post error ${err}`);
+            });
+        });
+      }
+    });
   }
 
   openModal() {
@@ -108,7 +121,7 @@ export default class Row extends React.Component {
     return (
       <Animated.View style={[
           styles.row,
-          this._style,
+          rowStyle,
         ]}
       >
         <Icon

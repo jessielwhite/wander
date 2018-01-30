@@ -1,4 +1,6 @@
-import { StyleSheet, Platform, Animated } from 'react-native';
+import { StyleSheet, Platform, Animated, Dimensions } from 'react-native';
+
+const window = Dimensions.get('window');
 
 module.exports.styles = StyleSheet.create({
   // Row.js
@@ -68,18 +70,18 @@ module.exports.styles = StyleSheet.create({
   },
 });
 
-this._active = new Animated.Value(0);
+this.active = new Animated.Value(0);
 
 module.exports.rowStyle = {
   ...Platform.select({
     ios: {
       transform: [{
-        scale: this._active.interpolate({
+        scale: this.active.interpolate({
           inputRange: [0, 1],
           outputRange: [1, 1.1],
         }),
       }],
-      shadowRadius: this._active.interpolate({
+      shadowRadius: this.active.interpolate({
         inputRange: [0, 1],
         outputRange: [2, 10],
       }),
@@ -87,12 +89,12 @@ module.exports.rowStyle = {
 
     android: {
       transform: [{
-        scale: this._active.interpolate({
+        scale: this.active.interpolate({
           inputRange: [0, 1],
           outputRange: [1, 1.07],
         }),
       }],
-      elevation: this._active.interpolate({
+      elevation: this.active.interpolate({
         inputRange: [0, 1],
         outputRange: [2, 6],
       }),
