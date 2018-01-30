@@ -79,6 +79,13 @@ module.exports.styles = StyleSheet.create({
     fontSize: 60,
     fontWeight: 'bold',
   },
+  // Signup page
+  signupContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 this.active = new Animated.Value(0);

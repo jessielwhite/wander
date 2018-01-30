@@ -7,16 +7,7 @@ import axios from 'axios';
 import { NavigationActions } from 'react-navigation';
 import logo from '../img/logo.png';
 import Chicago from '../img/Chicago.jpg';
-import { keys } from '../config';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import { styles } from './Styles';
 
 export default class Signup extends React.Component {
   constructor() {
@@ -34,13 +25,6 @@ export default class Signup extends React.Component {
       password: this.state.password,
       username: this.state.username,
     };
-    // this.props.navigation
-    //   .dispatch(NavigationActions.reset({
-    //     index: 0,
-    //     actions:
-    //       [NavigationActions.navigate({ routeName: 'GatherInterests' })],
-    //   }));
-    // Actual request commented out for testing purposes
     axios.post('http://18.218.102.64/signup', user)
       .then((res) => {
         if (res.data !== 'User was not created') {
@@ -72,7 +56,7 @@ export default class Signup extends React.Component {
         }}
         source={Chicago}
       >
-        <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+        <KeyboardAwareScrollView contentContainerStyle={styles.signupContainer}>
           <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />
           <FormInput
             style={{
