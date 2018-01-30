@@ -27,9 +27,13 @@ export default class Interest extends React.Component {
   constructor(props) {
     super(props);
     this.selectInterest = this.selectInterest.bind(this);
+    this.state = {
+      status: false,
+    };
   }
 
   selectInterest() {
+    this.setState({ status: !this.state.status });
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
       axios({
@@ -55,7 +59,7 @@ export default class Interest extends React.Component {
       <Button
         large
         raised
-        buttonStyle={{ backgroundColor: '#0e416d', width: 500, marginVertical: 5 }}
+        buttonStyle={{ backgroundColor: this.state.status ? '#0b81e8' : '#0e416d', width: 500, marginVertical: 5 }}
         onPress={this.selectInterest}
         icon={{ name: icons[this.props.name], type: 'font-awesome' }}
         title={this.props.name}
