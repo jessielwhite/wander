@@ -5,7 +5,6 @@ import { Button } from 'react-native-elements';
 import axios from 'axios';
 import Interest from './Interest';
 import { keys } from '../config';
-import googleIcons from '../icons';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,10 +36,8 @@ export default class GatherInterests extends React.Component {
   componentWillMount() {
     // This binding is lost in the get request, so we need to store it
     const self = this;
-    console.log(self.state.types);
     axios.get('http://18.218.102.64/types')
       .then((response) => {
-        // console.log(response);
         self.setState({ types: response.data.map(type => type) });
       })
       .catch((error) => {
@@ -53,17 +50,15 @@ export default class GatherInterests extends React.Component {
   }
 
   render() {
-    console.log(this.state.types);
     const interests = this.state.types.map((type) => {
-      const name = `${type.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
-      const icon = googleIcons[type];
-      return (<Interest
-        icon={icon}
-        name={name}
-        type={type}
-        navigation={this.props.navigation}
-        key={name}
-      />);
+      const name = `${type.name.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
+      return (
+        <Interest
+          name={name}
+          type={type}
+          navigation={this.props.navigation}
+          key={name}
+        />);
     });
     return (
       <ScrollView contentContainerStyle={styles.container} >

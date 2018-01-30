@@ -55,7 +55,7 @@ export default class Login extends React.Component {
     axios.post('http://18.218.102.64/login', user)
       .then((res) => {
         const token = res.data.slice(4);
-        console.log(res);
+        console.log(res.data.slice(4));
         if (token !== 'Password is incorrect') {
           AsyncStorage.setItem('Token', JSON.stringify(token));
           this.props.navigation
