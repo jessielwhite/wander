@@ -4,6 +4,25 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 
+const icons = {
+  'Amusement Parks': 'fort-awesome',
+  Aquariums: 'user-circle-o',
+  'Art Gallerys': 'image',
+  'Bowling Alleys': 'eercast',
+  'Book Stores': 'book',
+  Casinos: 'money',
+  'Clothing Stores': 'shopping-cart',
+  'Point Of Interests': 'building',
+  'Shopping Malls': 'shopping-bag',
+  Librarys: 'book',
+  'Movie Theaters': 'video-camera',
+  Museums: 'building-o',
+  'Night Clubs': 'music',
+  Parks: 'users',
+  Stadiums: 'soccer-ball-o',
+  Zoos: 'flag',
+};
+
 export default class Interest extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +42,7 @@ export default class Interest extends React.Component {
         data: { id_type: this.props.type.id },
       })
         .then((response) => {
-          // console.log(`user like post response ${response}`);
+          console.log(`user like post response ${response}`);
         })
         .catch((err) => {
           console.error(`select interest post error ${err}`);
@@ -37,8 +56,8 @@ export default class Interest extends React.Component {
         large
         raised
         buttonStyle={{ backgroundColor: '#0e416d', width: 500, marginVertical: 5 }}
-        icon={{ name: 'envira', type: 'font-awesome' }}
         onPress={this.selectInterest}
+        icon={{ name: icons[this.props.name], type: 'font-awesome' }}
         title={this.props.name}
       />
     );

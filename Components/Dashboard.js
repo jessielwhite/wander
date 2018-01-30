@@ -87,7 +87,8 @@ export default class Dashboard extends React.Component {
 
   signout() {
     axios.get('http://18.218.102.64/logout')
-      .then(() => {
+      .then((res) => {
+        console.log(res.data);
         AsyncStorage.removeItem('Token');
         this.props.navigation
           .dispatch(NavigationActions.reset({

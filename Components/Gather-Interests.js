@@ -52,12 +52,13 @@ export default class GatherInterests extends React.Component {
   render() {
     const interests = this.state.types.map((type) => {
       const name = `${type.name.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
-      return (<Interest
-        name={name}
-        type={type}
-        navigation={this.props.navigation}
-        key={name}
-      />);
+      return (
+        <Interest
+          name={name}
+          type={type}
+          navigation={this.props.navigation}
+          key={name}
+        />);
     });
     return (
       <ScrollView contentContainerStyle={styles.container} >
