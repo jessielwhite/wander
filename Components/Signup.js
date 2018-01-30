@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Image, AsyncStorage } from 'react-native';
+import { ImageBackground, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FormInput, Button } from 'react-native-elements';
 import axios from 'axios';
 import { NavigationActions } from 'react-navigation';
-import logo from '../img/logo.png';
 import Chicago from '../img/Chicago.jpg';
 import { styles } from './Styles';
 
@@ -57,43 +56,21 @@ export default class Signup extends React.Component {
         source={Chicago}
       >
         <KeyboardAwareScrollView contentContainerStyle={styles.signupContainer}>
-          <Image source={logo} style={{ width: 200, height: 200, marginBottom: 30 }} />
           <FormInput
-            style={{
-            height: 40,
-            width: 300,
-            borderColor: 'gray',
-            borderWidth: 1,
-            borderRadius: 6,
-            marginBottom: 5,
-          }}
+            style={styles.signupFormInput}
             keyboardType="email-address"
             onChangeText={text => this.setState({ email: text })}
             placeholder="Enter your email address"
             placeholderTextColor="white"
           />
           <FormInput
-            style={{
-            height: 40,
-            width: 300,
-            borderColor: 'gray',
-            borderWidth: 1,
-            borderRadius: 6,
-            marginBottom: 5,
-          }}
+            style={styles.signupFormInput}
             placeholder="Enter a username"
             placeholderTextColor="white"
             onChangeText={text => this.setState({ username: text })}
           />
           <FormInput
-            style={{
-            height: 40,
-            width: 300,
-            borderColor: 'gray',
-            borderWidth: 1,
-            borderRadius: 6,
-            marginBottom: 5,
-          }}
+            style={styles.signupFormInput}
             placeholder="Enter a password"
             placeholderTextColor="white"
             secureTextEntry

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
-import PropTypes from 'prop-types';
+import { Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import Interest from './Interest';
 import { styles } from './Styles';
 import { typePlurals } from '../SampleData/Types';
@@ -33,14 +33,13 @@ export default class GatherInterests extends React.Component {
   }
 
   render() {
-    const interests = this.state.types.map((type) => {
-      return (<Interest
+    const interests = this.state.types.map(type => (
+      <Interest
         name={typePlurals[type.name]}
         type={type}
         navigation={this.props.navigation}
         key={typePlurals[type.name]}
-      />);
-    });
+      />));
     return (
       <ScrollView contentContainerStyle={styles.gatherInterestsContainer} >
         <Text style={styles.gatherInterestsTitleText}>wander</Text>

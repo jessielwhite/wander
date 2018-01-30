@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
-import PropTypes from 'prop-types';
+import { AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 export default class Interest extends React.Component {
   constructor(props) {
@@ -22,9 +22,6 @@ export default class Interest extends React.Component {
         },
         data: { id_type: this.props.type.id, like: true },
       })
-        .then((response) => {
-          // console.log(`user like post response ${response}`);
-        })
         .catch((err) => {
           console.error(`select interest post error ${err}`);
         });

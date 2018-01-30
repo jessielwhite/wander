@@ -112,6 +112,14 @@ module.exports.styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  signupFormInput: {
+    height: 40,
+    width: 300,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 6,
+    marginBottom: 5,
+  },
   // Row.js
   row: {
     flexDirection: 'row',

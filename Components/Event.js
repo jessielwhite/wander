@@ -3,6 +3,7 @@ import { Button, View, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 import { Header, Icon, Text } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
+import PropTypes from 'prop-types';
 import Schedule from './Schedule';
 import { styles } from './Styles';
 
@@ -27,12 +28,10 @@ export default class Event extends React.Component {
       longitudeDelta: 0.0421,
     };
     if (this.props.dayInfo.events.length) {
-      const eventCoordinates = this.props.dayInfo.events.map((event, i) => { 
-        return {
-          title: event.name,
-          coordinates: { latitude: event.latlng.lat, longitude: event.latlng.lng },
-        };
-      });
+      const eventCoordinates = this.props.dayInfo.events.map(event => ({
+        title: event.name,
+        coordinates: { latitude: event.latlng.lat, longitude: event.latlng.lng },
+      }));
       eventMarkers = eventCoordinates
         .map(coor =>
           (<MapView.Marker coordinate={coor.coordinates} title={coor.title} key={coor.title} />));
@@ -91,3 +90,9 @@ export default class Event extends React.Component {
     );
   }
 }
+
+Event.propTypes = {
+  saveSchedule: PropTypes.function,
+  navigation: PropTypes.object,
+  dayInfo: PropTypes.object,
+};

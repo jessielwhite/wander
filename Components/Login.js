@@ -2,9 +2,9 @@ import React from 'react';
 import { ImageBackground, Text, View, AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import { FormInput, Button } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
+import PropTypes from 'prop-types';
 import NYC from '../img/NYC.jpg';
 import { styles } from './Styles';
 

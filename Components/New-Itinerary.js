@@ -5,30 +5,16 @@ import {
   ActivityIndicator,
   AsyncStorage,
 } from 'react-native';
-import PropTypes from 'prop-types';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Header, Text, Button, Icon } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { keys } from '../config';
 import { getSchedule } from '../ScheduleMethods';
 import { styles } from './Styles';
-
-const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+import { months } from '../SampleData/Types';
 
 export default class NewItinerary extends React.Component {
   constructor() {

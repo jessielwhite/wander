@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import SortableList from 'react-native-sortable-list';
+import PropTypes from 'prop-types';
 import Row from './Row';
 import { styles } from './Styles';
 
@@ -25,3 +26,7 @@ export default class Schedule extends Component {
     );
   }
 }
+
+Schedule.propTypes = {
+  data: PropTypes.object,
+};

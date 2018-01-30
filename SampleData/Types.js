@@ -35,3 +35,18 @@ module.exports.typePlurals = {
   stadium: 'Stadiums',
   zoo: 'Zoos',
 };
+
+module.exports.months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];

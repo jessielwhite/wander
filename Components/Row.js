@@ -6,10 +6,11 @@ import {
   Modal,
   AsyncStorage,
 } from 'react-native';
-import openMap from 'react-native-open-maps';
 import { Button, Icon, Text, Card } from 'react-native-elements';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 import { TextField } from 'react-native-material-textfield';
+import openMap from 'react-native-open-maps';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { keys } from '../config';
 import { styles, rowStyle } from './Styles';
@@ -133,7 +134,7 @@ export default class Row extends React.Component {
           >
             <View style={styles.modalContainer}>
               <View style={styles.innerContainer}>
-                <Card title={modalInfo.name !== undefined ? modalInfo.name : '...loading'}> 
+                <Card title={modalInfo.name !== undefined ? modalInfo.name : '...loading'}>
                   <Text>Phone Number: {'\n'} {modalInfo.formatted_phone_number !== undefined ? modalInfo.formatted_phone_number : '...loading'}{'\n'}</Text>
                   <Text>Address: {'\n'} {modalInfo.formatted_address !== undefined ? modalInfo.formatted_address : '...loading'}{'\n'}</Text>
                   <Text>Open Hours
@@ -184,3 +185,8 @@ export default class Row extends React.Component {
     );
   }
 }
+
+Row.propTypes = {
+  // name: PropTypes.string
+  data: PropTypes.object,
+};

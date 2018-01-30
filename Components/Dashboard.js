@@ -1,10 +1,9 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert } from 'react-native';
+import { Text, View, ImageBackground, AsyncStorage, Alert } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
-import { BarCodeScanner, Permissions } from 'expo';
-import PropTypes from 'prop-types';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
 import { styles } from './Styles';
@@ -22,21 +21,25 @@ export default class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    // Query the database to get this user's schedules
     AsyncStorage.getItem('Token')
       .then((res) => {
         const savedToken = JSON.parse(res);
         return axios.get('http://18.218.102.64/dashboard', { headers: { authorization: savedToken } });
       })
       .then((res) => {
-        // Take each schedule and query the database to get the full name
         res.data.forEach((userSchedule) => {
           axios.get(`http://18.218.102.64/schedule/${userSchedule.id_schedule}`)
             .then((response) => {
               const schedule = response.data;
-              const fullSchedule = { id: userSchedule.id_schedule, status: userSchedule.status, name: schedule.name };
+              const fullSchedule = {
+                id: userSchedule.id_schedule,
+                status: userSchedule.status,
+                name: schedule.name,
+              };
               if (fullSchedule.status === 'invited') {
-                this.setState({ invitedSchedules: this.state.invitedSchedules.concat([fullSchedule]) });
+                this.setState({
+                  invitedSchedules: this.state.invitedSchedules.concat([fullSchedule]),
+                });
               } else if (fullSchedule.status === 'attending' || fullSchedule.status === 'creator') {
                 this.setState({ schedules: this.state.schedules.concat([fullSchedule]) });
               }
