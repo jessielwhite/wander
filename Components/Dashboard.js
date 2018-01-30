@@ -27,6 +27,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
+  titleText: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    fontSize: 60,
+    fontWeight: 'bold',
+  },
+  button: {
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    width: '100%',
+  },
 });
 
 export default class Dashboard extends React.Component {
@@ -238,3 +249,6 @@ Dashboard.navigationOptions = () => ({
 Dashboard.propTypes = {
   navigation: PropTypes.object,
 };
+
+//
+
