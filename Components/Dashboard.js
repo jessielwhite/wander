@@ -217,6 +217,11 @@ export default class Dashboard extends React.Component {
             onPress={this._pickImage}
 					/>
           </View>
+          <Button
+            title="Scan a QR code"
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+            onPress={() => this.props.navigation.navigate('QRScanner')}
+          />
             {trips}
             <Button
               title="Plan a new trip"
@@ -227,14 +232,10 @@ export default class Dashboard extends React.Component {
           <Button
             // small
             // raised
+            title="Sign out"
             buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
             // style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
-            title="Sign out"
             onPress={this.signout}
-          />
-          <Button
-            title="Scan a QR code"
-            onPress={() => this.props.navigation.navigate('QRScanner')}
           />
         </View>
       </ImageBackground>
