@@ -1,11 +1,9 @@
 import React from 'react';
-import openMap from 'react-native-open-maps';
 import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
 
 import { List, ListItem, Header, Icon, Text } from 'react-native-elements';
-
 import axios from 'axios';
 import { NavigationActions } from 'react-navigation';
 import { keys } from '../config';
@@ -26,23 +24,29 @@ const styles = StyleSheet.create({
 export default class Event extends React.Component {
   constructor(props) {
     super(props);
-    this.openNewMap = this.openNewMap.bind(this);
   }
 
   componentWillMount() {
-    // console.log(this.props.dayInfo);
-  }
-
-  openNewMap(event) {
-    // openMap({ latutude: 40.7128, longitude: -74.0060 });
+    const seen = {};
+    this.props.dayInfo.events.forEach((item, i) => {
+      if (seen[item.name]) {
+        this.props.dayInfo.events.splice(i, 1);
+      } else {
+        seen[item.name] = true;
+      }
+    });
   }
 
   render() {
-    console.log('event day info', this.props.dayInfo);
     let eventMarkers;
-    let startingPoint;
-    if (this.props.dayInfo.events[0]) {
-      const eventCoordinates = this.props.dayInfo.events.map((event) => { 
+    let startingPoint = {
+      latitude: 40.741231,
+      longitude: -74.00670099999999,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
+    if (this.props.dayInfo.events.length) {
+      const eventCoordinates = this.props.dayInfo.events.map((event, i) => { 
         return {
           title: event.name,
           coordinates: { latitude: event.latlng.lat, longitude: event.latlng.lng },
@@ -75,10 +79,6 @@ export default class Event extends React.Component {
                   [NavigationActions.navigate({ routeName: 'Dashboard' })],
               }))}
           />}
-          rightComponent={<Icon
-            name="menu"
-            color="#fff"
-          />}
         />
 
         <View style={{ width: 400, height: 200 }}>
@@ -92,10 +92,14 @@ export default class Event extends React.Component {
 
         <ScrollView>
           <Text h4 center>   Sort and Edit Your Scheudle</Text>
-
-          <Schedule
-            data={this.props.dayInfo}
-          />
+          {
+            this.props.dayInfo.events.length ?
+              <Schedule
+                data={this.props.dayInfo}
+              />
+            :
+              <Text>Loading</Text>
+          }
 
           <Button
             title="Save your Trip Recommendations"

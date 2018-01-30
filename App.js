@@ -6,8 +6,7 @@ import GatherInterests from './Components/Gather-Interests';
 import Itinerary from './Components/Itinerary';
 import NewItinerary from './Components/New-Itinerary';
 import Signup from './Components/Signup';
-
-console.disableYellowBox = true;
+import QRScanner from './Components/QRScanner';
 
 const App = StackNavigator({
   Login: { screen: Login },
@@ -16,6 +15,7 @@ const App = StackNavigator({
   Dashboard: { screen: Dashboard },
   NewItinerary: { screen: NewItinerary },
   Itinerary: { screen: Itinerary },
+  QRScanner: { screen: QRScanner },
 });
 
 export default App;

@@ -56,7 +56,6 @@ export default class Schedule extends Component {
     return <Row 
       data={data} 
       active={active} 
-      key={data.name}
     />
   }
 
@@ -65,13 +64,11 @@ export default class Schedule extends Component {
     return (
       <View style={styles.container}>
         <SortableList
-
           style={styles.list}
           contentContainerStyle={styles.contentContainer}
           data={this.props.data.events}
           renderRow={this._renderRow}
-          
-
+          key="hi this is a key"
         />
       </View>
     );
