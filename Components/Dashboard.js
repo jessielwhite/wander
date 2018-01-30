@@ -9,6 +9,17 @@ import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
 import { keys } from '../config';
 import { dashboardExample } from '../scheduleExample';
+import { RNS3 } from 'react-native-aws3';
+import { ImagePicker } from 'expo';
+
+const s3Options = {
+  keyPrefix: "uploads/",
+  bucket: keys.s3Bucket,
+  region: "us-east-2",
+  accessKey: keys.s3AccessKey,
+  secretKey: keys.s3SecretKey,
+  successActionStatus: 201
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -54,6 +65,20 @@ export default class Dashboard extends React.Component {
         });
       })
       .catch(error => console.error('error', error));
+
+      // const self = this;
+      // console.log(self.state.photos);
+      // axios.get('http://18.218.102.64/photos')
+      //   .then((response) => {
+      //     let photos = response.data;
+  
+      //     if (Array.isArray(photos) && photos.length > 0) {
+      //       self.setState({ avatarUrl: photos[0].url });
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
   }
 
   componentDidMount() {
@@ -100,6 +125,46 @@ export default class Dashboard extends React.Component {
       .catch(err => console.error(err));
   }
 
+  _pickImage = async () => {
+		// open the image picker
+		const result = await ImagePicker.launchImageLibraryAsync({
+			allowsEditing: true,
+			aspect: [4, 3],
+		});
+
+		// result includes details about the image
+		// console.log('RESULT', result);
+
+    result.name = 'avatar';
+    result.contentType = result.type;
+
+		// save the image to S3
+		RNS3.put(result, s3Options).then(response => {
+		  if (response.status !== 201)
+		    throw new Error('Failed to upload image to S3');
+		  console.log(response.body);
+
+			 const s3Photo = {
+				 url: response.body.postResponse.location,
+				//  id_user: response.body.data.id_user, //need to get the current user id... how?
+			 };
+      //  console.log(s3Photo);
+      this.setState({ avatarUrl: s3Photo.url });
+
+			 axios.post('http://18.218.102.64/photo', { s3Photo })
+				 .then((image) => {
+					 console.log(image);
+				 })
+				 .catch((err) => {
+					 console.log('Error posting image to db ', err);
+				 });
+		});
+
+		if (!result.cancelled) {
+			this.setState({ image: result.uri });
+		}
+	};
+
   render() {
     // Build out the trip components from the schedules recieved from the database
     const trips = this.state.schedules
@@ -113,7 +178,7 @@ export default class Dashboard extends React.Component {
     return (
       <ImageBackground
         style={{
-          backgroundColor: '#000000',
+          backgroundColor: 'transparent',
           flex: 1,
           position: 'absolute',
           width: '100%',
@@ -137,7 +202,14 @@ export default class Dashboard extends React.Component {
         />
         <View style={styles.container}>
           <View style={{ alignItems: 'center' }}>
+          <View>
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
+            <Button
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+						title="Add a user avatar"
+            onPress={this._pickImage}
+					/>
+          </View>
             {trips}
             <Button
               title="Plan a new trip"
@@ -146,10 +218,10 @@ export default class Dashboard extends React.Component {
             />
           </View>
           <Button
-            small
-            raised
+            // small
+            // raised
             buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
+            // style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
             title="Sign out"
             onPress={this.signout}
           />
