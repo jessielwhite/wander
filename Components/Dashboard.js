@@ -127,10 +127,6 @@ export default class Dashboard extends React.Component {
             name="home"
             color="#fff"
           />}
-          rightComponent={<Icon
-            name="menu"
-            color="#fff"
-          />}
         />
         <View style={styles.container}>
           <View style={{ alignItems: 'center' }}>

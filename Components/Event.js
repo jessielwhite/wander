@@ -79,10 +79,6 @@ export default class Event extends React.Component {
                   [NavigationActions.navigate({ routeName: 'Dashboard' })],
               }))}
           />}
-          rightComponent={<Icon
-            name="menu"
-            color="#fff"
-          />}
         />
 
         <View style={{ width: 400, height: 200 }}>
