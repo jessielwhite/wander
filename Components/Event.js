@@ -34,7 +34,6 @@ export default class Event extends React.Component {
   }
 
   render() {
-    console.log('event day info', this.props.dayInfo);
     let eventMarkers;
     let startingPoint;
     if (this.props.dayInfo.events.length) {

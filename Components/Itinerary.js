@@ -92,7 +92,6 @@ export default class Itinerary extends React.Component {
   }
 
   render() {
-    console.log('itinerary', this.state.itinerary);
     // Create the event components from the dayinfo
     const days = Object.keys(this.state.itinerary).filter(item => item[0] === 'd');
     const eventViews = days
