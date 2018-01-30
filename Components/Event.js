@@ -1,11 +1,9 @@
 import React from 'react';
-import openMap from 'react-native-open-maps';
 import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { MapView } from 'expo';
 // https://github.com/react-community/react-native-maps for more information on how this library works
 
 import { List, ListItem, Header, Icon, Text } from 'react-native-elements';
-
 import axios from 'axios';
 import { NavigationActions } from 'react-navigation';
 import { keys } from '../config';
@@ -26,18 +24,29 @@ const styles = StyleSheet.create({
 export default class Event extends React.Component {
   constructor(props) {
     super(props);
-    this.openNewMap = this.openNewMap.bind(this);
   }
 
-  openNewMap(event) {
-    // openMap({ latutude: 40.7128, longitude: -74.0060 });
+  componentWillMount() {
+    const seen = {};
+    this.props.dayInfo.events.forEach((item, i) => {
+      if (seen[item.name]) {
+        this.props.dayInfo.events.splice(i, 1);
+      } else {
+        seen[item.name] = true;
+      }
+    });
   }
 
   render() {
     let eventMarkers;
-    let startingPoint;
+    let startingPoint = {
+      latitude: 40.741231,
+      longitude: -74.00670099999999,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
     if (this.props.dayInfo.events.length) {
-      const eventCoordinates = this.props.dayInfo.events.map((event) => { 
+      const eventCoordinates = this.props.dayInfo.events.map((event, i) => { 
         return {
           title: event.name,
           coordinates: { latitude: event.latlng.lat, longitude: event.latlng.lng },

@@ -97,7 +97,6 @@ export default class Trip extends React.Component {
               bgColor="black"
               fgColor="white"
             />
-            <Text style={styles.tripModalText}>Share on social media</Text>
             <Button
               large
               raised
