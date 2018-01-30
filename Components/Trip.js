@@ -1,11 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Text, Modal } from 'react-native';
+import { View, Text, Modal, AsyncStorage } from 'react-native';
 import { FormInput, Button } from 'react-native-elements';
 import QRCode from 'react-native-qrcode';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { exampleSchedule } from '../scheduleExample';
-import { keys } from '../config';
 import { styles } from './Styles';
 
 
@@ -40,7 +38,6 @@ export default class Trip extends React.Component {
         this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
       })
       .catch(err => console.error(err));
-    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showModal() {
@@ -53,7 +50,15 @@ export default class Trip extends React.Component {
 
   addByEmail() {
     const body = { userEmail: this.state.email, scheduleId: this.props.schedule.id };
-    axios.post('http://18.218.102.64/join_schedule', body)
+    AsyncStorage.getItem('Token')
+      .then((token) => {
+        return axios({
+          url: 'http://18.218.102.64/join_schedule',
+          method: 'post',
+          headers: { authorization: JSON.parse(token) },
+          data: body,
+        });
+      })
       .then(() => {
         this.hideModal();
       })
@@ -92,7 +97,7 @@ export default class Trip extends React.Component {
             />
             <Text style={styles.tripModalText}>Share with QR code</Text>
             <QRCode
-              value={this.props.schedule.id}
+              value={this.props.schedule.id.toString()}
               size={200}
               bgColor="black"
               fgColor="white"

@@ -1,14 +1,12 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
-import Drawer from 'react-native-drawer';
 import { NavigationActions } from 'react-navigation';
+import { BarCodeScanner, Permissions } from 'expo';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
-import { keys } from '../config';
-import { dashboardExample } from '../scheduleExample';
 
 const styles = StyleSheet.create({
   container: {
@@ -151,6 +149,10 @@ export default class Dashboard extends React.Component {
             style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
             title="Sign out"
             onPress={this.signout}
+          />
+          <Button
+            title="Scan a QR code"
+            onPress={() => this.props.navigation.navigate('QRScanner')}
           />
         </View>
       </ImageBackground>
