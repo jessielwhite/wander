@@ -29,10 +29,6 @@ export default class Event extends React.Component {
     this.openNewMap = this.openNewMap.bind(this);
   }
 
-  componentWillMount() {
-    // console.log(this.props.dayInfo);
-  }
-
   openNewMap(event) {
     // openMap({ latutude: 40.7128, longitude: -74.0060 });
   }
@@ -41,7 +37,7 @@ export default class Event extends React.Component {
     console.log('event day info', this.props.dayInfo);
     let eventMarkers;
     let startingPoint;
-    if (this.props.dayInfo.events[0]) {
+    if (this.props.dayInfo.events.length) {
       const eventCoordinates = this.props.dayInfo.events.map((event) => { 
         return {
           title: event.name,
@@ -92,10 +88,14 @@ export default class Event extends React.Component {
 
         <ScrollView>
           <Text h4 center>   Sort and Edit Your Scheudle</Text>
-
-          <Schedule
-            data={this.props.dayInfo}
-          />
+          {
+            this.props.dayInfo.events.length ?
+              <Schedule
+                data={this.props.dayInfo}
+              />
+            :
+              <Text>Loading</Text>
+          }
 
           <Button
             title="Save your Trip Recommendations"

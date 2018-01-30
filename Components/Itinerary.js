@@ -36,7 +36,8 @@ export default class Itinerary extends React.Component {
         .then((res) => {
           const fullDayArr = res.map((obj) => {
             const result = obj.data;
-            result.latlng = { lat: obj.latitude, lng: obj.longitutde };
+            result.latlng = { lat: obj.data.latitude, lng: obj.data.longtiude };
+            result.placeId = obj.data.googleId;
             delete result.latitude;
             delete result.longitude;
             return result;
@@ -91,6 +92,7 @@ export default class Itinerary extends React.Component {
   }
 
   render() {
+    console.log('itinerary', this.state.itinerary);
     // Create the event components from the dayinfo
     const days = Object.keys(this.state.itinerary).filter(item => item[0] === 'd');
     const eventViews = days

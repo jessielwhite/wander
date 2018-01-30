@@ -65,7 +65,6 @@ export default class Schedule extends Component {
     return (
       <View style={styles.container}>
         <SortableList
-
           style={styles.list}
           contentContainerStyle={styles.contentContainer}
           data={this.props.data.events}
