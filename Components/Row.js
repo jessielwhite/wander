@@ -96,26 +96,29 @@ export default class Row extends React.Component {
     this.setState({ modalVisible: false });
   }
 
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+  _showDateTimePicker() {
+    this.setState({ isDateTimePickerVisible: true });
+  }
 
-  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+  _hideDateTimePicker() {
+    this.setState({ isDateTimePickerVisible: false });
+  }
 
-  _handleDatePicked = (time) => {
-    console.log('A time has been picked: ', time);
-    this.setState({ time:time });
+  _handleDatePicked(time) {
+    this.setState({ time });
     this._hideDateTimePicker();
-  };
+  }
 
 
   render() {
     const { data } = this.props;
-    let { text } = this.state;
-    let { time } = this.state;
-    const modalInfo  =  this.state.extraData || {};
+    const { text } = this.state;
+    const { time } = this.state;
+    const modalInfo = this.state.extraData || {};
+    let openHoursText;
 
-    if ( modalInfo.opening_hours !== undefined || null ) {
-      var openHours = modalInfo.opening_hours.weekday_text;
-        openHours.join('\n');
+    if (modalInfo.opening_hours !== undefined || null) {
+      openHoursText = modalInfo.opening_hours.weekday_text.map(item => (<Text>{item}</Text>))
     }
 
     return (
@@ -148,13 +151,7 @@ export default class Row extends React.Component {
                   <Text>Phone Number: {"\n"} {modalInfo.formatted_phone_number !== undefined ? modalInfo.formatted_phone_number : '...loading'}{"\n"}</Text>
                   <Text>Address: {"\n"} {modalInfo.formatted_address !== undefined ? modalInfo.formatted_address : '...loading'}{"\n"}</Text>
                   <Text>Open Hours
-                    {"\n"}
-                    {
-                      modalInfo.opening_hours ? 
-                      openHours :
-                      'N/A'
-                    }
-                    {"\n"}
+                    {openHoursText}
                   </Text>
                   <View>
                     <TextField

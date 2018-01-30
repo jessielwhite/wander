@@ -55,7 +55,6 @@ export default class Login extends React.Component {
     axios.post('http://18.218.102.64/login', user)
       .then((res) => {
         const token = res.data.slice(4);
-        console.log(res.data.slice(4));
         if (token !== 'Password is incorrect') {
           AsyncStorage.setItem('Token', JSON.stringify(token));
           this.props.navigation
@@ -69,7 +68,7 @@ export default class Login extends React.Component {
         }
       })
       .catch((err) => {
-        console.log('Login error ', err);
+        console.error('Login error ', err);
       });
   }
 
@@ -94,14 +93,15 @@ export default class Login extends React.Component {
             style={styles.input}
             onChangeText={text => this.setState({ email: text })}
             placeholder="enter email"
-            placeholderTextColor="gray"
+            placeholderTextColor="black"
+            autoCapitalize="none"
           />
           <Text style={{ fontSize: 30, color: 'white' }}>password</Text>
           <FormInput
             style={styles.input}
             onChangeText={text => this.setState({ password: text })}
             placeholder="enter password"
-            placeholderTextColor="gray"
+            placeholderTextColor="white"
             secureTextEntry
           />
 

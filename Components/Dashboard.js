@@ -32,47 +32,28 @@ export default class Dashboard extends React.Component {
 
   componentWillMount() {
     // Query the database to get this user's schedules
-    // Since setState is async, we need to temporarily store the schedules,
-    // then put them in state at the end
-    // AsyncStorage.getItem('Token')
-    //   .then((res) => {
-    //     const savedToken = JSON.parse(res);
-    //     return axios.get('http://18.218.102.64/user/schedules', {
-    //       headers: { authorization: savedToken },
-    //     })
-    //       .then((response) => {
-    //         console.log(response);
-    //         this.setState({ schedules: response.data });
-    //       })
-    //       .catch(err => console.error(err));
-    //   });
-    const attending = [];
-    const invited = [];
     AsyncStorage.getItem('Token')
       .then((res) => {
         const savedToken = JSON.parse(res);
         return axios.get('http://18.218.102.64/dashboard', { headers: { authorization: savedToken } });
       })
       .then((res) => {
-        // console.log(res);
-        res.data.forEach((schedule) => {
-          if (schedule.status === 'invited') {
-            invited.push(schedule);
-          } else if (schedule.status === 'attending' || schedule.status === 'creator') {
-            attending.push(schedule);
-          }
+        // Take each schedule and query the database to get the full name
+        res.data.forEach((userSchedule) => {
+          axios.get(`http://18.218.102.64/schedule/${userSchedule.id_schedule}`)
+            .then((response) => {
+              const schedule = response.data;
+              const fullSchedule = { id: userSchedule.id_schedule, status: userSchedule.status, name: schedule.name };
+              if (fullSchedule.status === 'invited') {
+                this.setState({ invitedSchedules: this.state.invitedSchedules.concat([fullSchedule]) });
+              } else if (fullSchedule.status === 'attending' || fullSchedule.status === 'creator') {
+                this.setState({ schedules: this.state.schedules.concat([fullSchedule]) });
+              }
+            })
+            .catch(err => console.error('error', err));
         });
       })
-      .catch(error => console.error(error));
-    // dashboardExample.forEach((schedule) => {
-    //   if (schedule.status === 'invited') {
-    //     invited.push(schedule);
-    //   } else if (schedule.status === 'attending' || schedule.status === 'creator') {
-    //     attending.push(schedule);
-    //   }
-    // });
-    this.setState({ schedules: attending });
-    this.setState({ invitedSchedules: invited });
+      .catch(error => console.error('error', error));
   }
 
   componentDidMount() {
