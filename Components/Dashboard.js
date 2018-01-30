@@ -1,12 +1,13 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
-import Drawer from 'react-native-drawer';
 import { NavigationActions } from 'react-navigation';
+import { BarCodeScanner, Permissions } from 'expo';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
+<<<<<<< HEAD
 import { keys } from '../config';
 import { dashboardExample } from '../scheduleExample';
 import { RNS3 } from 'react-native-aws3';
@@ -20,6 +21,8 @@ const s3Options = {
   secretKey: keys.s3SecretKey,
   successActionStatus: 201
 }
+=======
+>>>>>>> 432da5432971c96754be9f4623a48d2ba1ed1b44
 
 const styles = StyleSheet.create({
   container: {
@@ -195,10 +198,6 @@ export default class Dashboard extends React.Component {
             name="home"
             color="#fff"
           />}
-          rightComponent={<Icon
-            name="menu"
-            color="#fff"
-          />}
         />
         <View style={styles.container}>
           <View style={{ alignItems: 'center' }}>
@@ -224,6 +223,10 @@ export default class Dashboard extends React.Component {
             // style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
             title="Sign out"
             onPress={this.signout}
+          />
+          <Button
+            title="Scan a QR code"
+            onPress={() => this.props.navigation.navigate('QRScanner')}
           />
         </View>
       </ImageBackground>

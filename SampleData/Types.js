@@ -1,0 +1,18 @@
+module.exports.typeIds = {
+  amusement_park: 1,
+  aquarium: 2,
+  art_gallery: 3,
+  bowling_alley: 4,
+  book_store: 5,
+  casino: 6,
+  clothing_store: 7,
+  point_of_interest: 8,
+  shopping_mall: 9,
+  library: 10,
+  movie_theater: 11,
+  museum: 12,
+  night_club: 13,
+  park: 14,
+  stadium: 15,
+  zoo: 16,
+};
