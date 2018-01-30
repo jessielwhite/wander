@@ -1,31 +1,12 @@
 import React from 'react';
-import { Button, View, StyleSheet, Image, ScrollView } from 'react-native';
+import { Button, View, ScrollView } from 'react-native';
 import { MapView } from 'expo';
-// https://github.com/react-community/react-native-maps for more information on how this library works
-
-import { List, ListItem, Header, Icon, Text } from 'react-native-elements';
-import axios from 'axios';
+import { Header, Icon, Text } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
-import { keys } from '../config';
 import Schedule from './Schedule';
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  shedule: {
-    height: '80%',
-  },
-});
-
+import { styles } from './Styles';
 
 export default class Event extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     const seen = {};
     this.props.dayInfo.events.forEach((item, i) => {
@@ -63,7 +44,7 @@ export default class Event extends React.Component {
       };
     }
     return (
-      <View style={styles.container}>
+      <View style={styles.eventContainer}>
         <Header
           style={{ height: 35 }}
           statusBarProps={{ barStyle: 'light-content' }}

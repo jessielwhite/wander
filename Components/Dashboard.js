@@ -7,14 +7,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0)',
-  },
-});
+import { styles } from './Styles';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -102,21 +95,13 @@ export default class Dashboard extends React.Component {
     const trips = this.state.schedules
       .map(event =>
         (<Trip
-          style={{ borderWidth: 1, borderColor: 'black' }}
           navigation={this.props.navigation}
           schedule={event}
           key={event.name}
         />));
     return (
       <ImageBackground
-        style={{
-          backgroundColor: '#000000',
-          flex: 1,
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-        }}
+        style={styles.dashboardImageBackground}
         source={goldenGate}
       >
         <Header
@@ -128,7 +113,7 @@ export default class Dashboard extends React.Component {
             color="#fff"
           />}
         />
-        <View style={styles.container}>
+        <View style={styles.dashboardContainer}>
           <View style={{ alignItems: 'center' }}>
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
             {trips}

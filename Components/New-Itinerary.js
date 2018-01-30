@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
   AsyncStorage,
@@ -13,17 +12,8 @@ import { Header, Text, Button, Icon } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import { keys } from '../config';
-import { exampleSchedule } from '../scheduleExample';
 import { getSchedule } from '../ScheduleMethods';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import { styles } from './Styles';
 
 const months = [
   'January',
@@ -85,7 +75,6 @@ export default class NewItinerary extends React.Component {
           })
           .catch(err => console.error(err));
       });
-    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showStartDateTimePicker() {
@@ -130,7 +119,7 @@ export default class NewItinerary extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.newItineraryContainer}>
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
           outerContainerStyles={{ backgroundColor: '#0e416d', width: '100%' }}
@@ -146,7 +135,7 @@ export default class NewItinerary extends React.Component {
               }))}
           />}
         />
-        <View style={styles.container}>
+        <View style={styles.newItineraryContainer}>
           <GooglePlacesAutocomplete
             placeholder="Where are you Wandering?"
             minLength={2}

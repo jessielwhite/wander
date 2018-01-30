@@ -1,24 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  AsyncStorage,
-  View,
-} from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Text, AsyncStorage } from 'react-native';
 import Swiper from 'react-native-swiper';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 import Event from './Event';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default class Itinerary extends React.Component {
   constructor(props) {
@@ -93,8 +77,8 @@ export default class Itinerary extends React.Component {
 
   render() {
     // Create the event components from the dayinfo
-    const days = Object.keys(this.state.itinerary).filter(item => item[0] === 'd');
-    const eventViews = days
+    const eventViews = Object.keys(this.state.itinerary)
+      .filter(item => item[0] === 'd')
       .map(day =>
         (<Event
           dayInfo={this.state.itinerary[day]}
@@ -114,7 +98,3 @@ export default class Itinerary extends React.Component {
 Itinerary.navigationOptions = () => ({
   header: null,
 });
-
-// Itinerary.propTypes = {
-//   navigation: PropTypes.object,
-// };
