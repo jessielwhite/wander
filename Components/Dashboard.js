@@ -12,7 +12,9 @@ export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Schedules the user is attending, as creator or attender
       schedules: [],
+      // Schedules the user has been invited to, but has yet to accept
       invitedSchedules: [],
     };
     this.signout = this.signout.bind(this);
@@ -21,26 +23,31 @@ export default class Dashboard extends React.Component {
   }
 
   componentWillMount() {
+    // Get the authentication token from storage
     AsyncStorage.getItem('Token')
+      // Make a request to get the user's schedules from the database
+      .then(res => axios.get('http://18.218.102.64/dashboard', { headers: { authorization: JSON.parse(res) } }))
       .then((res) => {
-        const savedToken = JSON.parse(res);
-        return axios.get('http://18.218.102.64/dashboard', { headers: { authorization: savedToken } });
-      })
-      .then((res) => {
+        // We only have the schedule id, so we need another request to get the name of each schedule
         res.data.forEach((userSchedule) => {
           axios.get(`http://18.218.102.64/schedule/${userSchedule.id_schedule}`)
             .then((response) => {
               const schedule = response.data;
+              // Once we have the extra information, we only need bits of it,
+              // so we filter those out here
               const fullSchedule = {
                 id: userSchedule.id_schedule,
                 status: userSchedule.status,
                 name: schedule.name,
               };
+              // Users can be invitees, attenders, or creators, so we have to sort it accordingly
               if (fullSchedule.status === 'invited') {
+                // Users will recieve an alert for these
                 this.setState({
                   invitedSchedules: this.state.invitedSchedules.concat([fullSchedule]),
                 });
               } else if (fullSchedule.status === 'attending' || fullSchedule.status === 'creator') {
+                // These will be listed as trips they're attending
                 this.setState({ schedules: this.state.schedules.concat([fullSchedule]) });
               }
             })
@@ -51,6 +58,7 @@ export default class Dashboard extends React.Component {
   }
 
   componentDidMount() {
+    // First thing, we send the user an alert if they have a new schedule
     this.state.invitedSchedules.forEach((schedule) => {
       Alert.alert(
         'You\'ve been invited on a trip!',
@@ -64,15 +72,18 @@ export default class Dashboard extends React.Component {
   }
 
   acceptTrip(trip) {
+    // This route changes the user status from "invited" to "attending" in the database
     AsyncStorage.getItem('Token')
       .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: true, headers: { authorization: token } }))
       .then(() => {
+        // The trip is immediately added, so that they won't have to refresh to see it
         this.setState({ schedules: this.state.schedules.concat(trip) });
       })
       .catch(err => console.error(err));
   }
 
   rejectTrip(trip) {
+    // This route deletes the entry linking user and schedule
     AsyncStorage.getItem('Token')
       .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: false, headers: { authorization: token } }))
       .then(success => console.log(success))
@@ -83,7 +94,9 @@ export default class Dashboard extends React.Component {
     axios.get('http://18.218.102.64/logout')
       .then((res) => {
         console.log(res.data);
+        // Destroys the token so that the user is no longer authorized
         AsyncStorage.removeItem('Token');
+        // Take the user back to the login page without the ability to hit a back button
         this.props.navigation
           .dispatch(NavigationActions.reset({
             index: 0,
