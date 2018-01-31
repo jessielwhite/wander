@@ -23,7 +23,7 @@ export default class Itinerary extends React.Component {
         // They're not formatted correctly, so we map through them here and pull out what we need
         const fullDayArr = res.map((obj) => {
           const result = obj.data;
-          result.latlng = { lat: obj.data.latitude, lng: obj.data.longtiude };
+          result.latlng = { lat: obj.data.latitude, lng: obj.data.longitude };
           result.placeId = obj.data.googleId;
           delete result.latitude;
           delete result.longitude;
