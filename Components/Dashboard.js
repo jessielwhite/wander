@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert, Image } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 import { BarCodeScanner, Permissions } from 'expo';
@@ -40,16 +40,22 @@ const styles = StyleSheet.create({
   },
 });
 
+const randId = () => {
+  return Math.random().toString(36).substr(2, 10);
+}
+
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       schedules: [],
       invitedSchedules: [],
+			avatarUrl: null
     };
     this.signout = this.signout.bind(this);
     this.acceptTrip = this.acceptTrip.bind(this);
     this.rejectTrip = this.rejectTrip.bind(this);
+    this._pickImage = this._pickImage.bind(this);
   }
 
   componentWillMount() {
@@ -57,6 +63,7 @@ export default class Dashboard extends React.Component {
     AsyncStorage.getItem('Token')
       .then((res) => {
         const savedToken = JSON.parse(res);
+        console.log('SAVED TOKEN', savedToken);
         return axios.get('http://18.218.102.64/dashboard', { headers: { authorization: savedToken } });
       })
       .then((res) => {
@@ -77,19 +84,20 @@ export default class Dashboard extends React.Component {
       })
       .catch(error => console.error('error', error));
 
-      // const self = this;
-      // console.log(self.state.photos);
-      // axios.get('http://18.218.102.64/photos')
-      //   .then((response) => {
-      //     let photos = response.data;
-  
-      //     if (Array.isArray(photos) && photos.length > 0) {
-      //       self.setState({ avatarUrl: photos[0].url });
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
+      console.log('BEFORE GET PHOTO');
+
+      axios.get('http://18.218.102.64/photo')
+        .then((response) => {
+          let photo = response.data;
+          console.log('PHOTO', photo);
+
+          if (photo) {
+            this.setState({ avatarUrl: photo.url });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
   }
 
   componentDidMount() {
@@ -138,42 +146,38 @@ export default class Dashboard extends React.Component {
 
   _pickImage = async () => {
 		// open the image picker
-		const result = await ImagePicker.launchImageLibraryAsync({
+		const chosenImage = await ImagePicker.launchImageLibraryAsync({
 			allowsEditing: true,
 			aspect: [4, 3],
 		});
 
 		// result includes details about the image
-		// console.log('RESULT', result);
+		console.log('CHOSEN IMAGE', chosenImage);
 
-    result.name = 'avatar';
-    result.contentType = result.type;
+    chosenImage.name = randId();	// we need to come up with a random id every time
+    chosenImage.contentType = chosenImage.type;
 
 		// save the image to S3
-		RNS3.put(result, s3Options).then(response => {
+		RNS3.put(chosenImage, s3Options).then(response => {
 		  if (response.status !== 201)
 		    throw new Error('Failed to upload image to S3');
-		  console.log(response.body);
 
 			 const s3Photo = {
-				 url: response.body.postResponse.location,
-				//  id_user: response.body.data.id_user, //need to get the current user id... how?
+				 url: response.body.postResponse.location
 			 };
-      //  console.log(s3Photo);
+
+			 console.log(s3Photo);
+
       this.setState({ avatarUrl: s3Photo.url });
 
-			 axios.post('http://18.218.102.64/photo', { s3Photo })
-				 .then((image) => {
-					 console.log(image);
-				 })
-				 .catch((err) => {
-					 console.log('Error posting image to db ', err);
-				 });
+		 axios.post('http://18.218.102.64/photo', s3Photo)
+			 .then((image) => {
+				 console.log(image);
+			 })
+			 .catch((err) => {
+				 console.log('Error posting image to db ', err);
+			 });
 		});
-
-		if (!result.cancelled) {
-			this.setState({ image: result.uri });
-		}
 	};
 
   render() {
@@ -209,6 +213,7 @@ export default class Dashboard extends React.Component {
         />
         <View style={styles.container}>
           <View style={{ alignItems: 'center' }}>
+					{this.state.avatarUrl && <Image style={{ width: 100, height: 100 }} source={{ uri: this.state.avatarUrl }} />}
           <View>
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
             <Button
@@ -217,17 +222,17 @@ export default class Dashboard extends React.Component {
             onPress={this._pickImage}
 					/>
           </View>
-          <Button
-            title="Scan a QR code"
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            onPress={() => this.props.navigation.navigate('QRScanner')}
-          />
             {trips}
             <Button
               title="Plan a new trip"
               buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
               onPress={() => this.props.navigation.navigate('NewItinerary')}
             />
+            <Button
+            title="Scan a QR code"
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+            onPress={() => this.props.navigation.navigate('QRScanner')}
+          />
           </View>
           <Button
             // small
@@ -251,5 +256,4 @@ Dashboard.propTypes = {
   navigation: PropTypes.object,
 };
 
-//
 
