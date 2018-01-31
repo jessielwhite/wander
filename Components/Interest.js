@@ -36,21 +36,39 @@ export default class Interest extends React.Component {
     this.setState({ status: !this.state.status });
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
-      axios({
-        method: 'post',
-        url: 'http://18.218.102.64/user_like',
-        headers: {
-          authorization: savedToken,
-          'Content-Type': 'application/json',
-        },
-        data: { id_type: this.props.type.id, like: true },
-      })
-        .then((response) => {
-          console.log(`user like post response ${response}`);
+      if (this.state.status) {
+        axios({
+          method: 'post',
+          url: 'http://18.218.102.64/user_like',
+          headers: {
+            authorization: savedToken,
+            'Content-Type': 'application/json',
+          },
+          data: { id_type: this.props.type.id, like: true },
         })
-        .catch((err) => {
-          console.error(`select interest post error ${err}`);
-        });
+          .then((response) => {
+            console.log(`user like post response ${response}`);
+          })
+          .catch((err) => {
+            console.error(`select interest post error ${err}`);
+          });
+      } else {
+        axios({
+          method: 'delete',
+          url: 'http://18.218.102.64/user_like',
+          headers: {
+            authorization: savedToken,
+            'Content-Type': 'application/json',
+          },
+          data: { id_type: this.props.type.id, like: false },
+        })
+          .then((response) => {
+            console.log(`user like delete response ${response}`);
+          })
+          .catch((err) => {
+            console.error(`select interest delete error ${err}`);
+          });
+      }
     });
   }
 
