@@ -19,17 +19,14 @@ export default class Login extends React.Component {
   }
 
   login() {
+    // Get the stuff that we need for the login request
     const user = { email: this.state.email, password: this.state.password };
-    this.props.navigation
-      .dispatch(NavigationActions.reset({
-        index: 0,
-        actions:
-          [NavigationActions.navigate({ routeName: 'Dashboard' })],
-      }));
+    // Make a request to the login route
     axios.post('http://18.218.102.64/login', user)
       .then((res) => {
+        console.log(res);
         const token = res.data.slice(4);
-        if (token !== 'Password is incorrect') {
+        if (res.data !== 'Password is incorrect') {
           AsyncStorage.setItem('Token', JSON.stringify(token));
           this.props.navigation
             .dispatch(NavigationActions.reset({
@@ -38,7 +35,7 @@ export default class Login extends React.Component {
                 [NavigationActions.navigate({ routeName: 'Dashboard' })],
             }));
         } else {
-          this.props.navigation.navigate('Login');
+          alert('Sorry, that isn\'t the correct password. Please try again');
         }
       })
       .catch((err) => {
