@@ -50,3 +50,22 @@ module.exports.months = [
   'November',
   'December',
 ];
+
+module.exports.icons = {
+  amusement_park: 'fort-awesome',
+  aquarium: 'user-circle-o',
+  art_gallery: 'image',
+  bowling_alley: 'eercast',
+  book_store: 'book',
+  casino: 'money',
+  clothing_store: 'shopping-cart',
+  point_of_interest: 'building',
+  shopping_mall: 'shopping-bag',
+  library: 'book',
+  movie_theater: 'video-camera',
+  museum: 'building-o',
+  night_club: 'music',
+  park: 'users',
+  stadium: 'soccer-ball-o',
+  zoo: 'flag',
+};
