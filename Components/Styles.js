@@ -54,6 +54,7 @@ module.exports.styles = StyleSheet.create({
   tripModal: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'rgba(127, 127, 127, 0.75)',
   },
   tripModalText: {
