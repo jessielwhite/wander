@@ -91,20 +91,15 @@ export default class Dashboard extends React.Component {
   }
 
   signout() {
-    axios.get('http://18.218.102.64/logout')
-      .then((res) => {
-        console.log(res.data);
-        // Destroys the token so that the user is no longer authorized
-        AsyncStorage.removeItem('Token');
-        // Take the user back to the login page without the ability to hit a back button
-        this.props.navigation
-          .dispatch(NavigationActions.reset({
-            index: 0,
-            actions:
-              [NavigationActions.navigate({ routeName: 'Login' })],
-          }));
-      })
-      .catch(err => console.error(err));
+    // Destroys the token so that the user is no longer authorized
+    AsyncStorage.removeItem('Token');
+    // Take the user back to the login page without the ability to hit a back button
+    this.props.navigation
+      .dispatch(NavigationActions.reset({
+        index: 0,
+        actions:
+          [NavigationActions.navigate({ routeName: 'Login' })],
+      }));
   }
 
   render() {
