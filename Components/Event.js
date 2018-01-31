@@ -9,6 +9,7 @@ import { styles } from './Styles';
 
 export default class Event extends React.Component {
   componentWillMount() {
+    // We shouldn't have duplicates, but this is just a quick second check
     const seen = {};
     this.props.dayInfo.events.forEach((item, i) => {
       if (seen[item.name]) {
@@ -20,21 +21,29 @@ export default class Event extends React.Component {
   }
 
   render() {
+    // The way this page loads, we don't always have the events when this first runs
+    // Declare eventMarkers so that it won't error rendering
     let eventMarkers;
+    // A default starting point is New York City. It'll be reasigned later
     let startingPoint = {
       latitude: 40.741231,
       longitude: -74.00670099999999,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     };
+    // If we try to run the code in this if statement before we have events, it'll error out
     if (this.props.dayInfo.events.length) {
+      // Pull out the locations that will show up on the map
       const eventCoordinates = this.props.dayInfo.events.map(event => ({
         title: event.name,
         coordinates: { latitude: event.latlng.lat, longitude: event.latlng.lng },
       }));
+      // Create the pins for the map
       eventMarkers = eventCoordinates
         .map(coor =>
           (<MapView.Marker coordinate={coor.coordinates} title={coor.title} key={coor.title} />));
+      // The starting point is just the first event in the list
+      // They won't be perfectly centered, but close enough
       startingPoint = {
         latitude: this.props.dayInfo.events[0].latlng.lat,
         longitude: this.props.dayInfo.events[0].latlng.lng,
@@ -64,7 +73,7 @@ export default class Event extends React.Component {
         <View style={{ width: 400, height: 200 }}>
           <MapView
             style={{ flex: 1 }}
-            initialRegion={startingPoint || { latitude: 40.7128, longitude: -74.0060 }}
+            initialRegion={startingPoint}
           >
             {eventMarkers}
           </MapView>
