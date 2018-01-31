@@ -19,6 +19,7 @@ export default class Signup extends React.Component {
     this.signup = this.signup.bind(this);
   }
   signup() {
+    // We only need email, password, and username to create a user
     const user = {
       email: this.state.email,
       password: this.state.password,
@@ -26,7 +27,11 @@ export default class Signup extends React.Component {
     };
     axios.post('http://18.218.102.64/signup', user)
       .then((res) => {
-        if (res.data !== 'User was not created') {
+        // If the user wasn't created, give the user the option to try again
+        if (res.data === 'User was not created') {
+          alert('There was a problem. Please try again');
+        // Otherwise, save their token and send them to GatherInterests
+        } else {
           AsyncStorage.setItem('Token', JSON.stringify(res.data));
           this.props.navigation
             .dispatch(NavigationActions.reset({
@@ -34,8 +39,6 @@ export default class Signup extends React.Component {
               actions:
                 [NavigationActions.navigate({ routeName: 'GatherInterests' })],
             }));
-        } else {
-          this.props.navigation.navigate('Signup');
         }
       })
       .catch((err) => {
