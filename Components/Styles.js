@@ -10,7 +10,7 @@ module.exports.styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   dashboardImageBackground: {
-    backgroundColor: '#000000',
+    backgroundColor: 'transparent',
     flex: 1,
     position: 'absolute',
     width: '100%',

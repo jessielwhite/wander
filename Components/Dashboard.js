@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ImageBackground, AsyncStorage, Alert } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert, Image } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
@@ -7,6 +7,23 @@ import PropTypes from 'prop-types';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
 import { styles } from './Styles';
+import { keys } from '../config';
+import { dashboardExample } from '../scheduleExample';
+import { RNS3 } from 'react-native-aws3';
+import { ImagePicker } from 'expo';
+
+const s3Options = {
+  keyPrefix: "uploads/",
+  bucket: keys.s3Bucket,
+  region: "us-east-2",
+  accessKey: keys.s3AccessKey,
+  secretKey: keys.s3SecretKey,
+  successActionStatus: 201
+}
+
+const randId = () => {
+  return Math.random().toString(36).substr(2, 10);
+}
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -16,10 +33,12 @@ export default class Dashboard extends React.Component {
       schedules: [],
       // Schedules the user has been invited to, but has yet to accept
       invitedSchedules: [],
+			avatarUrl: null
     };
     this.signout = this.signout.bind(this);
     this.acceptTrip = this.acceptTrip.bind(this);
     this.rejectTrip = this.rejectTrip.bind(this);
+    this._pickImage = this._pickImage.bind(this);
   }
 
   componentWillMount() {
@@ -55,6 +74,21 @@ export default class Dashboard extends React.Component {
         });
       })
       .catch(error => console.error('error', error));
+
+      console.log('BEFORE GET PHOTO');
+
+      axios.get('http://18.218.102.64/photo')
+        .then((response) => {
+          let photo = response.data;
+          console.log('PHOTO', photo);
+
+          if (photo) {
+            this.setState({ avatarUrl: photo.url });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
   }
 
   componentDidMount() {
@@ -102,6 +136,42 @@ export default class Dashboard extends React.Component {
       }));
   }
 
+  _pickImage = async () => {
+		// open the image picker
+		const chosenImage = await ImagePicker.launchImageLibraryAsync({
+			allowsEditing: true,
+			aspect: [4, 3],
+		});
+
+		// result includes details about the image
+		console.log('CHOSEN IMAGE', chosenImage);
+
+    chosenImage.name = randId();	// we need to come up with a random id every time
+    chosenImage.contentType = chosenImage.type;
+
+		// save the image to S3
+		RNS3.put(chosenImage, s3Options).then(response => {
+		  if (response.status !== 201)
+		    throw new Error('Failed to upload image to S3');
+
+			 const s3Photo = {
+				 url: response.body.postResponse.location
+			 };
+
+			 console.log(s3Photo);
+
+      this.setState({ avatarUrl: s3Photo.url });
+
+		 axios.post('http://18.218.102.64/photo', s3Photo)
+			 .then((image) => {
+				 console.log(image);
+			 })
+			 .catch((err) => {
+				 console.log('Error posting image to db ', err);
+			 });
+		});
+	};
+
   render() {
     // Build out the trip components from the schedules recieved from the database
     const trips = this.state.schedules
@@ -127,25 +197,34 @@ export default class Dashboard extends React.Component {
         />
         <View style={styles.dashboardContainer}>
           <View style={{ alignItems: 'center' }}>
+					{this.state.avatarUrl && <Image style={{ width: 100, height: 100 }} source={{ uri: this.state.avatarUrl }} />}
+          <View>
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
+            <Button
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+						title="Add a user avatar"
+            onPress={this._pickImage}
+					/>
+          </View>
             {trips}
             <Button
               title="Plan a new trip"
               buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
               onPress={() => this.props.navigation.navigate('NewItinerary')}
             />
+            <Button
+            title="Scan a QR code"
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+            onPress={() => this.props.navigation.navigate('QRScanner')}
+          />
           </View>
           <Button
-            small
-            raised
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
+            // small
+            // raised
             title="Sign out"
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+            // style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
             onPress={this.signout}
-          />
-          <Button
-            title="Scan a QR code"
-            onPress={() => this.props.navigation.navigate('QRScanner')}
           />
         </View>
       </ImageBackground>
@@ -160,3 +239,5 @@ Dashboard.navigationOptions = () => ({
 Dashboard.propTypes = {
   navigation: PropTypes.object,
 };
+
+
