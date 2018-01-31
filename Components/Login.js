@@ -44,38 +44,30 @@ export default class Login extends React.Component {
   }
 
   login() {
-    // const user = { email: this.state.email, password: this.state.password };
-    // this.props.navigation
-    //   .dispatch(NavigationActions.reset({
-    //     index: 0,
-    //     actions:
-    //       [NavigationActions.navigate({ routeName: 'Dashboard' })],
-    //   }));
-    // // Actual requests is commented out for testing purposes
-    // axios.post('http://18.218.102.64/login', user)
-    //   .then((res) => {
-    //     const token = res.data.slice(4);
-    //     if (token !== 'Password is incorrect') {
-    //       AsyncStorage.setItem('Token', JSON.stringify(token));
-    //       this.props.navigation
-    //         .dispatch(NavigationActions.reset({
-    //           index: 0,
-    //           actions:
-    //             [NavigationActions.navigate({ routeName: 'Dashboard' })],
-    //         }));
-    //     } else {
-    //       this.props.navigation.navigate('Login');
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error('Login error ', err);
-    //   });
-    this.props.navigation
-      .dispatch(NavigationActions.reset({
-        index: 0,
-        actions:
-          [NavigationActions.navigate({ routeName: 'Dashboard' })],
-      }));
+    // Get the stuff that we need for the login request
+    const user = { email: this.state.email, password: this.state.password };
+    // Make a request to the login route
+    axios.post('http://18.218.102.64/login', user)
+      .then((res) => {
+        // If the password is incorrect, do some error handling
+        if (res.data === 'Password is incorrect') {
+          alert('Sorry, there was a problem with your email/password combination. Please try again. Remember, email AND password are case sensitive');
+          // Otherwise, save the token on the user's device and send them to the dashboard
+        } else {
+          const token = res.data.slice(4);
+          AsyncStorage.setItem('Token', JSON.stringify(token));
+          this.props.navigation
+          // This prevents the user from having the ability to go back
+            .dispatch(NavigationActions.reset({
+              index: 0,
+              actions:
+                [NavigationActions.navigate({ routeName: 'Dashboard' })],
+            }));
+        }
+      })
+      .catch((err) => {
+        console.error('Login error ', err);
+      });
   }
 
   render() {
