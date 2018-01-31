@@ -24,9 +24,8 @@ export default class Row extends React.Component {
       extraData: {},
       modalVisible: false,
       isDateTimePickerVisible: false,
-      time: '',
       text: '',
-      // timelineEvents: this.props.timelineEvents,
+      time: ''
     };
 
     this.openNewMap = this.openNewMap.bind(this);
@@ -36,12 +35,11 @@ export default class Row extends React.Component {
   }
 
   componentWillMount() {
-
     if (this.props.data.placeId) {
       axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.props.data.placeId}&key=${keys.googleMapsAPI}`)
         .then((res) => {
           this.setState({ extraData: res.data.result }, () => {
-            console.log(this.state.extraData);
+            // console.log(this.state.extraData);
           });
           // console.log(res.data);
         })
@@ -96,29 +94,28 @@ export default class Row extends React.Component {
     this.setState({ modalVisible: false });
   }
 
-  _showDateTimePicker() {
-    this.setState({ isDateTimePickerVisible: true });
-  }
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
-  _hideDateTimePicker() {
-    this.setState({ isDateTimePickerVisible: false });
-  }
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
-  _handleDatePicked(time) {
-    this.setState({ time });
+  _handleDatePicked = time => {
+    console.log('A date has been picked: ', time);
     this._hideDateTimePicker();
-  }
+  };
 
   render() {
     const { data } = this.props;
-    const { text } = this.state;
-    const { time } = this.state;
+    const text = this.state.text;
+    const time  = this.state.time;
     const modalInfo = this.state.extraData || {};
     let openHoursText;
 
     if (modalInfo.opening_hours !== undefined || null) {
       openHoursText = modalInfo.opening_hours.weekday_text.map(item => (<Text>{item}</Text>))
     }
+
+    
+
 
     return (
       <Animated.View style={[
@@ -156,22 +153,21 @@ export default class Row extends React.Component {
                     <TextField
                       label="Leave yourself some notes about the event"
                       value={text}
-                      onChangeText={text => this.setState({ text })}
+                      onChangeText={() => this.setState({ text })}
                     />
                   </View>
-                  <View>
-                    <Button
-                      onPress={this._showDateTimePicker}
-                      title='pick a start time'
+                  <View style={styles.timeContainer}>
+                    <Button onPress={this._showDateTimePicker}>
+                      <View style={styles.timeButton}>
+                        <Text>Show timePicker</Text>
+                      </View>
+                    </Button>
+                    <DateTimePicker
+                      mode='time'
+                      isVisible={this.state.isDateTimePickerVisible}
+                      onConfirm={this._handleDatePicked}
+                      onCancel={this._hideDateTimePicker}
                     />
-                    <View>
-                      <DateTimePicker
-                        isVisible={this.state.isDateTimePickerVisible}
-                        onConfirm={this._handleDatePicked}
-                        onCancel={this._hideDateTimePicker}
-                        mode="time"
-                      />
-                    </View>
                   </View>
                   <Button
                     title="View this event in your native maps app"
@@ -186,8 +182,8 @@ export default class Row extends React.Component {
                     title="Close modal"
                   />
                   <Button
-                    onPress={() => data.updateTimeLineEvents}
-                    title="update"
+                    onPress={() =>  data.updateTimeLine() }
+                    title="update timeline"
                   />
                 </Card>
               </View>

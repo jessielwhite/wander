@@ -151,6 +151,10 @@ export default class Dashboard extends React.Component {
             title="Scan a QR code"
             onPress={() => this.props.navigation.navigate('QRScanner')}
           />
+          <Button
+            title="go to timeline"
+            onPress={() => this.props.navigation.navigate('Timeline')}
+          />
         </View>
       </ImageBackground>
     );

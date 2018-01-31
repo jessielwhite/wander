@@ -6,30 +6,34 @@ import axios from 'axios';
 
 const icons = {
   'Amusement Parks': 'fort-awesome',
-  Aquariums: 'user-circle-o',
+  'Aquariums': 'user-circle-o',
   'Art Gallerys': 'image',
   'Bowling Alleys': 'eercast',
   'Book Stores': 'book',
-  Casinos: 'money',
+  'Casinos': 'money',
   'Clothing Stores': 'shopping-cart',
   'Point Of Interests': 'building',
   'Shopping Malls': 'shopping-bag',
-  Librarys: 'book',
+  'Librarys': 'book',
   'Movie Theaters': 'video-camera',
-  Museums: 'building-o',
+  'Museums': 'building-o',
   'Night Clubs': 'music',
-  Parks: 'users',
-  Stadiums: 'soccer-ball-o',
-  Zoos: 'flag',
+  'Parks': 'users',
+  'Stadiums': 'soccer-ball-o',
+  'Zoos': 'flag',
 };
 
 export default class Interest extends React.Component {
   constructor(props) {
     super(props);
     this.selectInterest = this.selectInterest.bind(this);
+    this.state = {
+      status: false,
+    };
   }
 
   selectInterest() {
+    this.setState({ status: !this.state.status });
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
       axios({
@@ -55,7 +59,7 @@ export default class Interest extends React.Component {
       <Button
         large
         raised
-        buttonStyle={{ backgroundColor: '#0e416d', width: 500, marginVertical: 5 }}
+        buttonStyle={{ backgroundColor: this.state.status ? '#0b81e8' : '#0e416d', width: 500, marginVertical: 5 }}
         onPress={this.selectInterest}
         icon={{ name: icons[this.props.name], type: 'font-awesome' }}
         title={this.props.name}

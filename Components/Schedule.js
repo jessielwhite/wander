@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         paddingTop: 20,
-  },
+      },
     }),
   },
   title: {
@@ -48,19 +48,22 @@ const styles = StyleSheet.create({
       },
     }),
   },
-    });
-  }
+});
 
 export default class Schedule extends Component {
 
-  _renderRow({ data, active, updateTimeLineEvents }) {
+  _renderRow({ data, active }) {
+
     return <Row 
       data={data} 
       active={active} 
+
     />
   }
 
   render() {
+
+    
 
     return (
       <View style={styles.container}>
@@ -69,9 +72,14 @@ export default class Schedule extends Component {
           contentContainerStyle={styles.contentContainer}
           data={this.props.data.events}
           renderRow={this._renderRow}
+
           key="hi this is a key"
         />
       </View>
     );
   }
 }
+
+Schedule.propTypes = {
+  navigation: PropTypes.object,
+};

@@ -25,11 +25,11 @@ export default class Itinerary extends React.Component {
     super(props);
     this.state = {
       itinerary: {},
-      timelineEvents: []
+      timeLine: []
     };
     this.goToDashboard = this.goToDashboard.bind(this);
     this.saveSchedule = this.saveSchedule.bind(this);
-    this.updateTimeLineEvents = this.updateTimeLineEvents.bind(this);
+    this.updateTimeLine = this.updateTimeLine.bind(this)
   }
 
   componentWillMount() {
@@ -72,13 +72,11 @@ export default class Itinerary extends React.Component {
     this.setState({ itinerary: schedule });
   }
 
-  updateTimeLineEvents() {
-    console.log('hey from itinerary')
-    // this.setState({ timelineEvents: this.state.timelineEvents.concat(event) })
+  updateTimeLine(x){
+    console.log(x);
   }
 
   saveSchedule() {
-
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
       axios({
@@ -109,7 +107,8 @@ export default class Itinerary extends React.Component {
           key={day}
           navigation={this.props.navigation}
           saveSchedule={this.saveSchedule}
-          updateTimeLineEvents={this.updateTimeLineEvents}
+          updateTimeLine={this.updateTimeLine}
+          dayNumber={day}
         />));
 
     return (
@@ -120,9 +119,6 @@ export default class Itinerary extends React.Component {
   }
 }
 
-Itinerary.navigationOptions = () => ({
-  header: null,
-});
 
 // Itinerary.propTypes = {
 //   navigation: PropTypes.object,

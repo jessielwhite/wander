@@ -9,7 +9,7 @@ module.exports.styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 16,
-    height: 100,
+    height: 90,
     flex: 1,
     marginTop: 7,
     marginBottom: 12,
@@ -67,6 +67,20 @@ module.exports.styles = StyleSheet.create({
   tripModalButton: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  timeContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  timeButton: {
+    backgroundColor: 'lightblue',
+    padding: 12,
+    margin: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
   },
 });
 

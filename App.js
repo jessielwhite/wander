@@ -7,6 +7,7 @@ import Itinerary from './Components/Itinerary';
 import NewItinerary from './Components/New-Itinerary';
 import Signup from './Components/Signup';
 import QRScanner from './Components/QRScanner';
+import Timeline from './Components/Timeline';
 
 const App = StackNavigator({
   Login: { screen: Login },
@@ -16,6 +17,7 @@ const App = StackNavigator({
   NewItinerary: { screen: NewItinerary },
   Itinerary: { screen: Itinerary },
   QRScanner: { screen: QRScanner },
+  Timeline: {screen : Timeline}
 });
 
 export default App;

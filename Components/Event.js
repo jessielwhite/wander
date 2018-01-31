@@ -36,11 +36,8 @@ export default class Event extends React.Component {
       }
     });
 
-    this.props.dayInfo.events.forEach(event => {
-      event.updateTimeLineEvents = this.props.updateTimeLineEvents
-    });
   }
-
+  
   render() {
     let eventMarkers;
     let startingPoint = {
@@ -49,6 +46,10 @@ export default class Event extends React.Component {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     };
+    this.props.dayInfo.events.forEach(event => {
+      event.updateTimeLine = this.props.updateTimeLine;
+      event.dayNumber = this.props.dayNumber;
+    });
     if (this.props.dayInfo.events.length) {
       const eventCoordinates = this.props.dayInfo.events.map((event, i) => { 
         return {
@@ -69,7 +70,7 @@ export default class Event extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          style={{ height: 45 }}
+          style={{ height: 35 }}
           statusBarProps={{ barStyle: 'light-content' }}
           outerContainerStyles={{ backgroundColor: '#0e416d' }}
           centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 28, height: 30 } }}
@@ -109,7 +110,6 @@ export default class Event extends React.Component {
             title="Save your Trip Recommendations"
             onPress={this.props.saveSchedule}
           />
-          
         </ScrollView>
       </View>
     );
