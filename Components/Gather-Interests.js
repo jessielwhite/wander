@@ -17,22 +17,14 @@ export default class GatherInterests extends React.Component {
   }
 
   componentWillMount() {
-    // This binding is lost in the get request, so we need to store it
-    const self = this;
+    // Get all the event types out of the database
     axios.get('http://18.218.102.64/types')
-      .then((response) => {
-        self.setState({ types: response.data.map(type => type) });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  handleNext() {
-    this.props.navigation.navigate('Dashboard', { created: false });
+      .then(response => this.setState({ types: response.data.map(type => type) }))
+      .catch(error => console.error(error));
   }
 
   render() {
+    // Map over the types and create an Interest component for each, which is essentially a button
     const interests = this.state.types.map(type => (
       <Interest
         name={typePlurals[type.name]}
@@ -50,7 +42,7 @@ export default class GatherInterests extends React.Component {
           raised
           buttonStyle={{ backgroundColor: 'green' }}
           title="Next"
-          onPress={this.handleNext}
+          onPress={() => this.props.navigation.navigate('Dashboard')}
         />
       </ScrollView>
     );
