@@ -187,6 +187,6 @@ export default class Row extends React.Component {
 }
 
 Row.propTypes = {
-  // name: PropTypes.string
   data: PropTypes.object,
+  active: PropTypes.any,
 };

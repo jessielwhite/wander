@@ -40,7 +40,7 @@ export default class Itinerary extends React.Component {
     // If the data comes from the db, we're following this path
     } else {
       // We need to format the data so that it looks like it does coming back from schedule builder
-      // Doing some backflips to make that happen. CHeck out scheduleExample.js to see the format
+      // Doing some backflips to make that happen. Check out scheduleExample.js to see the format
       const schedule = Object.keys(this.props.navigation.state.params.dayInfo)
         .reduce((seed, item) => {
           seed[item] = { events: [] };
@@ -86,6 +86,7 @@ export default class Itinerary extends React.Component {
 
   render() {
     // Create the event components from the dayinfo
+    console.log('itinerary', this.state.itinerary);
     const eventViews = Object.keys(this.state.itinerary)
       .filter(item => item[0] === 'd')
       .map(day =>

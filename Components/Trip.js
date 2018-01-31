@@ -137,4 +137,5 @@ export default class Trip extends React.Component {
 
 Trip.propTypes = {
   navigation: PropTypes.object,
+  schedule: PropTypes.object,
 };

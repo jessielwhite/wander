@@ -27,7 +27,7 @@ export default class Login extends React.Component {
         // If the password is incorrect, do some error handling
         if (res.data === 'Password is incorrect') {
           alert('Sorry, there was a problem with your email/password combination. Please try again. Remember, email AND password are case sensitive');
-          // Otherwise, save the token on the user's device and send them to the dashboard
+        // Otherwise, save the token on the user's device and send them to the dashboard
         } else {
           const token = res.data.slice(4);
           AsyncStorage.setItem('Token', JSON.stringify(token));
