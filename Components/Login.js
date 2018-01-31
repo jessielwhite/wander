@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, Image } from 'react-native';
+import { StyleSheet, ImageBackground, Text, View, AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { FormInput, Button } from 'react-native-elements';
-import logo from '../img/logo.png';
+import { NavigationActions } from 'react-navigation';
 import NYC from '../img/NYC.jpg';
 
 const styles = StyleSheet.create({
@@ -44,19 +44,38 @@ export default class Login extends React.Component {
   }
 
   login() {
-    const user = { email: this.state.email, password: this.state.password };
-    axios.post('http://18.218.102.64/login', user)
-      .then((res) => {
-        const token = res.data;
-        if (token !== 'Password is incorrect') {
-          this.props.navigation.navigate('Dashboard', { created: false });
-        } else {
-          this.props.navigation.navigate('Login');
-        }
-      })
-      .catch((err) => {
-        console.log('this is login error ', err);
-      });
+    // const user = { email: this.state.email, password: this.state.password };
+    // this.props.navigation
+    //   .dispatch(NavigationActions.reset({
+    //     index: 0,
+    //     actions:
+    //       [NavigationActions.navigate({ routeName: 'Dashboard' })],
+    //   }));
+    // // Actual requests is commented out for testing purposes
+    // axios.post('http://18.218.102.64/login', user)
+    //   .then((res) => {
+    //     const token = res.data.slice(4);
+    //     if (token !== 'Password is incorrect') {
+    //       AsyncStorage.setItem('Token', JSON.stringify(token));
+    //       this.props.navigation
+    //         .dispatch(NavigationActions.reset({
+    //           index: 0,
+    //           actions:
+    //             [NavigationActions.navigate({ routeName: 'Dashboard' })],
+    //         }));
+    //     } else {
+    //       this.props.navigation.navigate('Login');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error('Login error ', err);
+    //   });
+    this.props.navigation
+      .dispatch(NavigationActions.reset({
+        index: 0,
+        actions:
+          [NavigationActions.navigate({ routeName: 'Dashboard' })],
+      }));
   }
 
   render() {
@@ -72,22 +91,23 @@ export default class Login extends React.Component {
         }}
         source={NYC}
       >
+        <View style={{ height: 100 }} />
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-          <Image source={logo} style={{ width: 150, height: 150, marginBottom: 150 }} />
           <Text style={{ fontSize: 30, color: 'white' }}>email</Text>
           <FormInput
             keyboardType="email-address"
             style={styles.input}
             onChangeText={text => this.setState({ email: text })}
             placeholder="enter email"
-            placeholderTextColor="gray"
+            placeholderTextColor="black"
+            autoCapitalize="none"
           />
           <Text style={{ fontSize: 30, color: 'white' }}>password</Text>
           <FormInput
             style={styles.input}
             onChangeText={text => this.setState({ password: text })}
             placeholder="enter password"
-            placeholderTextColor="gray"
+            placeholderTextColor="white"
             secureTextEntry
           />
 
@@ -124,6 +144,10 @@ export default class Login extends React.Component {
     );
   }
 }
+
+Login.navigationOptions = () => ({
+  header: null,
+});
 
 Login.propTypes = {
   navigation: PropTypes.object,

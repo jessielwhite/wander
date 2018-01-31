@@ -3,20 +3,25 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
+  AsyncStorage,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Header, Text, Button } from 'react-native-elements';
+import { Header, Text, Button, Icon } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import { keys } from '../config';
-import { schedule1 } from '../scheduleExample';
+import { exampleSchedule } from '../scheduleExample';
+import { getSchedule } from '../ScheduleMethods';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -39,11 +44,16 @@ export default class NewItinerary extends React.Component {
   constructor() {
     super();
     this.state = {
+      // This is the actual start date displayed on the calendar
       startDate: new Date(),
       endDate: new Date(),
       startDateTimePickerVisible: false,
       endDateTimePickerVisible: false,
       destination: '',
+      // This is the formatted start date that we pass to the schedule builder function
+      functionStartDate: '',
+      functionEndDate: '',
+      loading: false,
     };
     this.getItinerary = this.getItinerary.bind(this);
     this.showStartDateTimePicker = this.showStartDateTimePicker.bind(this);
@@ -55,18 +65,27 @@ export default class NewItinerary extends React.Component {
     this.searchPlaces = this.searchPlaces.bind(this);
   }
 
+  // Called when the user clicks the get itinerary button
   getItinerary() {
-    const body = {
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
-      destination: this.state.destination,
-    };
-    axios.post('http://18.218.102.64/schedule', body)
+    const { destination } = this.state;
+    const startDate = this.state.functionStartDate;
+    const endDate = this.state.functionEndDate;
+    this.setState({ loading: true });
+    AsyncStorage.getItem('Token')
       .then((res) => {
-        // console.log(res);
-        this.props.navigation.navigate('Itinerary', { dayInfo: res.data });
-      })
-      .catch(err => console.error(err));
+        const savedToken = JSON.parse(res);
+        axios.get('http://18.218.102.64/user/likes', {
+          headers: { authorization: savedToken },
+        })
+          .then((userLikes) => {
+            getSchedule(startDate, endDate, destination, userLikes.data, (schedule) => {
+              this.setState({ loading: false });
+              this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+            });
+          })
+          .catch(err => console.error(err));
+      });
+    // this.props.navigation.navigate('Itinerary', { dayInfo: exampleSchedule });
   }
 
   showStartDateTimePicker() {
@@ -85,105 +104,123 @@ export default class NewItinerary extends React.Component {
     this.setState({ endDateTimePickerVisible: false });
   }
 
-  handleStartDatePicked(date) {
-    // console.log('A start date has been picked: ', date);
-    this.setState({ startDate: date });
+  handleStartDatePicked(startDate) {
+    const formattedDate = `${months[startDate.getMonth()]} ${startDate.getDate()}, ${startDate.getFullYear()} 00:00:00`;
+    this.setState({ startDate });
+    this.setState({ functionStartDate: formattedDate });
     this.hideStartDateTimePicker();
   }
 
-  handleEndDatePicked(date) {
-    // console.log('An end date has been picked: ', date);
-    this.setState({ endDate: date });
+  handleEndDatePicked(endDate) {
+    const formattedDate = `${months[endDate.getMonth()]} ${endDate.getDate()}, ${endDate.getFullYear()} 00:00:00`;
+    this.setState({ endDate });
+    this.setState({ functionEndDate: formattedDate });
     this.hideEndDateTimePicker();
   }
 
   searchPlaces(destination) {
-    // The city, state, and country is saved in the description key
-    // console.log('destination', destination.description);
-    this.setState({ destination: destination.description });
+    destination = destination.description
+      .split('')
+      .slice(0, destination.description.indexOf(','))
+      .join('')
+      .split(' ')
+      .join('+');
+    this.setState({ destination });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {/* <Image source={logo} style={{ width: 100, height: 100 }} /> */}
         <Header
-          backgroundColor="#0e416d"
-          centerComponent={{
-            text: '               wander',
-            style: {
-              color: 'white',
-              fontSize: 40,
-              fontWeight: 'bold',
-              width: 400,
-              alignItems: 'center',
-            },
-          }}
+          statusBarProps={{ barStyle: 'light-content' }}
+          outerContainerStyles={{ backgroundColor: '#0e416d', width: '100%' }}
+          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          leftComponent={<Icon
+            name="home"
+            color="#fff"
+            onPress={() => this.props.navigation
+              .dispatch(NavigationActions.reset({
+                index: 0,
+                actions:
+                  [NavigationActions.navigate({ routeName: 'Dashboard' })],
+              }))}
+          />}
         />
-        <GooglePlacesAutocomplete
-          placeholder="Where are you Wandering?"
-          minLength={2}
-          autoFocus={false}
-          returnKeyType="search"
-          query={{
-            key: keys.googlePlacesAPI,
-            language: 'en',
-            types: '(cities)',
-          }}
-          styles={{
-            textInputContainer: {
-              width: '100%',
-              marginBottom: 10,
-            },
-            description: {
-              fontWeight: 'bold',
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb',
-            },
-          }}
-          debounce={200}
-          onPress={this.searchPlaces}
-        />
-        <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination}</Text>
-        <Text h4>When are you leaving?</Text>
-        <TouchableOpacity onPress={this.showStartDateTimePicker}>
-          <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
-        </TouchableOpacity>
-        <DateTimePicker
-          isVisible={this.state.startDateTimePickerVisible}
-          onConfirm={this.handleStartDatePicked}
-          onCancel={this.hideStartDateTimePicker}
-        />
-        <Text>{`${months[this.state.startDate.getMonth()]} ${this.state.startDate.getDate()}`}</Text>
-        <Text h4>When do you come back?</Text>
-        <TouchableOpacity onPress={this.showEndDateTimePicker}>
-          <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
-        </TouchableOpacity>
-        <DateTimePicker
-          isVisible={this.state.endDateTimePickerVisible}
-          onConfirm={this.handleEndDatePicked}
-          onCancel={this.hideEndDateTimePicker}
-        />
-        <Text>{`${months[this.state.endDate.getMonth()]} ${this.state.endDate.getDate()}`}</Text>
-        <Button
-          large
-          raised
-          buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
-          title="Go to Dashboard"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
-        />
-        <Button
-          large
-          raised
-          buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
-          title="Get my itinerary"
-          onPress={this.getItinerary}
-        />
+        <View style={styles.container}>
+          <GooglePlacesAutocomplete
+            placeholder="Where are you Wandering?"
+            minLength={2}
+            autoFocus={false}
+            returnKeyType="search"
+            query={{
+              key: keys.googlePlacesAPI,
+              language: 'en',
+              types: '(cities)',
+            }}
+            styles={{
+              textInputContainer: {
+                width: '100%',
+                marginBottom: 10,
+              },
+              description: {
+                fontWeight: 'bold',
+              },
+              predefinedPlacesDescription: {
+                color: '#1faadb',
+              },
+            }}
+            debounce={200}
+            onPress={this.searchPlaces}
+          />
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            animating={this.state.loading}
+          />
+          <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination.split('+').join(' ')}</Text>
+          <Text h4>When are you leaving?</Text>
+          <TouchableOpacity onPress={this.showStartDateTimePicker}>
+            <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
+          </TouchableOpacity>
+          <DateTimePicker
+            isVisible={this.state.startDateTimePickerVisible}
+            onConfirm={this.handleStartDatePicked}
+            onCancel={this.hideStartDateTimePicker}
+          />
+          <Text>{`${months[this.state.startDate.getMonth()]} ${this.state.startDate.getDate()}`}</Text>
+          <Text h4>When do you come back?</Text>
+          <TouchableOpacity onPress={this.showEndDateTimePicker}>
+            <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
+          </TouchableOpacity>
+          <DateTimePicker
+            isVisible={this.state.endDateTimePickerVisible}
+            onConfirm={this.handleEndDatePicked}
+            onCancel={this.hideEndDateTimePicker}
+          />
+          <Text>{`${months[this.state.endDate.getMonth()]} ${this.state.endDate.getDate()}`}</Text>
+          <Button
+            large
+            raised
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
+            title="Go to Dashboard"
+            onPress={() => this.props.navigation.navigate('Dashboard')}
+          />
+          <Button
+            large
+            raised
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
+            title="Get my itinerary"
+            onPress={this.getItinerary}
+          />
+        </View>
       </View>
     );
   }
 }
+
+NewItinerary.navigationOptions = () => ({
+  header: null,
+});
 
 NewItinerary.propTypes = {
   navigation: PropTypes.object,

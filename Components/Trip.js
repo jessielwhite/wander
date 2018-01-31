@@ -1,31 +1,136 @@
 import React from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { View, Text, Modal, AsyncStorage } from 'react-native';
+import { FormInput, Button } from 'react-native-elements';
+import QRCode from 'react-native-qrcode';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { styles } from './Styles';
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-  },
-});
 
 export default class Trip extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalVisible: false,
+      email: '',
     };
+    this.handleTripSelect = this.handleTripSelect.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.addByEmail = this.addByEmail.bind(this);
   }
 
-  componentWillMount() {
-    // console.log('trip props', this.props.schedule);
+  handleTripSelect() {
+    // Commented out for testing purposes
+    axios.get(`http://18.218.102.64/${this.props.schedule.id}/schedules`)
+      .then((res) => {
+        const datesSummary = res.data.reduce((seed, obj) => {
+          seed[obj.dateTime] = true;
+          return seed;
+        }, {});
+        const schedule = {};
+        Object.keys(datesSummary).forEach((day, i) => {
+          datesSummary[day] = `day_${i + 1}`;
+          schedule[`day_${i + 1}`] = [];
+        });
+        res.data.forEach((event) => {
+          schedule[datesSummary[event.dateTime]].push(event);
+        });
+        this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+      })
+      .catch(err => console.error(err));
+  }
+
+  showModal() {
+    this.setState({ modalVisible: true });
+  }
+
+  hideModal() {
+    this.setState({ modalVisible: false });
+  }
+
+  addByEmail() {
+    const body = { userEmail: this.state.email, scheduleId: this.props.schedule.id };
+    AsyncStorage.getItem('Token')
+      .then((token) => {
+        return axios({
+          url: 'http://18.218.102.64/join_schedule',
+          method: 'post',
+          headers: { authorization: JSON.parse(token) },
+          data: body,
+        });
+      })
+      .then(() => {
+        this.hideModal();
+      })
+      .catch(err => console.error(err));
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>{this.props.schedule.name}</Text>
+      <View style={styles.tripContainer}>
+        <Modal
+          visible={this.state.modalVisible}
+          animationType="fade"
+          onRequestClose={() => this.hideModal()}
+          transparent
+        >
+          <View style={styles.tripModal}>
+            <Text
+              style={styles.tripModalText}
+            >Share with a friend by entering their email address here:
+            </Text>
+            <FormInput
+              keyboardType="email-address"
+              onChangeText={text => this.setState({ email: text })}
+              placeholder="enter email"
+              placeholderTextColor="white"
+              inputStyle={{ color: 'white' }}
+              autoCapitalize="none"
+            />
+            <Button
+              buttonStyle={{
+                backgroundColor: '#0e416d',
+                borderRadius: 10,
+              }}
+              onPress={this.addByEmail}
+              title="Send request"
+            />
+            <Text style={styles.tripModalText}>Share with QR code</Text>
+            <QRCode
+              value={this.props.schedule.id.toString()}
+              size={200}
+              bgColor="black"
+              fgColor="white"
+            />
+            <Button
+              large
+              raised
+              buttonStyle={{
+                backgroundColor: '#0e416d',
+                borderRadius: 10,
+              }}
+              icon={{ name: 'home', size: 32 }}
+              onPress={() => this.hideModal()}
+              title="Back to homescreen"
+            />
+          </View>
+        </Modal>
+        <Text style={{ fontSize: 25, alignContent: 'center' }}>{this.props.schedule.name}</Text>
         <Button
-          onPress={() => this.props.navigation.navigate('Itinerary', { dayInfo: this.props.schedule })}
+          buttonStyle={{
+            backgroundColor: '#0e416d',
+            borderRadius: 10,
+          }}
+          onPress={this.handleTripSelect}
           title="View this trip"
+        />
+        <Button
+          buttonStyle={{
+            backgroundColor: '#0e416d',
+            borderRadius: 10,
+          }}
+          onPress={this.showModal}
+          title="Share this trip"
         />
       </View>
     );
@@ -34,5 +139,4 @@ export default class Trip extends React.Component {
 
 Trip.propTypes = {
   navigation: PropTypes.object,
-  schedule: PropTypes.object,
 };

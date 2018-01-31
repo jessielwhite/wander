@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet } from 'react-native';
+import { Text, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 import Interest from './Interest';
+import { keys } from '../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,12 +36,9 @@ export default class GatherInterests extends React.Component {
   componentWillMount() {
     // This binding is lost in the get request, so we need to store it
     const self = this;
-
-    // Get all the types of places from the database
     axios.get('http://18.218.102.64/types')
       .then((response) => {
-        // console.log(response);
-        self.setState({ types: response.data.map(type => type.name) });
+        self.setState({ types: response.data.map(type => type) });
       })
       .catch((error) => {
         console.error(error);
@@ -52,20 +50,21 @@ export default class GatherInterests extends React.Component {
   }
 
   render() {
-    const interests = this.state.types.map((type, i) => {
-      const name = `${type.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
-      return (<Interest
-        name={name}
-        type={type}
-        navigation={this.props.navigation}
-        key={name}
-      />);
+    const interests = this.state.types.map((type) => {
+      const name = `${type.name.replace(/_{1,}/g, ' ').replace(/(\s{1,}|\b)(\w)/g, (m, space, letter) => space + letter.toUpperCase())}s`;
+      return (
+        <Interest
+          name={name}
+          type={type}
+          navigation={this.props.navigation}
+          key={name}
+        />);
     });
     return (
       <ScrollView contentContainerStyle={styles.container} >
         <Text style={styles.titleText}>wander</Text>
         <Text style={{ fontSize: 18 }}>Tell us what you like to do when you're on vacation</Text>
-        {interests}
+        {interests || <Text>loading</Text>}
         <Button
           large
           raised
@@ -77,6 +76,10 @@ export default class GatherInterests extends React.Component {
     );
   }
 }
+
+GatherInterests.navigationOptions = () => ({
+  header: null,
+});
 
 GatherInterests.propTypes = {
   navigation: PropTypes.object,
