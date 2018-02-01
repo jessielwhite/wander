@@ -5,6 +5,7 @@ import {
   View,
   Modal,
   AsyncStorage,
+  TouchableHighlight,
 } from 'react-native';
 import openMap from 'react-native-open-maps';
 import { Button, Icon, Text, Card } from 'react-native-elements';
@@ -15,6 +16,8 @@ import PropTypes from 'prop-types';
 import { keys } from '../config';
 import { styles, rowStyle } from './Styles';
 import { typeIds } from '../SampleData/Types';
+import moment from 'moment';
+
 
 export default class Row extends React.Component {
   constructor(props) {
@@ -24,7 +27,6 @@ export default class Row extends React.Component {
       extraData: {},
       modalVisible: false,
       isDateTimePickerVisible: false,
-      text: '',
       time: ''
     };
 
@@ -99,7 +101,13 @@ export default class Row extends React.Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = time => {
-    console.log('A date has been picked: ', time);
+    let stringTime = time.toString();
+    let startTime = moment(time).format('hh:mm a');
+
+    this.setState({ time:startTime });
+    
+
+
     this._hideDateTimePicker();
   };
 
@@ -115,6 +123,10 @@ export default class Row extends React.Component {
     }
 
     
+    data.startTime = this.state.time;
+
+    console.log({ data })
+
 
 
     return (
@@ -149,24 +161,18 @@ export default class Row extends React.Component {
                   <Text>Open Hours
                     {openHoursText}
                   </Text>
-                  <View>
-                    <TextField
-                      label="Leave yourself some notes about the event"
-                      value={text}
-                      onChangeText={() => this.setState({ text })}
-                    />
-                  </View>
                   <View style={styles.timeContainer}>
-                    <Button onPress={this._showDateTimePicker}>
+                    <TouchableHighlight onPress={this._showDateTimePicker}>
                       <View style={styles.timeButton}>
-                        <Text>Show timePicker</Text>
+                        <Text>Select a time for your Event</Text>
                       </View>
-                    </Button>
+                    </TouchableHighlight>
                     <DateTimePicker
                       mode='time'
                       isVisible={this.state.isDateTimePickerVisible}
-                      onConfirm={this._handleDatePicked}
+                      onConfirm={(this._handleDatePicked)}
                       onCancel={this._hideDateTimePicker}
+                      is24Hour='false'
                     />
                   </View>
                   <Button
@@ -182,8 +188,8 @@ export default class Row extends React.Component {
                     title="Close modal"
                   />
                   <Button
-                    onPress={() =>  data.updateTimeLine() }
-                    title="update timeline"
+                    onPress={() =>  data.updateTimeLine( { data } ) }
+                    title="Add Event to my Trip"
                   />
                 </Card>
               </View>

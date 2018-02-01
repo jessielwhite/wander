@@ -153,7 +153,7 @@ export default class Dashboard extends React.Component {
           />
           <Button
             title="go to timeline"
-            onPress={() => this.props.navigation.navigate('Timeline')}
+            onPress={() => this.props.navigation.navigate('TimelineExample')}
           />
         </View>
       </ImageBackground>

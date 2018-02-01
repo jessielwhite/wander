@@ -17,7 +17,7 @@ const App = StackNavigator({
   NewItinerary: { screen: NewItinerary },
   Itinerary: { screen: Itinerary },
   QRScanner: { screen: QRScanner },
-  Timeline: {screen : Timeline}
+  Timeline: { screen : Timeline }
 });
 
 export default App;
