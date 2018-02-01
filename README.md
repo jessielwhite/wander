@@ -7,6 +7,7 @@
 1. [Wireframe](#wireframe)
 1. [Tech Stack](#tech-stack)
 1. [Schema](#schema)
+1. [Contribution](#contribution)
 
 ## Team
 - [Devin Robichaux](https://github.com/devinrobichaux) -- Product Owner
@@ -35,3 +36,6 @@ As always happens with projects, some aspects of this project's appearance chang
 
 ## Schema
 ![Schema](img/schema.png)
+
+## Contribution
+Please do feel free to contribute to this project. To do so, fork the project and create a config.js file with api keys for Google Places, Zomato, PredictHQ, and Amazon S3. While writing, please make sure to follow the AirBnB style guide to conform to the writing style that we started with. Make pull requests with detailed comments about what was changed as why, and we'll review them in a timely fashion and let you know about the result of your request.
