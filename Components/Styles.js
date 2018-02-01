@@ -120,7 +120,7 @@ module.exports.styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 300,
+    marginTop: 200,
   },
   signupFormInput: {
     height: 40,

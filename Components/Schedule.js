@@ -10,6 +10,7 @@ export default class Schedule extends Component {
     return <Row 
       data={data} 
       active={active} 
+      key={data.name}
     />
   }
 
