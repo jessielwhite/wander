@@ -61,9 +61,10 @@ export default class Dashboard extends React.Component {
               };
               // Users can be invitees, attenders, or creators, so we have to sort it accordingly
               if (fullSchedule.status === 'invited') {
+                console.log('found an invite', fullSchedule);
                 // Users will recieve an alert for these
                 this.setState({
-                  invitedSchedules: this.state.invitedSchedules.concat([fullSchedule]),
+                  invitedSchedules: this.state.invitedSchedules.concat(fullSchedule),
                 });
               } else if (fullSchedule.status === 'attending' || fullSchedule.status === 'creator') {
                 // These will be listed as trips they're attending
@@ -88,26 +89,27 @@ export default class Dashboard extends React.Component {
         });
   }
 
-  componentDidMount() {
-    // First thing, we send the user an alert if they have a new schedule
-    this.state.invitedSchedules.forEach((schedule) => {
-      Alert.alert(
-        'You\'ve been invited on a trip!',
-        `Would you like to join this trip to ${schedule.name}?`,
-        [
-          { text: 'Yes!', onPress: () => this.acceptTrip(schedule) },
-          { text: 'No thanks', onPress: () => this.rejectTrip(schedule) },
-        ],
-      );
-    });
-  }
-
   acceptTrip(trip) {
     // This route changes the user status from "invited" to "attending" in the database
     AsyncStorage.getItem('Token')
-      .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: true, headers: { authorization: token } }))
+      .then((token) => {
+        return axios({
+          url: 'http://18.218.102.64/accept_invite',
+          method: 'post',
+          headers: {
+            authorization: JSON.parse(token),
+            'Content-Type': 'application/json',
+          },
+          data: {
+            accepted: 'true',
+            scheduleId: trip.id,
+          },
+        })
+      })
       .then(() => {
         // The trip is immediately added, so that they won't have to refresh to see it
+        const newInvitedSchedules = this.state.invitedSchedules.slice(1) || [];
+        this.setState({ invitedSchedules: newInvitedSchedules });
         this.setState({ schedules: this.state.schedules.concat(trip) });
       })
       .catch(err => console.error(err));
@@ -116,7 +118,25 @@ export default class Dashboard extends React.Component {
   rejectTrip(trip) {
     // This route deletes the entry linking user and schedule
     AsyncStorage.getItem('Token')
-      .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: false, headers: { authorization: token } }))
+      .then((token) => {
+        return axios({
+          url: 'http://18.218.102.64/accept_invite',
+          method: 'post',
+          headers: {
+            authorization: JSON.parse(token),
+            'Content-Type': 'application/json',
+          },
+          data: {
+            accepted: 'false',
+            scheduleId: trip.id,
+          },
+        })
+      })
+      .then(() => {
+        // The trip is immediately added, so that they won't have to refresh to see it
+        this.setState({ invitedSchedules: invitedSchedules.slice(1) });
+        this.setState({ schedules: this.state.schedules.concat(trip) });
+      })
       .catch(err => console.error(err));
   }
 
@@ -162,6 +182,17 @@ export default class Dashboard extends React.Component {
 	};
 
   render() {
+    // First thing, we send the user an alert if they have a new schedule
+    this.state.invitedSchedules.forEach((schedule) => {
+      Alert.alert(
+        'You\'ve been invited on a trip!',
+        `Would you like to join this trip to ${schedule.name}?`,
+        [
+          { text: 'Yes!', onPress: () => this.acceptTrip(schedule) },
+          { text: 'No thanks', onPress: () => this.rejectTrip(schedule) },
+        ],
+      );
+    });
     // Build out the trip components from the schedules recieved from the database
     const trips = this.state.schedules
       .map(event =>

@@ -25,7 +25,7 @@ module.exports.typePlurals = {
   book_store: 'Book stores',
   casino: 'Casinos',
   clothing_store: 'Clothing stores',
-  point_of_interest: 'Points of interest',
+  point_of_interest: 'Landmarks',
   shopping_mall: 'Shopping malls',
   library: 'Libraries',
   movie_theater: 'Movie theaters',
