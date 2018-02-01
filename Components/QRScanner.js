@@ -11,7 +11,9 @@ export default class QRScanner extends React.Component {
     super();
     this.state = {
       hasCameraPermission: null,
+      read: true,
     };
+    this.handleBarCodeRead = this.handleBarCodeRead.bind(this);
   }
 
   async componentWillMount() {
@@ -23,22 +25,24 @@ export default class QRScanner extends React.Component {
   handleBarCodeRead({ data }) {
     // Make a request to join in on a trip, using the trip number you got from the qr code
     // and the user's token to get the id
-    AsyncStorage.getItem('Token')
-      .then((token) => {
-        const body = { scheduleId: data };
-        return axios({
-          url: 'http://18.218.102.64/join_schedule',
-          method: 'post',
-          headers: {
-            authorization: JSON.parse(token),
-            'Content-Type': 'application/json',
-          },
-          data: body,
-        });
-      })
-      // Send the user back to the dashboard. They should see the new schedule immediately
-      .then(() => this.props.navigation.navigate('Dashboard'))
-      .catch(err => console.error(err));
+    this.setState({ read: false }, () => {
+      AsyncStorage.getItem('Token')
+        .then((token) => {
+          const body = { scheduleId: data };
+          return axios({
+            url: 'http://18.218.102.64/join_schedule',
+            method: 'post',
+            headers: {
+              authorization: JSON.parse(token),
+              'Content-Type': 'application/json',
+            },
+            data: body,
+          });
+        })
+        // Send the user back to the dashboard. They should see the new schedule immediately
+        .then(() => this.props.navigation.navigate('Dashboard'))
+        .catch(err => console.error(err));
+    });
   }
 
   render() {
@@ -52,7 +56,7 @@ export default class QRScanner extends React.Component {
       <View style={{ flex: 1 }}>
         <BarCodeScanner
           barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-          onBarCodeRead={this.handleBarCodeRead}
+          onBarCodeRead={this.state.read && this.handleBarCodeRead}
           style={StyleSheet.absoluteFill}
         />
       </View>

@@ -113,23 +113,25 @@ export default class Trip extends React.Component {
             />
           </View>
         </Modal>
-        <Text style={{ fontSize: 25, alignContent: 'center' }}>{this.props.schedule.name}</Text>
+        <Text style={{ fontSize: 25, alignContent: 'center', justifyContent: 'center' }}>{this.props.schedule.name}</Text>
+        <View style={styles.viewTripContainer}>
         <Button
-          buttonStyle={{
-            backgroundColor: '#0e416d',
-            borderRadius: 10,
-          }}
-          onPress={this.handleTripSelect}
+          small
+          flat
+          buttonStyle={styles.viewTripButton}
           title="View this trip"
+          onPress={this.handleTripSelect}
+          underlayColor="rgba(255, 255, 255, 0.5)"
         />
         <Button
-          buttonStyle={{
-            backgroundColor: '#0e416d',
-            borderRadius: 10,
-          }}
-          onPress={this.showModal}
+          small
+          flat
+          buttonStyle={styles.viewTripButton}
           title="Share this trip"
-        />
+          onPress={this.showModal}
+          underlayColor="rgba(255, 255, 255, 0.5)"
+          />
+        </View>
       </View>
     );
   }
