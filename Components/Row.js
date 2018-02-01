@@ -30,7 +30,11 @@ export default class Row extends React.Component {
 
     this.openNewMap = this.openNewMap.bind(this);
     this.dislikeEvent = this.dislikeEvent.bind(this);
-
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.showDateTimePicker = this.showDateTimePicker.bind(this);
+    this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
+    this.handleDatePicked = this.handleDatePicked.bind(this);
     this.active = new Animated.Value(0);
   }
 
@@ -108,7 +112,7 @@ export default class Row extends React.Component {
     let openHoursText;
 
     if (modalInfo.opening_hours !== undefined || null) {
-      openHoursText = modalInfo.opening_hours.weekday_text.map(item => (<Text>{item}</Text>))
+      openHoursText = modalInfo.opening_hours.weekday_text.map(item => (<Text key={item} >{item}</Text>));
     }
 
     return (

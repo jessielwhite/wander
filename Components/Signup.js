@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, AsyncStorage, Image, View } from 'react-native';
+import { ImageBackground, AsyncStorage, Image, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FormInput, Button } from 'react-native-elements';
@@ -72,6 +72,7 @@ export default class Signup extends React.Component {
           />
         </View>
         <KeyboardAwareScrollView contentContainerStyle={styles.signupContainer}>
+          <Text style={{ fontSize: 30, color: 'white' }}>email</Text>
           <FormInput
             style={styles.signupFormInput}
             keyboardType="email-address"
@@ -81,6 +82,7 @@ export default class Signup extends React.Component {
             autoCapitalize="none"
             inputStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', color: 'white' }}
           />
+          <Text style={{ fontSize: 30, color: 'white' }}>username</Text>
           <FormInput
             style={styles.signupFormInput}
             placeholder="Enter a username"
@@ -89,6 +91,7 @@ export default class Signup extends React.Component {
             autoCapitalize="none"
             inputStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', color: 'white' }}
           />
+          <Text style={{ fontSize: 30, color: 'white' }}>password</Text>
           <FormInput
             style={styles.signupFormInput}
             placeholder="Enter a password"

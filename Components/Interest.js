@@ -31,12 +31,7 @@ export default class Interest extends React.Component {
           },
           data: { id_type: this.props.type.id, like: true },
         })
-          .then((response) => {
-            console.log(`user like post response ${response}`);
-          })
-          .catch((err) => {
-            console.error(`select interest post error ${err}`);
-          });
+          .catch(err => console.error(`select interest post error ${err}`));
       } else {
         axios({
           method: 'delete',
@@ -46,12 +41,7 @@ export default class Interest extends React.Component {
           },
           params: { id_type: this.props.type.id, like: false },
         })
-          .then((response) => {
-            console.log(`user like delete response ${response}`);
-          })
-          .catch((err) => {
-            console.error(`select interest delete error ${err}`);
-          });
+          .catch(err => console.error(`select interest delete error ${err}`));
       }
     });
   }
