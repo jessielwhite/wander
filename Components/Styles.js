@@ -20,6 +20,23 @@ module.exports.styles = StyleSheet.create({
     backfaceVisibility: 'hidden',
   },
 
+  profileContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+  },
+
+  profileButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
   newTripContainer: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0)',

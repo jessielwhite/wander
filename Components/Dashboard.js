@@ -189,16 +189,11 @@ export default class Dashboard extends React.Component {
 					{this.state.avatarUrl && <Image style={{ width: 100, height: 100, borderRadius: 20 }} source={{ uri: this.state.avatarUrl }} />}
           <View>
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Welcome, Bozo!</Text>
-            <View style={styles.profileContainer}>
-          <Button
-            small
-            raised
-            buttonStyle={styles.profileButton}
-            title="Change Profile picture"
+            <Button
+            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+						title="Update Profile Picture"
             onPress={this._pickImage}
-            underlayColor="rgba(255, 255, 255, 0.5)"
-          />
-          </View>
+					/>
           </View>
           <Text style={{ fontSize: 20 }}>Your upcoming trips:</Text>
             {trips}
