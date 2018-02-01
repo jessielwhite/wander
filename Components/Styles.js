@@ -32,15 +32,22 @@ module.exports.styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   loginButton: {
-    backgroundColor: '#0e416d',
     borderRadius: 10,
     alignSelf: 'flex-end',
     marginTop: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    width: 150,
   },
   loginInput: {
     marginTop: 4,
     color: 'white',
     textAlign: 'center',
+  },
+  loginButtonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   // New Itinerary page
   newItineraryContainer: {
@@ -114,6 +121,7 @@ module.exports.styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 300,
   },
   signupFormInput: {
     height: 40,
@@ -122,6 +130,14 @@ module.exports.styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 6,
     marginBottom: 5,
+  },
+  signupButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    width: (window.width * 0.95),
   },
   // Row.js
   row: {

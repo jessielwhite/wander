@@ -36,7 +36,7 @@ export default class Event extends React.Component {
       // Pull out the locations that will show up on the map
       const eventCoordinates = this.props.dayInfo.events.map(event => ({
         title: event.name,
-        coordinates: { latitude: event.latlng.lng, longitude: event.latlng.lat },
+        coordinates: { latitude: event.latlng.lat, longitude: event.latlng.lng },
       }));
       // Create the pins for the map
       eventMarkers = eventCoordinates
@@ -45,8 +45,8 @@ export default class Event extends React.Component {
       // The starting point is just the first event in the list
       // They won't be perfectly centered, but close enough
       startingPoint = {
-        latitude: this.props.dayInfo.events[0].latlng.lng,
-        longitude: this.props.dayInfo.events[0].latlng.lat,
+        latitude: this.props.dayInfo.events[0].latlng.lat,
+        longitude: this.props.dayInfo.events[0].latlng.lng,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       };

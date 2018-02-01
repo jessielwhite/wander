@@ -16,8 +16,8 @@ export default class Interest extends React.Component {
   }
 
   selectInterest() {
-    // Set the status to true so that the style changes
-    this.setState({ status: true });
+    // Toggle the status so that the style changes
+    this.setState({ status: !this.state.status });
     // Add an entry to the database showing that this user likes this type of event
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
@@ -43,9 +43,8 @@ export default class Interest extends React.Component {
           url: 'http://18.218.102.64/user_like',
           headers: {
             authorization: savedToken,
-            'Content-Type': 'application/json',
           },
-          data: { id_type: this.props.type.id, like: false },
+          params: { id_type: this.props.type.id, like: false },
         })
           .then((response) => {
             console.log(`user like delete response ${response}`);
