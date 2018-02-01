@@ -1,11 +1,12 @@
 import React from 'react';
-import { ImageBackground, AsyncStorage } from 'react-native';
+import { ImageBackground, AsyncStorage, Image, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FormInput, Button } from 'react-native-elements';
 import axios from 'axios';
 import { NavigationActions } from 'react-navigation';
 import Chicago from '../img/Chicago.jpg';
+import whiteLogo from '../img/whiteLogo.png';
 import { styles } from './Styles';
 
 export default class Signup extends React.Component {
@@ -58,31 +59,48 @@ export default class Signup extends React.Component {
         }}
         source={Chicago}
       >
+        <View style={{ justifyContent: 'center', alignItems: 'center'}} >
+          <Image
+            source={whiteLogo}
+            style={{
+              width: 300,
+              height: 70,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 50,
+            }}
+          />
+        </View>
         <KeyboardAwareScrollView contentContainerStyle={styles.signupContainer}>
           <FormInput
             style={styles.signupFormInput}
             keyboardType="email-address"
             onChangeText={text => this.setState({ email: text })}
             placeholder="Enter your email address"
-            placeholderTextColor="white"
+            placeholderTextColor="grey"
+            autoCapitalize="none"
+            inputStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', color: 'white' }}
           />
           <FormInput
             style={styles.signupFormInput}
             placeholder="Enter a username"
-            placeholderTextColor="white"
+            placeholderTextColor="grey"
             onChangeText={text => this.setState({ username: text })}
+            autoCapitalize="none"
+            inputStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', color: 'white' }}
           />
           <FormInput
             style={styles.signupFormInput}
             placeholder="Enter a password"
-            placeholderTextColor="white"
+            placeholderTextColor="grey"
             secureTextEntry
             onChangeText={text => this.setState({ password: text })}
+            inputStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', color: 'white' }}
           />
           <Button
             large
             raised
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
+            buttonStyle={styles.signupButton}
             title="Create your account"
             onPress={this.signup}
           />
