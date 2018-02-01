@@ -171,7 +171,7 @@ export default class Dashboard extends React.Component {
     return (
       <ImageBackground
         style={styles.dashboardImageBackground}
-        imageStyle={{ opacity: 0.25 }}
+        imageStyle={{ opacity: 0.3 }}
         source={goldenGate}
       >
         <Header
@@ -184,23 +184,26 @@ export default class Dashboard extends React.Component {
           />}
         />
         <ScrollView contentContainerStyle={styles.dashboardContainer}>
-        <View style={styles.dashboardContainer}>
+        <View style={styles.profileContainer}>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', alignItems: 'center' }}>Welcome, Jessie!</Text>
           <View style={{ alignItems: 'center' }}>
-					{this.state.avatarUrl && <Image style={{ width: 100, height: 100, borderRadius: 20 }} source={{ uri: this.state.avatarUrl }} />}
+					{this.state.avatarUrl && <Image style={{ width: 200, height: 125, borderRadius: 30 }} source={{ uri: this.state.avatarUrl }} />}
           <View>
-            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Welcome, Bozo!</Text>
             <Button
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
+            small
+            flat
+            buttonStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', borderRadius: 10, marginTop: 10, borderColor: 'black', borderWidth: 2 }}
 						title="Update Profile Picture"
             onPress={this._pickImage}
+            underlayColor="rgba(255, 255, 255, 0.5)"
 					/>
           </View>
-          <Text style={{ fontSize: 20 }}>Your upcoming trips:</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Your upcoming trips:</Text>
             {trips}
           <View style={styles.newTripContainer}>
           <Button
-            large
-            raised
+            // large
+            flat
             buttonStyle={styles.newTripButton}
             title="Plan a new trip"
             onPress={() => this.props.navigation.navigate('NewItinerary')}
@@ -209,8 +212,8 @@ export default class Dashboard extends React.Component {
           </View>
           <View style={styles.QRContainer}>
           <Button
-            large
-            raised
+            // large
+            flat
             buttonStyle={styles.QRButton}
             title="Scan a QR code"
             onPress={() => this.props.navigation.navigate('QRScanner')}
@@ -220,8 +223,8 @@ export default class Dashboard extends React.Component {
           </View>
           <View style={styles.signoutButtonContainer}>
           <Button
-            large
-            raised
+            // large
+            flat
             buttonStyle={styles.signoutButton}
             title="Sign out"
             onPress={this.signout}

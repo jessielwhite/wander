@@ -6,13 +6,11 @@ const window = Dimensions.get('window');
 module.exports.styles = StyleSheet.create({
   // Dashboard page
   dashboardContainer: {
-    flex: 1,
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
   dashboardImageBackground: {
     backgroundColor: 'transparent',
-    flex: 1,
     position: 'absolute',
     width: '100%',
     height: '100%',
@@ -21,7 +19,6 @@ module.exports.styles = StyleSheet.create({
   },
 
   profileContainer: {
-    flex: 1,
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -37,8 +34,22 @@ module.exports.styles = StyleSheet.create({
     width: (window.width * 0.95),
   },
 
+  viewTripContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+
+  viewTripButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    borderRadius: 10,
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: 150,
+  },
+
   newTripContainer: {
-    flex: 1,
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -55,7 +66,6 @@ module.exports.styles = StyleSheet.create({
   },
 
   QRContainer: {
-    flex: 1,
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -72,7 +82,6 @@ module.exports.styles = StyleSheet.create({
   },
 
   signoutContainer: {
-    flex: 1,
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -87,17 +96,6 @@ module.exports.styles = StyleSheet.create({
     borderWidth: 2,
     width: (window.width * 0.95),
   },
-  // fullWidthButton: {
-  //   backgroundColor: 'blue',
-  //   height:70,
-  //   flexDirection: 'row',
-  //   justifyContent: 'center',
-  //   alignItems: 'center'
-  // },
-  // fullWidthButtonText: {
-  //   fontSize:24,
-  //   color: 'white'
-  // },
   // Event page
   eventContainer: {
     flex: 1,
