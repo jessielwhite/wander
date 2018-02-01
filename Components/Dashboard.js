@@ -75,12 +75,9 @@ export default class Dashboard extends React.Component {
       })
       .catch(error => console.error('error', error));
 
-      console.log('BEFORE GET PHOTO');
-
       axios.get('http://18.218.102.64/photo')
         .then((response) => {
           let photo = response.data;
-          console.log('PHOTO', photo);
 
           if (photo) {
             this.setState({ avatarUrl: photo.url });
@@ -143,9 +140,6 @@ export default class Dashboard extends React.Component {
 			aspect: [4, 3],
 		});
 
-		// result includes details about the image
-		console.log('CHOSEN IMAGE', chosenImage);
-
     chosenImage.name = randId();	// we need to come up with a random id every time
     chosenImage.contentType = chosenImage.type;
 
@@ -157,8 +151,6 @@ export default class Dashboard extends React.Component {
 			 const s3Photo = {
 				 url: response.body.postResponse.location
 			 };
-
-			 console.log(s3Photo);
 
       this.setState({ avatarUrl: s3Photo.url });
 
@@ -219,8 +211,8 @@ export default class Dashboard extends React.Component {
           />
           </View>
           <Button
-            // small
-            // raised
+            // large
+            // flat
             title="Sign out"
             buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
             // style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
@@ -240,4 +232,5 @@ Dashboard.propTypes = {
   navigation: PropTypes.object,
 };
 
+//
 
