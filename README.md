@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Team](#team)
 1. [Description](#description)
-1. [Usage](#Usage)
+1. [Usage](#usage)
 1. [Wireframe](#wireframe)
 1. [Tech Stack](#tech-stack)
 1. [Schema](#schema)
