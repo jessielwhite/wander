@@ -133,7 +133,8 @@ export default class Dashboard extends React.Component {
       })
       .then(() => {
         // The trip is immediately added, so that they won't have to refresh to see it
-        this.setState({ invitedSchedules: invitedSchedules.slice(1) });
+        const newInvitedSchedules = this.state.invitedSchedules.slice(1) || [];
+        this.setState({ invitedSchedules: newInvitedSchedules });
         this.setState({ schedules: this.state.schedules.concat(trip) });
       })
       .catch(err => console.error(err));

@@ -17,6 +17,25 @@ module.exports.typeIds = {
   zoo: 16,
 };
 
+module.exports.idTypes = {
+  1: 'amusement_park',
+  2: 'aquarium',
+  3: 'art_gallery',
+  4: 'bowling_alley',
+  5: 'book_store',
+  6: 'casino',
+  7: 'clothing_store',
+  8: 'point_of_interest',
+  9: 'shopping_mall',
+  0: 'library',
+  11: 'movie_theater',
+  12: 'museum',
+  13: 'night_club',
+  14: 'park',
+  15: 'stadium',
+  16: 'zoo',
+};
+
 module.exports.typePlurals = {
   amusement_park: 'Amusement parks',
   aquarium: 'Aquariums',
