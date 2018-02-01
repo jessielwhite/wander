@@ -150,14 +150,14 @@ export default class Dashboard extends React.Component {
 		  if (response.status !== 201)
 		    throw new Error('Failed to upload image to S3');
 
-			 const s3Photo = {
-				 url: response.body.postResponse.location
-			 };
+			const s3Photo = {
+				url: response.body.postResponse.location
+			};
 
       this.setState({ avatarUrl: s3Photo.url });
 
-		 axios.post('http://18.218.102.64/photo', s3Photo)
-			 .catch((err) => console.error('Error posting image to db ', err));
+		axios.post('http://18.218.102.64/photo', s3Photo)
+			.catch((err) => console.error('Error posting image to db ', err));
 		});
 	};
 
