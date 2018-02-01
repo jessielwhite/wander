@@ -75,13 +75,10 @@ export default class Dashboard extends React.Component {
       })
       .catch(error => console.error('error', error));
 
-      console.log('BEFORE GET PHOTO');
-
+      // While we already have the token, we can get the user's profile picture in the same function
       axios.get('http://18.218.102.64/photo')
         .then((response) => {
           let photo = response.data;
-          console.log('PHOTO', photo);
-
           if (photo) {
             this.setState({ avatarUrl: photo.url });
           }
@@ -96,7 +93,7 @@ export default class Dashboard extends React.Component {
     this.state.invitedSchedules.forEach((schedule) => {
       Alert.alert(
         'You\'ve been invited on a trip!',
-        `Would you like to join on this trip to ${schedule.name}?`,
+        `Would you like to join this trip to ${schedule.name}?`,
         [
           { text: 'Yes!', onPress: () => this.acceptTrip(schedule) },
           { text: 'No thanks', onPress: () => this.rejectTrip(schedule) },
@@ -120,7 +117,6 @@ export default class Dashboard extends React.Component {
     // This route deletes the entry linking user and schedule
     AsyncStorage.getItem('Token')
       .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: false, headers: { authorization: token } }))
-      .then(success => console.log(success))
       .catch(err => console.error(err));
   }
 
@@ -144,9 +140,9 @@ export default class Dashboard extends React.Component {
 		});
 
 		// result includes details about the image
-		console.log('CHOSEN IMAGE', chosenImage);
 
-    chosenImage.name = randId();	// we need to come up with a random id every time
+    // we need to come up with a random id every time
+    chosenImage.name = randId();
     chosenImage.contentType = chosenImage.type;
 
 		// save the image to S3
@@ -158,17 +154,10 @@ export default class Dashboard extends React.Component {
 				 url: response.body.postResponse.location
 			 };
 
-			 console.log(s3Photo);
-
       this.setState({ avatarUrl: s3Photo.url });
 
 		 axios.post('http://18.218.102.64/photo', s3Photo)
-			 .then((image) => {
-				 console.log(image);
-			 })
-			 .catch((err) => {
-				 console.log('Error posting image to db ', err);
-			 });
+			 .catch((err) => console.error('Error posting image to db ', err));
 		});
 	};
 
@@ -219,11 +208,8 @@ export default class Dashboard extends React.Component {
           />
           </View>
           <Button
-            // small
-            // raised
             title="Sign out"
             buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            // style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
             onPress={this.signout}
           />
         </View>

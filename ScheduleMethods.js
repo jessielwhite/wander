@@ -83,35 +83,31 @@ const sortScheduleByLikes = (scheduleDayEvents, userLikes) => {
 
 // Since we're querying Google multiple times, we end up with duplicates. This filters them
 const filterAndRemoveDuplicates = (data) => {
-  const filteredData = data.map((loc) => {
-    return {
-      name: loc.name,
-      placeId: loc.place_id,
-      rating: loc.rating,
-      latlng: loc.geometry.location,
-      types: loc.types,
-    };
-  });
-  const seenNames = [];
+  const filteredData = data.map(loc => ({
+    name: loc.name,
+    placeId: loc.place_id,
+    rating: loc.rating,
+    latlng: loc.geometry.location,
+    types: loc.types,
+  }));
+  const seenNames = {};
   filteredData.forEach((event, i) => {
-    if (seenNames.includes(event.name)) {
+    if (seenNames[event.name]) {
       filteredData.splice(i, 1);
     } else {
-      seenNames.push(event.name);
+      seenNames[event.name] = true;
     }
   });
   return filteredData;
 };
 
-const buildLiveEvent = (predictHQEvent) => {
-  return {
-    name: predictHQEvent.title,
-    latlng: {
-      lat: predictHQEvent.location[1],
-      lng: predictHQEvent.location[0],
-    },
-  };
-};
+const buildLiveEvent = predictHQEvent => ({
+  name: predictHQEvent.title,
+  latlng: {
+    lat: predictHQEvent.location[1],
+    lng: predictHQEvent.location[0],
+  },
+});
 
 // Here's where the magic happens
 const scheduleBuilder = (startDate, endDate, google, restaurantData, predictHQ, location, userLikes) => {
