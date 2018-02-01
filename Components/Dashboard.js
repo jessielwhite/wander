@@ -208,13 +208,16 @@ export default class Dashboard extends React.Component {
             onPress={() => this.props.navigation.navigate('QRScanner')}
           />
           </View>
+          <View style={styles.signoutButtonContainer}>
           <Button
-            // large
-            // flat
+            large
+            raised
+            buttonStyle={styles.signoutButton}
             title="Sign out"
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
             onPress={this.signout}
+            underlayColor="rgba(255, 255, 255, 0.5)"
           />
+          </View>
         </View>
         </ScrollView>
       </ImageBackground>
@@ -230,5 +233,6 @@ Dashboard.propTypes = {
   navigation: PropTypes.object,
 };
 
-//
 
+
+//

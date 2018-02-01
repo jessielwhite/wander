@@ -1,4 +1,5 @@
 import { StyleSheet, Platform, Animated, Dimensions } from 'react-native';
+import { Button, Header, Icon } from 'react-native-elements';
 
 const window = Dimensions.get('window');
 
@@ -18,6 +19,35 @@ module.exports.styles = StyleSheet.create({
     justifyContent: 'center',
     backfaceVisibility: 'hidden',
   },
+  
+  signoutContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 200,
+  },
+
+  signoutButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    borderRadius: 10,
+    marginTop: 10,
+    color: 'black',
+    borderColor: 'black',
+    borderWidth: 1,
+    width: (window.width * 0.95),
+  },
+  // fullWidthButton: {
+  //   backgroundColor: 'blue',
+  //   height:70,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center'
+  // },
+  // fullWidthButtonText: {
+  //   fontSize:24,
+  //   color: 'white'
+  // },
   // Event page
   eventContainer: {
     flex: 1,
