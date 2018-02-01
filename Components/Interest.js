@@ -43,7 +43,6 @@ export default class Interest extends React.Component {
           url: 'http://18.218.102.64/user_like',
           headers: {
             authorization: savedToken,
-            'Content-Type': 'application/json',
           },
           params: { id_type: this.props.type.id, like: false },
         })
