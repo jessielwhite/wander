@@ -17,7 +17,6 @@ module.exports.styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     backfaceVisibility: 'hidden',
-    shadowOpacity: 1.0,
   },
   // Event page
   eventContainer: {

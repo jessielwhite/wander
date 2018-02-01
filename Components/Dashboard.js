@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert, Image } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert, Image, ScrollView } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
+// import { Button } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -176,6 +177,7 @@ export default class Dashboard extends React.Component {
     return (
       <ImageBackground
         style={styles.dashboardImageBackground}
+        imageStyle={{ opacity: 0.25 }}
         source={goldenGate}
       >
         <Header
@@ -187,17 +189,19 @@ export default class Dashboard extends React.Component {
             color="#fff"
           />}
         />
+        <ScrollView contentContainerStyle={styles.dashboardContainer}>
         <View style={styles.dashboardContainer}>
           <View style={{ alignItems: 'center' }}>
-					{this.state.avatarUrl && <Image style={{ width: 100, height: 100 }} source={{ uri: this.state.avatarUrl }} />}
+					{this.state.avatarUrl && <Image style={{ width: 100, height: 100, borderRadius: 20 }} source={{ uri: this.state.avatarUrl }} />}
           <View>
-            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
+            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Welcome, Bozo!</Text>
             <Button
             buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-						title="Add a user avatar"
+						title="Update Profile Picture"
             onPress={this._pickImage}
 					/>
           </View>
+          <Text style={{ fontSize: 20 }}>Your upcoming trips:</Text>
             {trips}
             <Button
               title="Plan a new trip"
@@ -219,6 +223,7 @@ export default class Dashboard extends React.Component {
             onPress={this.signout}
           />
         </View>
+        </ScrollView>
       </ImageBackground>
     );
   }
