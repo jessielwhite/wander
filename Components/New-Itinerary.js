@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { keys } from '../config';
 import { getSchedule } from '../ScheduleMethods';
 import { styles } from './Styles';
-import { months } from '../SampleData/Types';
+import { months, idTypes } from '../SampleData/Types';
 
 export default class NewItinerary extends React.Component {
   constructor() {
@@ -55,8 +55,9 @@ export default class NewItinerary extends React.Component {
           headers: { authorization: JSON.parse(res) },
         })
           .then((userLikes) => {
+            const filteredLikes = userLikes.data.map(like => ({ type: idTypes[like.id_type], like: like.like }));
             // Call the schedule builder function
-            getSchedule(functionStartDate, functionEndDate, destination, userLikes.data, (schedule) => {
+            getSchedule(functionStartDate, functionEndDate, destination, filteredLikes, (schedule) => {
               this.setState({ loading: false });
               // Send the user to the edit Itinerary view with the returned schedule
               this.props.navigation.navigate('Itinerary', { dayInfo: schedule });

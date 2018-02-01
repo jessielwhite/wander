@@ -72,13 +72,14 @@ const sortScheduleByLikes = (scheduleDayEvents, userLikes) => {
   scheduleDayEvents.forEach((event) => {
     event.types.forEach((type) => {
       if (likes.includes(type)) {
-        event.rating++;
+        event.rating += 1;
       } else if (dislikes.includes(type)) {
-        event.rating--;
+        event.rating -= 1;
       }
     });
     delete event.types;
   });
+  return scheduleDayEvents.sort((a, b) => b.rating - a.rating);
 };
 
 // Since we're querying Google multiple times, we end up with duplicates. This filters them
@@ -150,7 +151,9 @@ const scheduleBuilder = (startDate, endDate, google, restaurantData, predictHQ, 
     }
     schedule[day].date = new Date(currentDate).toString();
     currentDate.setDate(currentDate.getDate() + 1);
-    sortScheduleByLikes(schedule[day].events, userLikes);
+    console.log('before sort', schedule[day].events);
+    schedule[day].events = sortScheduleByLikes(schedule[day].events, userLikes);
+    console.log('after sort', schedule[day].events);
   });
   schedule.name = location.split('+').join(' ');
   return schedule;
@@ -165,10 +168,12 @@ module.exports.getSchedule = (startDate, endDate, query, userLikes, cb) => {
       return Promise.all([
         axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=${response1.data.next_page_token}&key=${keys.googlePlacesAPI}`),
         axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}+landmarks&language=en&key=${keys.googlePlacesAPI}`),
+        axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}+casinos&language=en&key=${keys.googlePlacesAPI}`),
       ]);
     })
-    .then(([response2, landmarks]) => {
+    .then(([response2, landmarks, casinos]) => {
       googleData = googleData.concat(landmarks.data.results);
+      googleData = googleData.concat(casinos.data.results);
       if (response2.data.results.length) {
         googleData = googleData.concat(response2.data.results);
       }
@@ -263,15 +268,25 @@ const properSort = (scheduleEvent, userLikes) => {
 
 // This can be used for testing purposes
 // const exampleLikes = [
+//   { type: 'museum', like: false },
+//   { type: 'art_gallery', like: false },
+//   { type: 'point_of_interest', like: false },
+//   { type: 'night_club', like: true },
+//   { type: 'park', like: false },
+//   { type: 'zoo', like: false },
+//   { type: 'casinos', like: true },
+// ];
+// const exampleLikes = [
 //   { type: 'museum', like: true },
 //   { type: 'art_gallery', like: true },
 //   { type: 'point_of_interest', like: true },
 //   { type: 'night_club', like: false },
 //   { type: 'park', like: true },
 //   { type: 'zoo', like: false },
+//   { type: 'casinos', like: false },
 // ];
 // const start = new Date('February 10, 2018 00:00:00');
 // const end = new Date('Febrauary 13, 2018 00:00:00');
-// const query = 'New+York+City';
+// const query = 'Las+Vegas';
 
-// module.exports.getSchedule(start, end, query, exampleLikes, response => console.log(response));
+// module.exports.getSchedule(start, end, query, exampleLikes, response => console.log(response.day_1.events));
