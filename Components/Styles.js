@@ -19,22 +19,55 @@ module.exports.styles = StyleSheet.create({
     justifyContent: 'center',
     backfaceVisibility: 'hidden',
   },
-  
+
+  newTripContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+
+  newTripButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
+  QRContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+  },
+
+  QRButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
   signoutContainer: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 200,
+    marginTop: 35,
   },
 
   signoutButton: {
     backgroundColor: 'rgba(0, 0, 0, 0.0)',
     borderRadius: 10,
     marginTop: 10,
-    color: 'black',
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 2,
     width: (window.width * 0.95),
   },
   // fullWidthButton: {

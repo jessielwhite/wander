@@ -189,24 +189,39 @@ export default class Dashboard extends React.Component {
 					{this.state.avatarUrl && <Image style={{ width: 100, height: 100, borderRadius: 20 }} source={{ uri: this.state.avatarUrl }} />}
           <View>
             <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Welcome, Bozo!</Text>
-            <Button
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-						title="Update Profile Picture"
+            <View style={styles.profileContainer}>
+          <Button
+            small
+            raised
+            buttonStyle={styles.profileButton}
+            title="Change Profile picture"
             onPress={this._pickImage}
-					/>
+            underlayColor="rgba(255, 255, 255, 0.5)"
+          />
+          </View>
           </View>
           <Text style={{ fontSize: 20 }}>Your upcoming trips:</Text>
             {trips}
-            <Button
-              title="Plan a new trip"
-              buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-              onPress={() => this.props.navigation.navigate('NewItinerary')}
-            />
-            <Button
-            title="Scan a QR code"
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            onPress={() => this.props.navigation.navigate('QRScanner')}
+          <View style={styles.newTripContainer}>
+          <Button
+            large
+            raised
+            buttonStyle={styles.newTripButton}
+            title="Plan a new trip"
+            onPress={() => this.props.navigation.navigate('NewItinerary')}
+            underlayColor="rgba(255, 255, 255, 0.5)"
           />
+          </View>
+          <View style={styles.QRContainer}>
+          <Button
+            large
+            raised
+            buttonStyle={styles.QRButton}
+            title="Scan a QR code"
+            onPress={() => this.props.navigation.navigate('QRScanner')}
+            underlayColor="rgba(255, 255, 255, 0.5)"
+          />
+          </View>
           </View>
           <View style={styles.signoutButtonContainer}>
           <Button
