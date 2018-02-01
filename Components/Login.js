@@ -109,6 +109,7 @@ export default class Login extends React.Component {
               onPress={() => this.props.navigation.navigate('Signup')}
               title="Sign Up"
               transparent
+              underlayColor="rgba(255, 255, 255, 0.5)"
             />
           </View>
         </KeyboardAwareScrollView>

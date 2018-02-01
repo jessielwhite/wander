@@ -103,6 +103,7 @@ export default class Signup extends React.Component {
             buttonStyle={styles.signupButton}
             title="Create your account"
             onPress={this.signup}
+            underlayColor="rgba(255, 255, 255, 0.5)"
           />
         </KeyboardAwareScrollView>
       </ImageBackground>
