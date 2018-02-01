@@ -13,7 +13,6 @@ export default class GatherInterests extends React.Component {
     this.state = {
       types: [],
     };
-    this.handleNext = this.handleNext.bind(this);
   }
 
   componentWillMount() {
