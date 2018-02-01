@@ -27,8 +27,11 @@ recommendations. All that you have to do is show up and Wander.
 This project was designed on Expo and made with create-react-app. We recommend running in expo for development, but use whatever mobile development tools you prefer. Just make sure to run `npm install` and `npm start`.
 
 ## Wireframe
-![Wireframe](wireframe.png) \
+![Wireframe](img/wireframe.png) \
 As always happens with projects, some aspects of this project's appearance changed between its inception and its current state. On the whole, though, this remains accurate.
 
 ## Tech Stack
-![Tech Stack](techstack.png)
+![Tech Stack](img/techstack.png)
+
+## Schema
+![Schema](img/schema.png)
