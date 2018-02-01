@@ -61,7 +61,6 @@ export default class Dashboard extends React.Component {
               };
               // Users can be invitees, attenders, or creators, so we have to sort it accordingly
               if (fullSchedule.status === 'invited') {
-                console.log('found an invite', fullSchedule);
                 // Users will recieve an alert for these
                 this.setState({
                   invitedSchedules: this.state.invitedSchedules.concat(fullSchedule),
