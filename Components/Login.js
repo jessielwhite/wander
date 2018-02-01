@@ -1,37 +1,13 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, View, AsyncStorage } from 'react-native';
+import { ImageBackground, Text, View, AsyncStorage, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import { FormInput, Button } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
+import PropTypes from 'prop-types';
 import NYC from '../img/NYC.jpg';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0)',
-  },
-  button: {
-    backgroundColor: '#fff',
-  },
-  title: {
-    paddingBottom: 16,
-    textAlign: 'center',
-    color: '#404d5b',
-    fontSize: 40,
-    fontWeight: 'bold',
-    opacity: 0.8,
-    backgroundColor: '#000000',
-  },
-  input: {
-    marginTop: 4,
-    color: 'white',
-    textAlign: 'center',
-  },
-});
+import whiteLogo from '../img/whiteLogo.png';
+import { styles } from './Styles';
 
 export default class Login extends React.Component {
   constructor() {
@@ -44,38 +20,30 @@ export default class Login extends React.Component {
   }
 
   login() {
-    // const user = { email: this.state.email, password: this.state.password };
-    // this.props.navigation
-    //   .dispatch(NavigationActions.reset({
-    //     index: 0,
-    //     actions:
-    //       [NavigationActions.navigate({ routeName: 'Dashboard' })],
-    //   }));
-    // // Actual requests is commented out for testing purposes
-    // axios.post('http://18.218.102.64/login', user)
-    //   .then((res) => {
-    //     const token = res.data.slice(4);
-    //     if (token !== 'Password is incorrect') {
-    //       AsyncStorage.setItem('Token', JSON.stringify(token));
-    //       this.props.navigation
-    //         .dispatch(NavigationActions.reset({
-    //           index: 0,
-    //           actions:
-    //             [NavigationActions.navigate({ routeName: 'Dashboard' })],
-    //         }));
-    //     } else {
-    //       this.props.navigation.navigate('Login');
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error('Login error ', err);
-    //   });
-    this.props.navigation
-      .dispatch(NavigationActions.reset({
-        index: 0,
-        actions:
-          [NavigationActions.navigate({ routeName: 'Dashboard' })],
-      }));
+    // Get the stuff that we need for the login request
+    const user = { email: this.state.email, password: this.state.password };
+    // Make a request to the login route
+    axios.post('http://18.218.102.64/login', user)
+      .then((res) => {
+        // If the password is incorrect, do some error handling
+        if (res.data === 'Password is incorrect') {
+          alert('Sorry, there was a problem with your email/password combination. Please try again. Remember, email AND password are case sensitive');
+        // Otherwise, save the token on the user's device and send them to the dashboard
+        } else {
+          const token = res.data.slice(4);
+          AsyncStorage.setItem('Token', JSON.stringify(token));
+          this.props.navigation
+          // This prevents the user from having the ability to go back
+            .dispatch(NavigationActions.reset({
+              index: 0,
+              actions:
+                [NavigationActions.navigate({ routeName: 'Dashboard' })],
+            }));
+        }
+      })
+      .catch((err) => {
+        console.error('Login error ', err);
+      });
   }
 
   render() {
@@ -91,54 +59,59 @@ export default class Login extends React.Component {
         }}
         source={NYC}
       >
+        <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+          <Image
+            source={whiteLogo}
+            style={{
+              width: 300,
+              height: 70,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 80,
+            }}
+          />
+        </View>
         <View style={{ height: 100 }} />
-        <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-          <Text style={{ fontSize: 30, color: 'white' }}>email</Text>
+        <KeyboardAwareScrollView contentContainerStyle={styles.loginContainer}>
+          <Text style={{ fontSize: 30, color: 'white', marginTop: 180 }}>email</Text>
           <FormInput
             keyboardType="email-address"
-            style={styles.input}
+            style={styles.loginInput}
+            inputStyle={{ color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
             onChangeText={text => this.setState({ email: text })}
             placeholder="enter email"
-            placeholderTextColor="black"
+            placeholderTextColor="grey"
             autoCapitalize="none"
           />
           <Text style={{ fontSize: 30, color: 'white' }}>password</Text>
           <FormInput
-            style={styles.input}
+            style={styles.loginInput}
+            inputStyle={{ color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
             onChangeText={text => this.setState({ password: text })}
             placeholder="enter password"
-            placeholderTextColor="white"
+            placeholderTextColor="grey"
             secureTextEntry
           />
-
-          <Button
-            large
-            raised
-            buttonStyle={{
-              backgroundColor: '#0e416d',
-              borderRadius: 10,
-              alignSelf: 'flex-end',
-              marginTop: 10,
-            }}
-            onPress={this.login}
-            title="login"
-            icon={{ name: 'home', size: 32 }}
-          />
-
-          <Button
-            large
-            raised
-            buttonStyle={{
-              backgroundColor: '#0e416d',
-              borderRadius: 10,
-              alignSelf: 'flex-end',
-              position: 'relative',
-              marginTop: 10,
-            }}
-            onPress={() => this.props.navigation.navigate('Signup')}
-            icon={{ name: 'edit', size: 32 }}
-            title="signup"
-          />
+          <View style={styles.loginButtonContainer}>
+            <Button
+              large
+              raised
+              buttonStyle={styles.loginButton}
+              onPress={this.login}
+              title="Log In"
+              transparent
+              underlayColor="rgba(255, 255, 255, 0.5)"
+            />
+            <Button
+              large
+              raised
+              buttonStyle={styles.loginButton}
+              onPress={() => this.props.navigation.navigate('Signup')}
+              title="Sign Up"
+              transparent
+              underlayColor="rgba(255, 255, 255, 0.5)"
+            />
+          </View>
         </KeyboardAwareScrollView>
       </ImageBackground>
     );
