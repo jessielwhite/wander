@@ -217,7 +217,7 @@ export default class Dashboard extends React.Component {
         />
         <ScrollView contentContainerStyle={styles.dashboardContainer}>
         <View style={styles.profileContainer}>
-          <Text style={{ fontSize: 25, fontWeight: 'bold', alignItems: 'center' }}>Welcome, Jessie!</Text>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', alignItems: 'center' }}>Welcome Home!</Text>
           <View style={{ alignItems: 'center' }}>
 					{this.state.avatarUrl && <Image style={{ width: 200, height: 125, borderRadius: 30 }} source={{ uri: this.state.avatarUrl }} />}
           <View>
