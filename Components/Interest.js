@@ -50,8 +50,16 @@ export default class Interest extends React.Component {
     return (
       <Button
         large
-        raised
-        buttonStyle={{ backgroundColor: this.state.status ? '#0b81e8' : '#0e416d', width: 500, marginVertical: 5 }}
+        flat
+        buttonStyle={{
+          backgroundColor: this.state.status ? '#0b81e8' : 'rgba(0,0,0,0.5)',
+          width: '95%',
+          marginVertical: 5,
+          borderRadius: 10,
+          marginTop: 10,
+          borderColor: 'black',
+          borderWidth: 2,
+        }}
         onPress={this.selectInterest}
         icon={{ name: icons[this.props.type.name], type: 'font-awesome' }}
         title={this.props.name}

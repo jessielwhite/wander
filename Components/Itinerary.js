@@ -145,6 +145,9 @@ export default class Itinerary extends React.Component {
   }
 }
 
+Itinerary.navigationOptions = () => ({
+    header: null,
+});
 
 Itinerary.propTypes = {
   navigation: PropTypes.object,

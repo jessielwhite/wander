@@ -161,7 +161,7 @@ export default class Row extends React.Component {
                   <View style={styles.timeContainer}>
                     <TouchableHighlight onPress={this._showDateTimePicker}>
                       <View style={styles.timeButton}>
-                        <Text>Select a time for your Event</Text>
+                        <Text>Start Time for Your Event</Text>
                       </View>
                     </TouchableHighlight>
                     <DateTimePicker
@@ -173,18 +173,22 @@ export default class Row extends React.Component {
                     />
                   </View>
                   <Button
-                    title="View this event in your native maps app"
+                    raised
+                    title="Open in Maps"
                     onPress={this.openNewMap}
                   />
                   <Button
-                    title="I don't like this kind of event"
+                    raised
+                    title="I'll pass on this event"
                     onPress={this.dislikeEvent}
                   />
                   <Button
+                    raised
                     onPress={() =>  data.updateTimeLine( { data } )}
                     title="Add Event to my Trip"
                   />
                   <Button
+                    raised
                     onPress={() => this.closeModal()}
                     title="Close modal"
                   />
