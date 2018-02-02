@@ -141,10 +141,10 @@ module.exports.styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
+    justifyContent: 'flex-end',
+    // marginTop: 10,
   },
-  
+
   newItineraryButton: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderRadius: 10,
@@ -159,6 +159,7 @@ module.exports.styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 0,
+		paddingBottom: 10
   },
 
   dashboardButton: {
