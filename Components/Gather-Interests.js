@@ -39,7 +39,7 @@ export default class GatherInterests extends React.Component {
         <Button
           large
           raised
-          buttonStyle={{ backgroundColor: 'green' }}
+          buttonStyle={{ backgroundColor: '#0b81e8' }}
           title="Next"
           onPress={() => this.props.navigation.navigate('Dashboard')}
         />

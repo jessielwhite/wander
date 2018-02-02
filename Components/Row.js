@@ -153,6 +153,16 @@ export default class Row extends React.Component {
                   </View>
                   <View>
                     <Button
+                      flat
+                      buttonStyle={{
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        width: '95%',
+                        marginVertical: 5,
+                        borderRadius: 10,
+                        marginTop: 10,
+                        borderColor: 'black',
+                        borderWidth: 2,
+                      }}
                       onPress={this.showDateTimePicker}
                       title="pick a start time"
                     />
@@ -166,14 +176,44 @@ export default class Row extends React.Component {
                     </View>
                   </View>
                   <Button
+                    flat
+                    buttonStyle={{
+                      backgroundColor: 'rgba(0,0,0,0.5)',
+                      width: '95%',
+                      marginVertical: 5,
+                      borderRadius: 10,
+                      marginTop: 10,
+                      borderColor: 'black',
+                      borderWidth: 2,
+                    }}
                     title="View this event in your native maps app"
                     onPress={this.openNewMap}
                   />
                   <Button
+                    flat
+                    buttonStyle={{
+                      backgroundColor: 'rgba(0,0,0,0.5)',
+                      width: '95%',
+                      marginVertical: 5,
+                      borderRadius: 10,
+                      marginTop: 10,
+                      borderColor: 'black',
+                      borderWidth: 2,
+                    }}
                     title="I don't like this kind of event"
                     onPress={this.dislikeEvent}
                   />
                   <Button
+                    flat
+                    buttonStyle={{
+                      backgroundColor: 'rgba(0,0,0,0.5)',
+                      width: '95%',
+                      marginVertical: 5,
+                      borderRadius: 10,
+                      marginTop: 10,
+                      borderColor: 'black',
+                      borderWidth: 2,
+                    }}
                     onPress={() => this.closeModal()}
                     title="Close modal"
                   />
