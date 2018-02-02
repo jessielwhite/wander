@@ -57,10 +57,8 @@ export default class TimelineExample extends Component {
   }
 
   componentWillMount() {
-    const getDaySchedule = (dayArr, cb) => Promise.all(dayArr.map(event => axios.get(`http://18.218.102.64/event/${event.id}`)))
+    const getDaySchedule = (dayArr, cb) => Promise.all(dayArr.map(event => axios.get(`http://18.218.102.64/event/${event.id_event}`)))
       .then((res) => {
-        // res is an array holding the response objects from each of the calls to the database
-        // They're not formatted correctly, so we map through them here and pull out what we need
         const fullDayArr = res.map((obj) => {
           const result = obj.data;
           result.latlng = { lat: obj.data.latitude, lng: obj.data.longitude };
@@ -78,6 +76,7 @@ export default class TimelineExample extends Component {
         seed[item] = { events: [] };
         return seed;
       }, {});
+
     Object.keys(this.props.navigation.state.params.dayInfo)
       .forEach((day) => {
         getDaySchedule(this.props.navigation.state.params.dayInfo[day], (response) => {
