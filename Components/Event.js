@@ -94,7 +94,7 @@ export default class Event extends React.Component {
         </View>
 
         <ScrollView>
-          <Text h4 center> Sort and Edit Your Schedule</Text>
+          <Text h4 center> Here are your suggestions!</Text>
           {
             this.props.dayInfo.events.length ?
               <Schedule
