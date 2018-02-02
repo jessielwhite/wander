@@ -9,6 +9,8 @@ import Signup from './Components/Signup';
 import QRScanner from './Components/QRScanner';
 import Timeline from './Components/Timeline';
 
+console.disableYellowBox = true;
+
 const App = StackNavigator({
   Login: { screen: Login },
   Signup: { screen: Signup },

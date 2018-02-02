@@ -33,35 +33,31 @@ export default class TimelineExample extends Component {
     day_1 :[
       {time: '09:00 am', title: 'Fitroy Place', description: 'rating: 5', circleColor: '#009688',lineColor:'#009688'},
       {time: '10:45 am', title: 'Hangar 61', description: 'rating: 5'},
-      {time: '12:00 pm', title: 'Devner Cafe and Casion', description: 'rating: 4.8'},
+      {time: '12:00 pm', title: 'Tropical Discovery', description: 'rating: 4.8'},
       {time: '2:00 pm', title: 'Ace Express Coaches Casino Bus', description: 'raiting 4.7',lineColor:'#009688'},
       {time: '3:30 pm', title: 'Baker Historic District', description: 'rating: 5', circleColor: '#009688'}
     ],
     day_2 :[
-        {time: '10:10 am', title: 'Fitroy Place', description: 'rating: 4.3', circleColor: '#009688',lineColor:'#009688'},
-        {time: '10:45 am', title: 'Hangar 61', description: 'rating: 5'},
-        {time: '12:00 pm', title: 'Devner Cafe and Casion', description:'rating: 4.7'},
-        {time: '3:00 pm', title: 'Ace Express Coaches Casino Bus', description: 'rating: 5',lineColor:'#009688'},
+        {time: '9:00 am', title: 'Fitroy Place', description: 'rating: 4.3', circleColor: '#009688',lineColor:'#009688'},
+        {time: '10:30 am', title: 'Coloardo State Capital', description: 'rating: 5'},
+        {time: '12:00 pm', title: 'Devner Cafe and Casino', description:'rating: 4.7'},
+        {time: '3:00 pm', title: 'Lakeside Amusement Park', description: 'rating: 5',lineColor:'#009688'},
         {time: '7:30 pm', title: 'Baker Historic District', description: 'rating 4.9', circleColor: '#009688'}
       ],
       day_3 :[
-        {time: '10:10 am', title: 'Fitroy Place', description: 'rating: 4.5', circleColor: '#009688',lineColor:'#009688'},
-        {time: '10:45 am', title: 'Hangar 61', description: 'rating: 4.8'},
-        {time: '12:00 pm', title: 'Devner Cafe and Casion', description:'rating: 5'},
-        {time: '3:00 pm', title: 'Ace Express Coaches Casino Bus', description: 'rating: 4.6',lineColor:'#009688'},
-        {time: '7:30 pm', title: 'Baker Historic District', description: 'rating 5', circleColor: '#009688'}
+        {time: '8:30 am', title: 'Clyfford Still Museum', description: 'rating: 4.5', circleColor: '#009688',lineColor:'#009688'},
+        {time: '10:45 am', title: 'Clear Creek', description: 'rating: 4.8'},
+        {time: '12:00 pm', title: 'Larmimeer Square', description:'rating: 5'},
+        {time: '3:00 pm', title: 'Museum of Contemporary Art', description: 'rating: 4.6',lineColor:'#009688'},
+        {time: '7:30 pm', title: 'Red Rocks Ampitheatre', description: 'rating 5', circleColor: '#009688'}
       ],
     }
   } 
 
-  componentWillMount() {
-      
-  }
-  
-  
   
   render() {
 
+    console.log(this.props);
       // 'rgb(45,156,219)'
 
       const scheduleView = Object.keys(this.data)
@@ -95,6 +91,6 @@ export default class TimelineExample extends Component {
 }
 
 
-TimelineExample.navigationOptions = () => ({
-    header: null,
-});
+// TimelineExample.navigationOptions = () => ({
+//     header: null,
+// });
