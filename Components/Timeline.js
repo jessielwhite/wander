@@ -82,42 +82,44 @@ export default class TimelineExample extends Component {
       .forEach((day) => {
         getDaySchedule(this.props.navigation.state.params.dayInfo[day], (response) => {
           schedule[day].events = response;
-          this.setState({ itinerary: schedule });
+          this.setState({ itinerary: schedule }, () => console.log(this.state.itinerary));
         });
       });
   }
 
   render() {
-    const scheduleView = Object.keys(this.data)
-      .filter(item => item[0] === 'd')
-      .map(day => (
-        <View style={stylesTimeline.container}>
-          <Timeline
-            style={stylesTimeline.list}
-            data={this.data[day]}
-            circleSize={20}
-            circleColor="rgb(45,156,219)"
-            lineColor="rgb(45,156,219)"
-            timeContainerStyle={{ minWidth: 52, marginTop: -5 }}
-            timeStyle={{
-              textAlign: 'center',
-              backgroundColor: '#ff9797',
-              color: 'white',
-              padding: 5,
-              borderRadius: 13,
-            }}
-            descriptionStyle={{ color: 'gray' }}
-            options={{
-              style: { paddingTop: 5 },
-            }}
-            innerCircle="dot"
-          />
-        </View>
-      ));
-    return (
-      <Swiper>
-        {scheduleView || <Text>Your Timeline is loading...</Text>}
-      </Swiper>
-    );
+    return (<Text>Itinerary</Text>);
+  //   const scheduleView = Object.keys(this.data)
+  //     .filter(item => item[0] === 'd')
+  //     .map(day => (
+  //       <View style={stylesTimeline.container}>
+  //         <Timeline
+  //           style={stylesTimeline.list}
+  //           data={this.data[day]}
+  //           circleSize={20}
+  //           circleColor="rgb(45,156,219)"
+  //           lineColor="rgb(45,156,219)"
+  //           timeContainerStyle={{ minWidth: 52, marginTop: -5 }}
+  //           timeStyle={{
+  //             textAlign: 'center',
+  //             backgroundColor: '#ff9797',
+  //             color: 'white',
+  //             padding: 5,
+  //             borderRadius: 13,
+  //           }}
+  //           descriptionStyle={{ color: 'gray' }}
+  //           options={{
+  //             style: { paddingTop: 5 },
+  //           }}
+  //           innerCircle="dot"
+  //         />
+  //       </View>
+  //     ));
+  //   return (
+  //     <Swiper>
+  //       {scheduleView || <Text>Your Timeline is loading...</Text>}
+  //     </Swiper>
+  //   );
+  // }
   }
 }
