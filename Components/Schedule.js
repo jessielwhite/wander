@@ -33,5 +33,13 @@ export default class Schedule extends Component {
 }
 
 Schedule.propTypes = {
+<<<<<<< HEAD
   data: PropTypes.object,
+=======
+  navigation: PropTypes.object,
+<<<<<<< HEAD
 };
+=======
+>>>>>>> 14f56f6bc4889784f9ff4de1f104f7d5eb5e89df
+};
+>>>>>>> 0881239cadd66f28efe8365d87ffc52d1e4fd58a

@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 module.exports.dashboardExample = [
   { name: 'New York City', id: 3, status: 'creator' },
   { name: 'New Orleans', id: 5, status: 'attending' },
   { name: 'Princeton', id: 7, status: 'invited' },
 ];
+=======
+module.exports.dashboardExample = [{ name: 'New York City', id: 3 }, { name: 'New Orleans', id: 5 }];
+>>>>>>> 14f56f6bc4889784f9ff4de1f104f7d5eb5e89df
 
 module.exports.exampleSchedule = {
   name: 'New York City',
@@ -431,3 +435,7 @@ module.exports.exampleSchedule = {
     ],
   },
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 14f56f6bc4889784f9ff4de1f104f7d5eb5e89df
