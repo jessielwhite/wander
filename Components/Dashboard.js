@@ -7,6 +7,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
+import logo from '../img/whiteLogo.png'
 import { styles } from './Styles';
 import { keys } from '../config';
 import { dashboardExample } from '../scheduleExample';
@@ -202,30 +203,32 @@ export default class Dashboard extends React.Component {
     return (
       <ImageBackground
         style={styles.dashboardImageBackground}
-        imageStyle={{ opacity: 0.3 }}
+        imageStyle={{ opacity: 0.5 }}
         source={goldenGate}
       >
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
-          outerContainerStyles={{ backgroundColor: '#0e416d' }}
-          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
-          leftComponent={<Icon
-            name="home"
-            color="#fff"
-          />}
+          outerContainerStyles={{ backgroundColor: 'black' }}
+          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 30 } }}
+          // leftComponent={<Icon
+          //   name="home"
+          //   color="white"
+          // />
         />
         <ScrollView contentContainerStyle={styles.dashboardContainer}>
         <View style={styles.profileContainer}>
-          <Text style={{ fontSize: 25, fontWeight: 'bold', alignItems: 'center' }}>Welcome, Jessie!</Text>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', alignItems: 'center' }}>Welcome Home!</Text>
           <View style={{ alignItems: 'center' }}>
-					{this.state.avatarUrl && <Image style={{ width: 200, height: 125, borderRadius: 30 }} source={{ uri: this.state.avatarUrl }} />}
+					{this.state.avatarUrl && <Image style={{ width: 150, height: 150, borderRadius: 75 }} source={{ uri: this.state.avatarUrl }} />}
           <View>
             <Button
             small
             flat
-            buttonStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', borderRadius: 10, marginTop: 10, borderColor: 'black', borderWidth: 2 }}
-						title="Update Profile Picture"
+            color="black"
+            buttonStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', borderRadius: 40, marginTop: 10, alignItems: 'center', borderWidth: 1 }}
+						icon={{name: 'pencil', type: 'font-awesome', color: "black"}}
             onPress={this._pickImage}
+						title="Edit Photo"
             underlayColor="rgba(255, 255, 255, 0.5)"
 					/>
           </View>
@@ -235,6 +238,7 @@ export default class Dashboard extends React.Component {
           <Button
             // large
             flat
+            color="black"
             buttonStyle={styles.newTripButton}
             title="Plan a new trip"
             onPress={() => this.props.navigation.navigate('NewItinerary')}
@@ -245,6 +249,7 @@ export default class Dashboard extends React.Component {
           <Button
             // large
             flat
+            color="black"
             buttonStyle={styles.QRButton}
             title="Scan a QR code"
             onPress={() => this.props.navigation.navigate('QRScanner')}
@@ -256,6 +261,7 @@ export default class Dashboard extends React.Component {
           <Button
             // large
             flat
+            color="black"
             buttonStyle={styles.signoutButton}
             title="Sign out"
             onPress={this.signout}
@@ -276,7 +282,3 @@ Dashboard.navigationOptions = () => ({
 Dashboard.propTypes = {
   navigation: PropTypes.object,
 };
-
-
-
-//
