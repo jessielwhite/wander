@@ -5,15 +5,18 @@ import {
   View,
   Icon,
 } from 'react-native';
-import { Header } from 'react-native-elements';
+import Button from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
-import Timeline from 'react-native-timeline-listview'
+import Timeline from 'react-native-timeline-listview';
+import Swiper from 'react-native-swiper';
+import { styles } from './Styles';
 
-const styles = StyleSheet.create({
+
+const stylesTimeline = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-        paddingTop:65,
+    paddingTop:65,
     backgroundColor:'white'
   },
   list: {
@@ -23,54 +26,70 @@ const styles = StyleSheet.create({
 });
 
 export default class TimelineExample extends Component {
-  constructor(){
-    super()
-    this.data = [
-      {time: '09:00', title: 'Archery Training', description: 'The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ', circleColor: '#009688',lineColor:'#009688'},
-      {time: '10:45', title: 'Play Badminton', description: 'Badminton is a racquet sport played using racquets to hit a shuttlecock across a net.'},
-      {time: '12:00', title: 'Lunch'},
-      {time: '14:00', title: 'Watch Soccer', description: 'Team sport played between two teams of eleven players with a spherical ball. ',lineColor:'#009688'},
-      {time: '16:30', title: 'Go to Fitness center', description: 'Look out for the Best Gym & Fitness Centers around me :)', circleColor: '#009688'}
-    ]
+  constructor(props){
+    super(props)
+
+    this.data = {
+    day_1 :[
+      {time: '09:00 am', title: 'Fitroy Place', description: 'rating: 5', circleColor: '#009688',lineColor:'#009688'},
+      {time: '10:45 am', title: 'Hangar 61', description: 'rating: 5'},
+      {time: '12:00 pm', title: 'Devner Cafe and Casion', description: 'rating: 4.8'},
+      {time: '2:00 pm', title: 'Ace Express Coaches Casino Bus', description: 'raiting 4.7',lineColor:'#009688'},
+      {time: '3:30 pm', title: 'Baker Historic District', description: 'rating: 5', circleColor: '#009688'}
+    ],
+    day_2 :[
+        {time: '10:10 am', title: 'Fitroy Place', description: 'rating: 4.3', circleColor: '#009688',lineColor:'#009688'},
+        {time: '10:45 am', title: 'Hangar 61', description: 'rating: 5'},
+        {time: '12:00 pm', title: 'Devner Cafe and Casion', description:'rating: 4.7'},
+        {time: '3:00 pm', title: 'Ace Express Coaches Casino Bus', description: 'rating: 5',lineColor:'#009688'},
+        {time: '7:30 pm', title: 'Baker Historic District', description: 'rating 4.9', circleColor: '#009688'}
+      ],
+      day_3 :[
+        {time: '10:10 am', title: 'Fitroy Place', description: 'rating: 4.5', circleColor: '#009688',lineColor:'#009688'},
+        {time: '10:45 am', title: 'Hangar 61', description: 'rating: 4.8'},
+        {time: '12:00 pm', title: 'Devner Cafe and Casion', description:'rating: 5'},
+        {time: '3:00 pm', title: 'Ace Express Coaches Casino Bus', description: 'rating: 4.6',lineColor:'#009688'},
+        {time: '7:30 pm', title: 'Baker Historic District', description: 'rating 5', circleColor: '#009688'}
+      ],
+    }
   } 
 
+  componentWillMount() {
+      
+  }
+  
+  
+  
   render() {
-    //'rgb(45,156,219)'
+
+      // 'rgb(45,156,219)'
+
+      const scheduleView = Object.keys(this.data)
+        .filter(item => item[0] === 'd')
+        .map(day => 
+            <View style={stylesTimeline.container}>
+                <Timeline
+                style={stylesTimeline.list}
+                data={this.data[day]}
+                circleSize={20}
+                circleColor='rgb(45,156,219)'
+                lineColor='rgb(45,156,219)'
+                timeContainerStyle={{minWidth:52, marginTop: -5}}
+                timeStyle={{textAlign: 'center', backgroundColor:'#ff9797', color:'white', padding:5, borderRadius:13}}
+                descriptionStyle={{color:'gray'}}
+                options={{
+                    style:{paddingTop:5}
+                }}
+                innerCircle={'dot'}
+                />
+            </View>
+        )
+
     return (
-      <View style={styles.container}>
-        {/* <Header 
-          style={{ height: 35 }}
-          statusBarProps={{ barStyle: 'light-content' }}
-          outerContainerStyles={{ backgroundColor: '#0e416d' }}
-          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 28, height: 30 } }}
-          leftComponent={<Icon
-            name="home"
-            color="#fff"
-            onPress={() => this.props.navigation
-              .dispatch(NavigationActions.reset({
-                index: 0,
-                actions:
-                  [NavigationActions.navigate({ routeName: 'Dashboard' })],
-              }))}
-          />}
-         /> */}
-        <View>
-            <Timeline 
-            style={styles.list}
-            data={this.data}
-            circleSize={20}
-            circleColor='rgb(45,156,219)'
-            lineColor='rgb(45,156,219)'
-            timeContainerStyle={{minWidth:52, marginTop: -5}}
-            timeStyle={{textAlign: 'center', backgroundColor:'#ff9797', color:'white', padding:5, borderRadius:13}}
-            descriptionStyle={{color:'gray'}}
-            options={{
-                style:{paddingTop:5}
-            }}
-            innerCircle={'dot'}
-            /> 
-        </View>
-      </View>
+        <Swiper>
+            {scheduleView || <Text>Your Timeline is loading...</Text>}
+        </Swiper>
+            
     );
   }
 }

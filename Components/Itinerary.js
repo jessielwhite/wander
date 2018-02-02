@@ -4,7 +4,6 @@ import Swiper from 'react-native-swiper';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Event from './Event';
-
 export default class Itinerary extends React.Component {
   constructor(props) {
     super(props);
@@ -91,13 +90,12 @@ export default class Itinerary extends React.Component {
   }
 
   updateTimeLine(event){
-    console.log('event', event);
-    console.log('state timeline', this.state.timeLine);
 
+    console.log(event.data);
+    
     newTimeLine = this.state.timeLine
     newTimeLine[event.data.dayNumber].events.push(event.data);
     this.setState({ timeLine: newTimeLine }, () => {
-      console.log('FLAG ITTTTTTTT', this.state.timeLine);
     });
   }
 

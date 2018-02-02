@@ -1,11 +1,13 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert, Image } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, AsyncStorage, Alert, Image, ScrollView } from 'react-native';
 import { Button, Header, Icon } from 'react-native-elements';
+// import { Button } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Trip from './Trip';
 import goldenGate from '../img/GoldenGate.jpg';
+import logo from '../img/whiteLogo.png'
 import { styles } from './Styles';
 import { keys } from '../config';
 import { dashboardExample } from '../scheduleExample';
@@ -63,7 +65,7 @@ export default class Dashboard extends React.Component {
               if (fullSchedule.status === 'invited') {
                 // Users will recieve an alert for these
                 this.setState({
-                  invitedSchedules: this.state.invitedSchedules.concat([fullSchedule]),
+                  invitedSchedules: this.state.invitedSchedules.concat(fullSchedule),
                 });
               } else if (fullSchedule.status === 'attending' || fullSchedule.status === 'creator') {
                 // These will be listed as trips they're attending
@@ -75,11 +77,10 @@ export default class Dashboard extends React.Component {
       })
       .catch(error => console.error('error', error));
 
-
+      // While we already have the token, we can get the user's profile picture in the same function
       axios.get('http://18.218.102.64/photo')
         .then((response) => {
           let photo = response.data;
-
           if (photo) {
             this.setState({ avatarUrl: photo.url });
           }
@@ -89,26 +90,27 @@ export default class Dashboard extends React.Component {
         });
   }
 
-  componentDidMount() {
-    // First thing, we send the user an alert if they have a new schedule
-    this.state.invitedSchedules.forEach((schedule) => {
-      Alert.alert(
-        'You\'ve been invited on a trip!',
-        `Would you like to join on this trip to ${schedule.name}?`,
-        [
-          { text: 'Yes!', onPress: () => this.acceptTrip(schedule) },
-          { text: 'No thanks', onPress: () => this.rejectTrip(schedule) },
-        ],
-      );
-    });
-  }
-
   acceptTrip(trip) {
     // This route changes the user status from "invited" to "attending" in the database
     AsyncStorage.getItem('Token')
-      .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: true, headers: { authorization: token } }))
+      .then((token) => {
+        return axios({
+          url: 'http://18.218.102.64/accept_invite',
+          method: 'post',
+          headers: {
+            authorization: JSON.parse(token),
+            'Content-Type': 'application/json',
+          },
+          data: {
+            accepted: 'true',
+            scheduleId: trip.id,
+          },
+        })
+      })
       .then(() => {
         // The trip is immediately added, so that they won't have to refresh to see it
+        const newInvitedSchedules = this.state.invitedSchedules.slice(1) || [];
+        this.setState({ invitedSchedules: newInvitedSchedules });
         this.setState({ schedules: this.state.schedules.concat(trip) });
       })
       .catch(err => console.error(err));
@@ -117,8 +119,26 @@ export default class Dashboard extends React.Component {
   rejectTrip(trip) {
     // This route deletes the entry linking user and schedule
     AsyncStorage.getItem('Token')
-      .then(token => axios.post('http://18.218.102.64/accept_invite', { scheduleId: trip.id, accepted: false, headers: { authorization: token } }))
-      .then(success => console.log(success))
+      .then((token) => {
+        return axios({
+          url: 'http://18.218.102.64/accept_invite',
+          method: 'post',
+          headers: {
+            authorization: JSON.parse(token),
+            'Content-Type': 'application/json',
+          },
+          data: {
+            accepted: 'false',
+            scheduleId: trip.id,
+          },
+        })
+      })
+      .then(() => {
+        // The trip is immediately added, so that they won't have to refresh to see it
+        const newInvitedSchedules = this.state.invitedSchedules.slice(1) || [];
+        this.setState({ invitedSchedules: newInvitedSchedules });
+        this.setState({ schedules: this.state.schedules.concat(trip) });
+      })
       .catch(err => console.error(err));
   }
 
@@ -141,8 +161,6 @@ export default class Dashboard extends React.Component {
 			aspect: [4, 3],
 		});
 
-		// result includes details about the image
-
     chosenImage.name = randId();	// we need to come up with a random id every time
     chosenImage.contentType = chosenImage.type;
 
@@ -155,19 +173,25 @@ export default class Dashboard extends React.Component {
 				 url: response.body.postResponse.location
 			 };
 
-
       this.setState({ avatarUrl: s3Photo.url });
 
 		 axios.post('http://18.218.102.64/photo', s3Photo)
-			 .then((image) => {
-			 })
-			 .catch((err) => {
-				 console.log('Error posting image to db ', err);
-			 });
+			 .catch((err) => console.error('Error posting image to db ', err));
 		});
 	};
 
   render() {
+    // First thing, we send the user an alert if they have a new schedule
+    this.state.invitedSchedules.forEach((schedule) => {
+      Alert.alert(
+        'You\'ve been invited on a trip!',
+        `Would you like to join this trip to ${schedule.name}?`,
+        [
+          { text: 'Yes!', onPress: () => this.acceptTrip(schedule) },
+          { text: 'No thanks', onPress: () => this.rejectTrip(schedule) },
+        ],
+      );
+    });
     // Build out the trip components from the schedules recieved from the database
     const trips = this.state.schedules
       .map(event =>
@@ -179,49 +203,72 @@ export default class Dashboard extends React.Component {
     return (
       <ImageBackground
         style={styles.dashboardImageBackground}
+        imageStyle={{ opacity: 0.5 }}
         source={goldenGate}
       >
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
-          outerContainerStyles={{ backgroundColor: '#0e416d' }}
-          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
-          leftComponent={<Icon
-            name="home"
-            color="#fff"
-          />}
+          outerContainerStyles={{ backgroundColor: 'black' }}
+          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 30 } }}
+          // leftComponent={<Icon
+          //   name="home"
+          //   color="white"
+          // />
         />
-        <View style={styles.dashboardContainer}>
+        <ScrollView contentContainerStyle={styles.dashboardContainer}>
+        <View style={styles.profileContainer}>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', alignItems: 'center' }}>Welcome Home!</Text>
           <View style={{ alignItems: 'center' }}>
-					{this.state.avatarUrl && <Image style={{ width: 100, height: 100 }} source={{ uri: this.state.avatarUrl }} />}
+					{this.state.avatarUrl && <Image style={{ width: 200, height: 125, borderRadius: 30 }} source={{ uri: this.state.avatarUrl }} />}
           <View>
-            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Home</Text>
             <Button
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-						title="Add a user avatar"
+            small
+            flat
+            color="black"
+            buttonStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', borderRadius: 10, marginTop: 10, borderColor: 'black', borderWidth: 2 }}
+						title="Update Profile Picture"
             onPress={this._pickImage}
+            underlayColor="rgba(255, 255, 255, 0.5)"
 					/>
           </View>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Your upcoming trips:</Text>
             {trips}
-            <Button
-              title="Plan a new trip"
-              buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-              onPress={() => this.props.navigation.navigate('NewItinerary')}
-            />
-            <Button
-            title="Scan a QR code"
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            onPress={() => this.props.navigation.navigate('QRScanner')}
+          <View style={styles.newTripContainer}>
+          <Button
+            // large
+            flat
+            color="black"
+            buttonStyle={styles.newTripButton}
+            title="Plan a new trip"
+            onPress={() => this.props.navigation.navigate('NewItinerary')}
+            underlayColor="rgba(255, 255, 255, 0.5)"
           />
           </View>
+          <View style={styles.QRContainer}>
           <Button
-            // small
-            // raised
-            title="Sign out"
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
-            // style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
-            onPress={this.signout}
+            // large
+            flat
+            color="black"
+            buttonStyle={styles.QRButton}
+            title="Scan a QR code"
+            onPress={() => this.props.navigation.navigate('QRScanner')}
+            underlayColor="rgba(255, 255, 255, 0.5)"
           />
+          </View>
+          </View>
+          <View style={styles.signoutButtonContainer}>
+          <Button
+            // large
+            flat
+            color="black"
+            buttonStyle={styles.signoutButton}
+            title="Sign out"
+            onPress={this.signout}
+            underlayColor="rgba(255, 255, 255, 0.5)"
+          />
+          </View>
         </View>
+        </ScrollView>
       </ImageBackground>
     );
   }
@@ -236,3 +283,5 @@ Dashboard.propTypes = {
 };
 
 
+
+//

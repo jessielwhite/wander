@@ -1,21 +1,100 @@
 import { StyleSheet, Platform, Animated, Dimensions } from 'react-native';
+import { Button, Header, Icon } from 'react-native-elements';
 
 const window = Dimensions.get('window');
 
 module.exports.styles = StyleSheet.create({
   // Dashboard page
   dashboardContainer: {
-    flex: 1,
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
   dashboardImageBackground: {
     backgroundColor: 'transparent',
-    flex: 1,
     position: 'absolute',
     width: '100%',
     height: '100%',
     justifyContent: 'center',
+    backfaceVisibility: 'hidden',
+  },
+
+  profileContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+  },
+
+  profileButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
+  viewTripContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+
+  viewTripButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: 150,
+  },
+
+  newTripContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+
+  newTripButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
+  QRContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+  },
+
+  QRButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
+  signoutContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 35,
+  },
+
+  signoutButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
   },
   // Event page
   eventContainer: {
@@ -62,7 +141,7 @@ module.exports.styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(127, 127, 127, 0.75)',
+    backgroundColor: 'rgba(127, 127, 127, 0.89)',
   },
   tripModalText: {
     color: 'white',
@@ -119,7 +198,7 @@ module.exports.styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 300,
+    marginTop: 200,
   },
   signupFormInput: {
     height: 40,
