@@ -60,11 +60,11 @@ export default class TimelineExample extends Component {
     const getDaySchedule = (dayArr, cb) => Promise.all(dayArr.map(event => axios.get(`http://18.218.102.64/event/${event.id_event}`)))
       .then((res) => {
         const fullDayArr = res.map((obj) => {
-          const result = obj.data;
-          result.latlng = { lat: obj.data.latitude, lng: obj.data.longitude };
-          result.placeId = obj.data.googleId;
-          delete result.latitude;
-          delete result.longitude;
+          const result = {};
+          result.time = obj.data.startTime;
+          result.title = obj.data.name;
+          result.circleColor = '#009688';
+          result.lineColor = '#009688';
           return result;
         });
         // Put in a callback to handle the async call
