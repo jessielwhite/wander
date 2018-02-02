@@ -4,15 +4,16 @@ import Swiper from 'react-native-swiper';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Event from './Event';
-
 export default class Itinerary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       itinerary: {},
+      timeLine: {},
     };
     this.goToDashboard = this.goToDashboard.bind(this);
     this.saveSchedule = this.saveSchedule.bind(this);
+    this.updateTimeLine = this.updateTimeLine.bind(this)
   }
 
   componentWillMount() {
@@ -36,7 +37,19 @@ export default class Itinerary extends React.Component {
     // We're getting data two different ways: from the database or direct from the schedule builder
     // If it's from the function, follow the first path
     if (this.props.navigation.state.params.dayInfo.day_1.events) {
-      this.setState({ itinerary: this.props.navigation.state.params.dayInfo });
+      this.setState({ itinerary: this.props.navigation.state.params.dayInfo }, () => {
+        const timeLine = {};
+        Object.keys(this.state.itinerary).forEach((key) => {
+          if (key.slice(0, 3) === 'day') {
+            timeLine[key] = { events: [], date: this.state.itinerary[key].date };
+          } else {
+            timeLine[key] = this.state.itinerary[key];
+          }
+        });
+        this.setState({ timeLine }, () => {
+          console.log('timeline after creation', this.state.timeLine);
+        });
+      });
     // If the data comes from the db, we're following this path
     } else {
       // We need to format the data so that it looks like it does coming back from schedule builder
@@ -50,7 +63,19 @@ export default class Itinerary extends React.Component {
         .forEach((day) => {
           getDaySchedule(this.props.navigation.state.params.dayInfo[day], (response) => {
             schedule[day].events = response;
-            this.setState({ itinerary: schedule });
+            this.setState({ itinerary: schedule }, () => {
+              const timeLine = {};
+              Object.keys(this.state.itinerary).forEach((key) => {
+                if (key.slice(0, 3) === 'day') {
+                  timeLine[key] = { events: [], date: this.state.itinerary[key].date };
+                } else {
+                  timeLine[key] = this.state.itinerary[key];
+                }
+              });
+              this.setState({ timeLine }, () => {
+                console.log('timeline after creation', this.state.timeLine);
+              });
+            });
           });
         });
     }
@@ -64,7 +89,19 @@ export default class Itinerary extends React.Component {
     this.setState({ itinerary: schedule });
   }
 
+  updateTimeLine(event){
+
+    console.log(event.data);
+    
+    newTimeLine = this.state.timeLine
+    newTimeLine[event.data.dayNumber].events.push(event.data);
+    this.setState({ timeLine: newTimeLine }, () => {
+    });
+  }
+
   saveSchedule() {
+
+
     // Here, we send the information to the db to be saved
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
@@ -75,7 +112,7 @@ export default class Itinerary extends React.Component {
           authorization: savedToken,
           'Content-Type': 'application/json',
         },
-        data: { schedule: this.state.itinerary },
+        data: { schedule: this.state.timeLine },
       })
       // Send the user back to the dashboard once the schedule is saved
         .then(() => this.props.navigation.navigate('Dashboard'))
@@ -86,6 +123,7 @@ export default class Itinerary extends React.Component {
 
   render() {
     // Create the event components from the dayinfo
+    // console.log('itinerary', this.state.itinerary);
     const eventViews = Object.keys(this.state.itinerary)
       .filter(item => item[0] === 'd')
       .map(day =>
@@ -95,6 +133,8 @@ export default class Itinerary extends React.Component {
           navigation={this.props.navigation}
           // The saveSchedule function has to be called later
           saveSchedule={this.saveSchedule}
+          updateTimeLine={this.updateTimeLine}
+          dayNumber={day}
         />));
       // I think that the only thing that can exist in the swiper view is the swiper itself
     return (
@@ -106,7 +146,7 @@ export default class Itinerary extends React.Component {
 }
 
 Itinerary.navigationOptions = () => ({
-  header: null,
+    header: null,
 });
 
 Itinerary.propTypes = {
