@@ -32,7 +32,6 @@ export default class Interest extends React.Component {
           data: { id_type: this.props.type.id, like: true },
         })
           .then((response) => {
-            console.log(`user like post response ${response}`);
           })
           .catch((err) => {
             console.error(`select interest post error ${err}`);

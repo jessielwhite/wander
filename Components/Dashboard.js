@@ -75,12 +75,10 @@ export default class Dashboard extends React.Component {
       })
       .catch(error => console.error('error', error));
 
-      console.log('BEFORE GET PHOTO');
 
       axios.get('http://18.218.102.64/photo')
         .then((response) => {
           let photo = response.data;
-          console.log('PHOTO', photo);
 
           if (photo) {
             this.setState({ avatarUrl: photo.url });
@@ -144,7 +142,6 @@ export default class Dashboard extends React.Component {
 		});
 
 		// result includes details about the image
-		console.log('CHOSEN IMAGE', chosenImage);
 
     chosenImage.name = randId();	// we need to come up with a random id every time
     chosenImage.contentType = chosenImage.type;
@@ -158,13 +155,11 @@ export default class Dashboard extends React.Component {
 				 url: response.body.postResponse.location
 			 };
 
-			 console.log(s3Photo);
 
       this.setState({ avatarUrl: s3Photo.url });
 
 		 axios.post('http://18.218.102.64/photo', s3Photo)
 			 .then((image) => {
-				 console.log(image);
 			 })
 			 .catch((err) => {
 				 console.log('Error posting image to db ', err);
@@ -225,14 +220,6 @@ export default class Dashboard extends React.Component {
             buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10 }}
             // style={{ alignItems: 'flex-end', position: 'absolute', bottom: -100 }}
             onPress={this.signout}
-          />
-          <Button
-            title="Scan a QR code"
-            onPress={() => this.props.navigation.navigate('QRScanner')}
-          />
-          <Button
-            title="go to timeline"
-            onPress={() => this.props.navigation.navigate('TimelineExample')}
           />
         </View>
       </ImageBackground>

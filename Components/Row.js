@@ -101,13 +101,10 @@ export default class Row extends React.Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = time => {
-    let stringTime = time.toString();
-    let startTime = moment(time).format('hh:mm a');
 
+    let startTime = moment(time).format('hh:mm a');
     this.setState({ time:startTime });
     
-
-
     this._hideDateTimePicker();
   };
 
@@ -124,11 +121,7 @@ export default class Row extends React.Component {
 
     
     data.startTime = this.state.time;
-
-    console.log({ data })
-
-
-
+    
     return (
       <Animated.View style={[
           styles.row,
@@ -184,12 +177,12 @@ export default class Row extends React.Component {
                     onPress={this.dislikeEvent}
                   />
                   <Button
-                    onPress={() => this.closeModal()}
-                    title="Close modal"
-                  />
-                  <Button
                     onPress={() =>  data.updateTimeLine( { data } ) }
                     title="Add Event to my Trip"
+                  />
+                  <Button
+                    onPress={() => this.closeModal()}
+                    title="Close modal"
                   />
                 </Card>
               </View>

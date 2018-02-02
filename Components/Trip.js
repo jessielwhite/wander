@@ -130,6 +130,10 @@ export default class Trip extends React.Component {
           onPress={this.showModal}
           title="Share this trip"
         />
+        <Button
+            title="go to timeline"
+            onPress={() => this.props.navigation.navigate('TimelineExample')}
+          />
       </View>
     );
   }
