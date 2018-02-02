@@ -127,12 +127,49 @@ module.exports.styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   // New Itinerary page
+
+  newItineraryImageBackground: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    backfaceVisibility: 'hidden',
+  },
+
   newItineraryContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
   },
+  
+  newItineraryButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
+  newDashboardContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+  },
+
+  dashboardButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
   // Trip page
   tripContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
