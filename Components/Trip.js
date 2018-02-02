@@ -118,7 +118,7 @@ export default class Trip extends React.Component {
         <Button
           small
           flat
-          color="black"
+          color="white"
           buttonStyle={styles.viewTripButton}
           title="View this trip"
           onPress={this.handleTripSelect}
@@ -127,7 +127,7 @@ export default class Trip extends React.Component {
         <Button
           small
           flat
-          color="black"
+          color="white"
           buttonStyle={styles.viewTripButton}
           title="Share this trip"
           onPress={this.showModal}
