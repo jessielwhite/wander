@@ -35,7 +35,7 @@ export default class Trip extends React.Component {
         res.data.forEach((event) => {
           schedule[datesSummary[event.dateTime]].push(event);
         });
-        this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+        this.props.navigation.navigate('Timeline', { dayInfo: schedule });
       })
       .catch(err => console.error(err));
   }

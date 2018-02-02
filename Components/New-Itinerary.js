@@ -4,6 +4,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   AsyncStorage,
+  ImageBackground,
+  ScrollView
 } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Header, Text, Button, Icon } from 'react-native-elements';
@@ -12,6 +14,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { keys } from '../config';
+import eiffelTower from '../img/Paris.jpg';
 import { getSchedule } from '../ScheduleMethods';
 import { styles } from './Styles';
 import { months, idTypes } from '../SampleData/Types';
@@ -111,14 +114,19 @@ export default class NewItinerary extends React.Component {
 
   render() {
     return (
+      <ImageBackground
+      style={styles.newItineraryImageBackground}
+      imageStyle={{ opacity: 0.5 }}
+      source={eiffelTower}
+    >
       <View style={styles.newItineraryContainer}>
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
-          outerContainerStyles={{ backgroundColor: '#0e416d', width: '100%' }}
-          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 30 } }}
+          outerContainerStyles={{ backgroundColor: 'black', width: '100%' }}
+          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 30 } }}
           leftComponent={<Icon
             name="home"
-            color="#fff"
+            color='white'
             onPress={() => this.props.navigation
               .dispatch(NavigationActions.reset({
                 index: 0,
@@ -161,7 +169,7 @@ export default class NewItinerary extends React.Component {
           <Text style={{ justifyContent: 'center', fontWeight: 'bold', fontSize: 18 }} >{this.state.destination.split('+').join(' ')}</Text>
           <Text h4>When are you leaving?</Text>
           <TouchableOpacity onPress={this.showStartDateTimePicker}>
-            <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
+            <Text style={{ color: 'black', fontSize: 20 }}>Select a date</Text>
           </TouchableOpacity>
           <DateTimePicker
             isVisible={this.state.startDateTimePickerVisible}
@@ -171,7 +179,7 @@ export default class NewItinerary extends React.Component {
           <Text>{`${months[this.state.startDate.getMonth()]} ${this.state.startDate.getDate()}`}</Text>
           <Text h4>When do you come back?</Text>
           <TouchableOpacity onPress={this.showEndDateTimePicker}>
-            <Text style={{ color: 'blue', fontSize: 20 }}>Select a date</Text>
+            <Text style={{ color: 'black', fontSize: 20 }}>Select a date</Text>
           </TouchableOpacity>
           <DateTimePicker
             isVisible={this.state.endDateTimePickerVisible}
@@ -179,22 +187,31 @@ export default class NewItinerary extends React.Component {
             onCancel={this.hideEndDateTimePicker}
           />
           <Text>{`${months[this.state.endDate.getMonth()]} ${this.state.endDate.getDate()}`}</Text>
+          <View style={styles.newItineraryContainer}>
           <Button
             large
-            raised
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
-            title="Go to Dashboard"
-            onPress={() => this.props.navigation.navigate('Dashboard')}
-          />
-          <Button
-            large
-            raised
-            buttonStyle={{ backgroundColor: '#0e416d', borderRadius: 10, marginTop: 10 }}
+            flat
+            color="black"
+            buttonStyle={styles.newItineraryButton}
             title="Get my itinerary"
             onPress={this.getItinerary}
+            underlayColor="rgba(255, 255, 255, 0.5)"
           />
+          </View>
+          <View style={styles.newDashboardContainer}>
+          <Button
+            large
+            flat
+            color="black"
+            buttonStyle={styles.dashboardButton}
+            title="Go to Dashboard"
+            onPress={() => this.props.navigation.navigate('Dashboard')}
+            underlayColor="rgba(255, 255, 255, 0.5)"
+          />
+          </View>
         </View>
       </View>
+      </ImageBackground>
     );
   }
 }

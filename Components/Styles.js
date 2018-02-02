@@ -127,12 +127,50 @@ module.exports.styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   // New Itinerary page
+
+  newItineraryImageBackground: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    backfaceVisibility: 'hidden',
+  },
+
   newItineraryContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    // marginTop: 10,
+  },
+
+  newItineraryButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
+  newDashboardContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 0,
+		paddingBottom: 10
   },
+
+  dashboardButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 10,
+    marginTop: 10,
+    borderColor: 'black',
+    borderWidth: 2,
+    width: (window.width * 0.95),
+  },
+
   // Trip page
   tripContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -262,6 +300,38 @@ module.exports.styles = StyleSheet.create({
   },
   innerContainer: {
     alignItems: 'center',
+  },
+  // Styles for Trip.js
+  tripContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+  },
+  tripModal: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(127, 127, 127, 0.75)',
+  },
+  tripModalText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  tripModalButton: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  timeContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  timeButton: {
+    backgroundColor: 'lightblue',
+    padding: 12,
+    margin: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
   },
 });
 
