@@ -60,10 +60,6 @@ export default class Itinerary extends React.Component {
     this.props.navigation.navigate('Dashboard');
   }
 
-  updateSchedule(schedule) {
-    this.setState({ itinerary: schedule });
-  }
-
   saveSchedule() {
     // Here, we send the information to the db to be saved
     AsyncStorage.getItem('Token').then((res) => {
