@@ -207,13 +207,13 @@ export default class Dashboard extends React.Component {
         source={goldenGate}
       >
         <Header
-          statusBarProps={{ barStyle: 'dark-content' }}
-          outerContainerStyles={{ backgroundColor: 'transparent' }}
-          centerComponent={{ text: 'wander', style: { color: 'black', fontSize: 30 } }}
-          leftComponent={<Icon
-            name="home"
-            color="black"
-          />}
+          statusBarProps={{ barStyle: 'light-content' }}
+          outerContainerStyles={{ backgroundColor: 'black' }}
+          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 30 } }}
+          // leftComponent={<Icon
+          //   name="home"
+          //   color="white"
+          // />
         />
         <ScrollView contentContainerStyle={styles.dashboardContainer}>
         <View style={styles.profileContainer}>

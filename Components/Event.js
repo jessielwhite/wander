@@ -66,11 +66,11 @@ export default class Event extends React.Component {
         <Header
           style={{ height: 35 }}
           statusBarProps={{ barStyle: 'light-content' }}
-          outerContainerStyles={{ backgroundColor: '#0e416d' }}
-          centerComponent={{ text: 'wander', style: { color: '#fff', fontSize: 28, height: 30 } }}
+          outerContainerStyles={{ backgroundColor: 'black' }}
+          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 28, height: 30 } }}
           leftComponent={<Icon
             name="home"
-            color="#fff"
+            color="white"
             onPress={() => this.props.navigation
               .dispatch(NavigationActions.reset({
                 index: 0,
