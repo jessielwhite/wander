@@ -88,7 +88,7 @@ export default class Trip extends React.Component {
             />
             <Button
               buttonStyle={{
-                backgroundColor: '#0e416d',
+                backgroundColor: 'transparent',
                 borderRadius: 10,
               }}
               onPress={this.addByEmail}
@@ -105,7 +105,7 @@ export default class Trip extends React.Component {
               large
               raised
               buttonStyle={{
-                backgroundColor: '#0e416d',
+                backgroundColor: 'transparent',
                 borderRadius: 10,
               }}
               onPress={() => this.hideModal()}

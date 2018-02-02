@@ -141,7 +141,7 @@ module.exports.styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(127, 127, 127, 0.75)',
+    backgroundColor: 'rgba(127, 127, 127, 0.89)',
   },
   tripModalText: {
     color: 'white',
