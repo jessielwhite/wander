@@ -14,7 +14,7 @@ export default class Itinerary extends React.Component {
     };
     this.goToDashboard = this.goToDashboard.bind(this);
     this.saveSchedule = this.saveSchedule.bind(this);
-    this.updateTimeLine = this.updateTimeLine.bind(this)
+    this.updateTimeLine = this.updateTimeLine.bind(this);
   }
 
   componentWillMount() {
@@ -47,9 +47,7 @@ export default class Itinerary extends React.Component {
             timeLine[key] = this.state.itinerary[key];
           }
         });
-        this.setState({ timeLine }, () => {
-          console.log('timeline after creation', this.state.timeLine);
-        });
+        this.setState({ timeLine });
       });
     // If the data comes from the db, we're following this path
     } else {
@@ -73,9 +71,7 @@ export default class Itinerary extends React.Component {
                   timeLine[key] = this.state.itinerary[key];
                 }
               });
-              this.setState({ timeLine }, () => {
-                console.log('timeline after creation', this.state.timeLine);
-              });
+              this.setState({ timeLine });
             });
           });
         });
@@ -90,19 +86,13 @@ export default class Itinerary extends React.Component {
     this.setState({ itinerary: schedule });
   }
 
-  updateTimeLine(event){
-
-    console.log(event.data);
-    
-    newTimeLine = this.state.timeLine
+  updateTimeLine(event) {
+    const newTimeLine = this.state.timeLine;
     newTimeLine[event.data.dayNumber].events.push(event.data);
-    this.setState({ timeLine: newTimeLine }, () => {
-    });
+    this.setState({ timeLine: newTimeLine });
   }
 
   saveSchedule() {
-
-
     // Here, we send the information to the db to be saved
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
@@ -124,7 +114,6 @@ export default class Itinerary extends React.Component {
 
   render() {
     // Create the event components from the dayinfo
-    // console.log('itinerary', this.state.itinerary);
     const eventViews = Object.keys(this.state.itinerary)
       .filter(item => item[0] === 'd')
       .map(day =>
@@ -147,7 +136,7 @@ export default class Itinerary extends React.Component {
 }
 
 Itinerary.navigationOptions = () => ({
-    header: null,
+  header: null,
 });
 
 Itinerary.propTypes = {

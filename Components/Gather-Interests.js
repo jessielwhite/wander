@@ -46,7 +46,7 @@ export default class GatherInterests extends React.Component {
             .dispatch(NavigationActions.reset({
               index: 0,
               actions:
-                [NavigationActions.navigate({ routeName: 'Login' })],
+                [NavigationActions.navigate({ routeName: 'Dashboard' })],
             }))}
         />
       </ScrollView>
