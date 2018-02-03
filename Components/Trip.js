@@ -35,7 +35,7 @@ export default class Trip extends React.Component {
         res.data.forEach((event) => {
           schedule[datesSummary[event.dateTime]].push(event);
         });
-        this.props.navigation.navigate('Itinerary', { dayInfo: schedule });
+        this.props.navigation.navigate('Timeline', { dayInfo: schedule });
       })
       .catch(err => console.error(err));
   }
@@ -88,7 +88,7 @@ export default class Trip extends React.Component {
             />
             <Button
               buttonStyle={{
-                backgroundColor: '#0e416d',
+                backgroundColor: 'transparent',
                 borderRadius: 10,
               }}
               onPress={this.addByEmail}
@@ -105,7 +105,7 @@ export default class Trip extends React.Component {
               large
               raised
               buttonStyle={{
-                backgroundColor: '#0e416d',
+                backgroundColor: 'transparent',
                 borderRadius: 10,
               }}
               onPress={() => this.hideModal()}
@@ -113,23 +113,27 @@ export default class Trip extends React.Component {
             />
           </View>
         </Modal>
-        <Text style={{ fontSize: 25, alignContent: 'center' }}>{this.props.schedule.name}</Text>
+        <Text style={{ fontSize: 25, alignContent: 'center', justifyContent: 'center' }}>{this.props.schedule.name}</Text>
+        <View style={styles.viewTripContainer}>
         <Button
-          buttonStyle={{
-            backgroundColor: '#0e416d',
-            borderRadius: 10,
-          }}
-          onPress={this.handleTripSelect}
+          small
+          flat
+          color="black"
+          buttonStyle={styles.viewTripButton}
           title="View this trip"
+          onPress={this.handleTripSelect}
+          underlayColor="rgba(255, 255, 255, 0.5)"
         />
         <Button
-          buttonStyle={{
-            backgroundColor: '#0e416d',
-            borderRadius: 10,
-          }}
-          onPress={this.showModal}
+          small
+          flat
+          color="black"
+          buttonStyle={styles.viewTripButton}
           title="Share this trip"
-        />
+          onPress={this.showModal}
+          underlayColor="rgba(255, 255, 255, 0.5)"
+          />
+        </View>
       </View>
     );
   }

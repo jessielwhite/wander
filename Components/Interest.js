@@ -16,8 +16,8 @@ export default class Interest extends React.Component {
   }
 
   selectInterest() {
-    // Set the status to true so that the style changes
-    this.setState({ status: true });
+    // Toggle the status so that the style changes
+    this.setState({ status: !this.state.status });
     // Add an entry to the database showing that this user likes this type of event
     AsyncStorage.getItem('Token').then((res) => {
       const savedToken = JSON.parse(res);
@@ -31,28 +31,17 @@ export default class Interest extends React.Component {
           },
           data: { id_type: this.props.type.id, like: true },
         })
-          .then((response) => {
-            console.log(`user like post response ${response}`);
-          })
-          .catch((err) => {
-            console.error(`select interest post error ${err}`);
-          });
+          .catch(err => console.error(`select interest post error ${err}`));
       } else {
         axios({
           method: 'delete',
           url: 'http://18.218.102.64/user_like',
           headers: {
             authorization: savedToken,
-            'Content-Type': 'application/json',
           },
-          data: { id_type: this.props.type.id, like: false },
+          params: { id_type: this.props.type.id, like: false },
         })
-          .then((response) => {
-            console.log(`user like delete response ${response}`);
-          })
-          .catch((err) => {
-            console.error(`select interest delete error ${err}`);
-          });
+          .catch(err => console.error(`select interest delete error ${err}`));
       }
     });
   }
@@ -61,8 +50,16 @@ export default class Interest extends React.Component {
     return (
       <Button
         large
-        raised
-        buttonStyle={{ backgroundColor: this.state.status ? '#0b81e8' : '#0e416d', width: 500, marginVertical: 5 }}
+        flat
+        buttonStyle={{
+          backgroundColor: this.state.status ? '#0b81e8' : 'rgba(0,0,0,0.5)',
+          width: '95%',
+          marginVertical: 5,
+          borderRadius: 10,
+          marginTop: 10,
+          borderColor: 'black',
+          borderWidth: 2,
+        }}
         onPress={this.selectInterest}
         icon={{ name: icons[this.props.type.name], type: 'font-awesome' }}
         title={this.props.name}
