@@ -1,11 +1,12 @@
 import React from 'react';
-import { ImageBackground, Text, View, AsyncStorage } from 'react-native';
+import { ImageBackground, Text, View, AsyncStorage, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import { FormInput, Button } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import NYC from '../img/NYC.jpg';
+import whiteLogo from '../img/whiteLogo.png';
 import { styles } from './Styles';
 
 export default class Login extends React.Component {
@@ -25,7 +26,7 @@ export default class Login extends React.Component {
     axios.post('http://18.218.102.64/login', user)
       .then((res) => {
         // If the password is incorrect, do some error handling
-        if (res.data === 'Password is incorrect') {
+        if (res.data === 'User does not exist' || res.data === 'Password is incorrect') {
           alert('Sorry, there was a problem with your email/password combination. Please try again. Remember, email AND password are case sensitive');
         // Otherwise, save the token on the user's device and send them to the dashboard
         } else {
@@ -58,43 +59,59 @@ export default class Login extends React.Component {
         }}
         source={NYC}
       >
+        <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+          <Image
+            source={whiteLogo}
+            style={{
+              width: 300,
+              height: 70,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 80,
+            }}
+          />
+        </View>
         <View style={{ height: 100 }} />
         <KeyboardAwareScrollView contentContainerStyle={styles.loginContainer}>
-          <Text style={{ fontSize: 30, color: 'white' }}>email</Text>
+          <Text style={{ fontSize: 30, color: 'white', marginTop: 180 }}>email</Text>
           <FormInput
             keyboardType="email-address"
             style={styles.loginInput}
+            inputStyle={{ color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
             onChangeText={text => this.setState({ email: text })}
             placeholder="enter email"
-            placeholderTextColor="black"
+            placeholderTextColor="grey"
             autoCapitalize="none"
           />
           <Text style={{ fontSize: 30, color: 'white' }}>password</Text>
           <FormInput
             style={styles.loginInput}
+            inputStyle={{ color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
             onChangeText={text => this.setState({ password: text })}
             placeholder="enter password"
-            placeholderTextColor="white"
+            placeholderTextColor="grey"
             secureTextEntry
           />
-
-          <Button
-            large
-            raised
-            buttonStyle={styles.loginButton}
-            onPress={this.login}
-            title="login"
-            icon={{ name: 'home', size: 32 }}
-          />
-
-          <Button
-            large
-            raised
-            buttonStyle={styles.loginButton}
-            onPress={() => this.props.navigation.navigate('Signup')}
-            icon={{ name: 'edit', size: 32 }}
-            title="signup"
-          />
+          <View style={styles.loginButtonContainer}>
+            <Button
+              large
+              raised
+              buttonStyle={styles.loginButton}
+              onPress={this.login}
+              title="Log In"
+              transparent
+              underlayColor="rgba(255, 255, 255, 0.5)"
+            />
+            <Button
+              large
+              raised
+              buttonStyle={styles.loginButton}
+              onPress={() => this.props.navigation.navigate('Signup')}
+              title="Sign Up"
+              transparent
+              underlayColor="rgba(255, 255, 255, 0.5)"
+            />
+          </View>
         </KeyboardAwareScrollView>
       </ImageBackground>
     );
@@ -108,3 +125,4 @@ Login.navigationOptions = () => ({
 Login.propTypes = {
   navigation: PropTypes.object,
 };
+
