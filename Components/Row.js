@@ -44,10 +44,7 @@ export default class Row extends React.Component {
     if (this.props.data.placeId) {
       axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.props.data.placeId}&key=${keys.googleMapsAPI}`)
         .then((res) => {
-          this.setState({ extraData: res.data.result }, () => {
-            // console.log(this.state.extraData);
-          });
-          // console.log(res.data);
+          this.setState({ extraData: res.data.result });
         })
         .catch(err => console.error('google api error', err));
     }
@@ -81,9 +78,6 @@ export default class Row extends React.Component {
             },
             data: { id_type: typeIds[type], like: false },
           })
-            .then((response) => {
-              // console.log(`user like post response ${response}`);
-            })
             .catch((err) => {
               console.error(`select interest post error ${err}`);
             });
