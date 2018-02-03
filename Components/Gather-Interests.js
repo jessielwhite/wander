@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Interest from './Interest';
@@ -41,7 +42,12 @@ export default class GatherInterests extends React.Component {
           raised
           buttonStyle={{ backgroundColor: '#0b81e8' }}
           title="Next"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
+          onPress={() => this.props.navigation
+            .dispatch(NavigationActions.reset({
+              index: 0,
+              actions:
+                [NavigationActions.navigate({ routeName: 'Dashboard' })],
+            }))}
         />
       </ScrollView>
     );

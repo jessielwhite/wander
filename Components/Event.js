@@ -115,7 +115,7 @@ export default class Event extends React.Component {
 }
 
 Event.propTypes = {
-  saveSchedule: PropTypes.function,
+  saveSchedule: PropTypes.func,
   navigation: PropTypes.object,
   dayInfo: PropTypes.object,
 };

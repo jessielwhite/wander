@@ -236,12 +236,13 @@ export default class Dashboard extends React.Component {
       >
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
-          outerContainerStyles={{ backgroundColor: 'black' }}
-          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 30 } }}
-          // leftComponent={<Icon
-          //   name="home"
-          //   color="white"
-          // />
+          outerContainerStyles={{ backgroundColor: '#0e416d' }}
+          centerComponent={{ text: 'wander', style: { color: 'white', fontSize: 30, marginLeft: 95 } }}
+          rightComponent={<Button
+            title="sign out"
+            onPress={this.signout}
+            buttonStyle={{ backgroundColor: '#0e416d' }}
+          />}
         />
         <ScrollView contentContainerStyle={styles.dashboardContainer}>
         <View style={styles.profileContainer}>
@@ -279,14 +280,14 @@ export default class Dashboard extends React.Component {
             flat
             color="black"
             buttonStyle={styles.QRButton}
-            title="Scan a QR code"
+            title="Join a trip by scanning a qr code"
             onPress={() => this.props.navigation.navigate('QRScanner')}
             underlayColor="rgba(255, 255, 255, 0.5)"
           />
           </View>
           </View>
           <View style={styles.signoutButtonContainer}>
-          <Button
+          {/* <Button
             // large
             flat
             color="black"
@@ -294,7 +295,7 @@ export default class Dashboard extends React.Component {
             title="Sign out"
             onPress={this.signout}
             underlayColor="rgba(255, 255, 255, 0.5)"
-          />
+          /> */}
           </View>
         </View>
         </ScrollView>
