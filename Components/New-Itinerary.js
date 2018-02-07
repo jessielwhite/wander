@@ -116,7 +116,7 @@ export default class NewItinerary extends React.Component {
     return (
       <ImageBackground
       style={styles.newItineraryImageBackground}
-      imageStyle={{ opacity: 0.5 }}
+      imageStyle={{ opacity: 0.35 }}
       source={eiffelTower}
     >
       <View style={styles.newItineraryContainer}>
@@ -191,7 +191,7 @@ export default class NewItinerary extends React.Component {
           <Button
             large
             flat
-            color="black"
+            color="white"
             buttonStyle={styles.newItineraryButton}
             title="Get my itinerary"
             onPress={this.getItinerary}
@@ -202,7 +202,7 @@ export default class NewItinerary extends React.Component {
           <Button
             large
             flat
-            color="black"
+            color="white"
             buttonStyle={styles.dashboardButton}
             title="Go to Dashboard"
             onPress={() => this.props.navigation.navigate('Dashboard')}
