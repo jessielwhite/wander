@@ -78,22 +78,22 @@ export default class Dashboard extends React.Component {
       })
       .catch(error => console.error('error', error));
 
-			AsyncStorage.getItem('Token')
-	      // Make a request to get the user's schedules from the database
-	      .then(res => {
-					// While we already have the token, we can get the user's profile picture in the same function
-					axios.get('http://18.218.102.64/photo', { headers: { authorization: JSON.parse(res) } })
-						.then((response) => {
-							let photo = response.data;
-							console.log('photo', photo);
-							if (photo) {
-								this.setState({ avatarUrl: photo.url });
-							}
-						})
-						.catch((error) => {
-							console.error(error);
-						});
-				});
+    AsyncStorage.getItem('Token')
+      // Make a request to get the user's schedules from the database
+      .then(res => {
+        // While we already have the token, we can get the user's profile picture in the same function
+        axios.get('http://18.218.102.64/photo', { headers: { authorization: JSON.parse(res) } })
+          .then((response) => {
+            let photo = response.data;
+            console.log('photo', photo);
+            if (photo) {
+              this.setState({ avatarUrl: photo.url });
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
   }
 
   acceptTrip(trip) {
