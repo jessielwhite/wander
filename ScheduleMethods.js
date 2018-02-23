@@ -177,18 +177,19 @@ module.exports.getSchedule = (startDate, endDate, query, userLikes, cb) => {
       }
       return Promise.all([
         axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=${response2.data.next_page_token}&key=${keys.googlePlacesAPI}`),
-        axios.get(`https://api.predicthq.com/v1/events/?category=concerts,festivals,performing-arts,sports&within=10mi@${googleData[0].geometry.location.lat},${googleData[0].geometry.location.lng}.0060&start.gte=2018-02-11&start.lte=2018-02-17&rank_level=4,5`, { headers: { Authorization: `Bearer ${keys.predictHQToken}` } }),
+        // axios.get(`https://api.predicthq.com/v1/events/?category=concerts,festivals,performing-arts,sports&within=10mi@${googleData[0].geometry.location.lat},${googleData[0].geometry.location.lng}.0060&start.gte=2018-02-11&start.lte=2018-02-17&rank_level=4,5`, { headers: { Authorization: `Bearer ${keys.predictHQToken}` } }),
         axios.get(`https://developers.zomato.com/api/v2.1/search?lat=${googleData[0].geometry.location.lat}&lon=${googleData[0].geometry.location.lng}&sort=rating`, { headers: { 'user-key': keys.zomato } }),
         axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=${landmarks.data.next_page_token}&key=${keys.googlePlacesAPI}`),
       ]);
     })
-    .then(([response3, predictHQ, zomato, landmarks2]) => {
+    .then(([response3, zomato, landmarks2]) => {
       if (response3.data.results.length) {
         googleData = googleData.concat(response3.data.results);
       }
       if (landmarks2.data.results.length) {
         googleData = googleData.concat(landmarks2.data.results);
       }
+      const predictHQ = { data: { results: [] } };
       cb(scheduleBuilder(
         startDate,
         endDate,
